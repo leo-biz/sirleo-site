@@ -15,5 +15,15 @@
   to   = "/admin.html"
   status = 200
 
+[[redirects]]
+  from = "/pricing"
+  to   = "/pricing.html"
+  status = 200
+
+[[redirects]]
+  from = "/build"
+  to   = "/build.html"
+  status = 200
+
 [functions."followup"]
   schedule = "0 17 * * *"

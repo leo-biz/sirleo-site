@@ -4,6 +4,19 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.6 — 2026-04-29
+**Pricing Page + Session Builder**
+- `pricing.html` — membership tier page with Single/Monthly/Annual toggle
+- Three tiers: Initiate (single session), Devotee (2/mo, featured), Consecrated (4/mo)
+- Price data attributes drive JS toggle — no page reload needed
+- `build.html` — session builder page Sir Leo sends post-call as `/build?client=Name`
+- Duration radio cards: Initiation (90min), Immersion (2hr), Extended Rite (3hr)
+- Add-on checkboxes: Fire Play, Rope Bondage, Impact Artistry, Sensory Deprivation, Documentation, Extended Aftercare
+- Live running total; fixed summary bar with deposit (50%) / pay-in-full toggle
+- Pay button wired with TODO for Stripe — alerts until keys are added
+- `/pricing` and `/build` clean-URL redirects added to netlify.toml
+- All prices are placeholders — to be updated after consultation
+
 ## v1.5 — 2026-04-29
 **Cal.com Scheduling + book.html Supabase Wiring**
 - Cal.com popup integrated into book.html — after submission, confirm screen shows "Schedule Consultation Call" button opening 15min cal.com booking

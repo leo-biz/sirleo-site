@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build Your Session — Sir Leo</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .build-page { min-height: 100vh; padding: 80px 24px 160px; }
+    .build-inner { max-width: 720px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .build-header { margin-bottom: 56px; }
+    .build-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 12px; }
+    .build-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(32px, 5vw, 48px); font-weight: 300; font-style: italic; line-height: 1.15; margin-bottom: 12px; }
+    .build-sub { font-size: 14px; opacity: 0.5; line-height: 1.8; }
+
+    /* ── Sections ── */
+    .build-section { margin-bottom: 48px; }
+    .build-section-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    [data-theme="light"] .build-section-label { border-bottom-color: rgba(26,14,6,0.1); }
+
+    /* ── Duration (radio cards) ── */
+    .duration-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 500px) { .duration-grid { grid-template-columns: 1fr; } }
+    .duration-card { border: 1px solid rgba(255,255,255,0.08); padding: 20px; cursor: pointer; transition: all 0.15s; position: relative; }
+    .duration-card:hover { border-color: rgba(107,26,26,0.4); }
+    .duration-card.selected { border-color: rgba(107,26,26,0.7); background: rgba(107,26,26,0.1); }
+    .duration-card input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+    .duration-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; font-weight: 300; margin-bottom: 4px; }
+    .duration-time { font-size: 11px; opacity: 0.45; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .duration-price { font-size: 22px; font-weight: 300; }
+    .duration-price span { font-size: 13px; opacity: 0.5; }
+    [data-theme="light"] .duration-card { border-color: rgba(26,14,6,0.1); }
+    [data-theme="light"] .duration-card.selected { border-color: rgba(107,26,26,0.6); }
+
+    /* ── Add-ons (checkboxes) ── */
+    .addon-list { display: flex; flex-direction: column; gap: 2px; }
+    .addon-item { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.12s; }
+    .addon-item:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); }
+    .addon-item.checked { background: rgba(107,26,26,0.08); border-color: rgba(107,26,26,0.35); }
+    .addon-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #6B1A1A; cursor: pointer; flex-shrink: 0; }
+    .addon-info { flex: 1; }
+    .addon-name { font-size: 14px; margin-bottom: 3px; }
+    .addon-desc { font-size: 12px; opacity: 0.4; line-height: 1.5; }
+    .addon-price { font-size: 15px; font-weight: 300; white-space: nowrap; opacity: 0.8; }
+    [data-theme="light"] .addon-item { border-color: rgba(26,14,6,0.08); }
+
+    /* ── Notes ── */
+    .build-textarea { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: inherit; padding: 16px; font-size: 14px; width: 100%; min-height: 100px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.7; }
+    .build-textarea:focus { border-color: rgba(107,26,26,0.5); }
+    .build-textarea::placeholder { opacity: 0.3; }
+    [data-theme="light"] .build-textarea { border-color: rgba(26,14,6,0.1); }
+
+    /* ── Summary bar ── */
+    .summary-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0e0e0e; border-top: 1px solid rgba(107,26,26,0.3); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; z-index: 50; }
+    [data-theme="light"] .summary-bar { background: #f0ebe0; border-top-color: rgba(107,26,26,0.2); }
+    .summary-left { display: flex; flex-direction: column; gap: 4px; }
+    .summary-items { font-size: 11px; opacity: 0.45; letter-spacing: 0.05em; }
+    .summary-total { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; }
+    .summary-note { font-size: 11px; opacity: 0.4; }
+    .summary-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .deposit-toggle { display: flex; align-items: center; gap: 8px; font-size: 12px; opacity: 0.6; cursor: pointer; }
+    .deposit-toggle input { accent-color: #6B1A1A; cursor: pointer; }
+    .pay-btn { background: #6B1A1A; color: #f0e6d0; border: none; padding: 14px 36px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; transition: background 0.15s; white-space: nowrap; }
+    .pay-btn:hover { background: #8B2020; }
+    .pay-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    @media (max-width: 600px) {
+      .summary-bar { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+      .summary-right { width: 100%; justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">SIR LEO</a>
+  <div class="nav-links"></div>
+  <a href="book.html" class="nav-cta">Book</a>
+</nav>
+
+<main class="build-page">
+  <div class="build-inner">
+
+    <div class="build-header">
+      <div class="build-eyebrow">Session Builder</div>
+      <h1 class="build-title" id="build-title">Build your<br><em>session.</em></h1>
+      <p class="build-sub">Select your duration and any additions. Pay a deposit to secure your date.</p>
+    </div>
+
+    <!-- Duration -->
+    <div class="build-section">
+      <div class="build-section-label">Duration</div>
+      <div class="duration-grid" id="duration-grid">
+        <label class="duration-card selected">
+          <input type="radio" name="duration" value="90" data-price="150" checked>
+          <div class="duration-name">Initiation</div>
+          <div class="duration-time">90 minutes</div>
+          <div class="duration-price">$<span>150</span></div>
+        </label>
+        <label class="duration-card">
+          <input type="radio" name="duration" value="120" data-price="250">
+          <div class="duration-name">Immersion</div>
+          <div class="duration-time">2 hours</div>
+          <div class="duration-price">$<span>250</span></div>
+        </label>
+        <label class="duration-card">
+          <input type="radio" name="duration" value="180" data-price="400">
+          <div class="duration-name">Extended Rite</div>
+          <div class="duration-time">3 hours</div>
+          <div class="duration-price">$<span>400</span></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Add-ons -->
+    <div class="build-section">
+      <div class="build-section-label">Add-ons</div>
+      <div class="addon-list" id="addon-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="build-section">
+      <div class="build-section-label">Anything to note</div>
+      <textarea class="build-textarea" id="session-notes" placeholder="Hard limits, intentions, questions — anything Sir Leo should know before your session."></textarea>
+    </div>
+
+    <!-- Spacer for fixed bar -->
+    <div style="height:100px;"></div>
+
+  </div>
+</main>
+
+<!-- Summary bar -->
+<div class="summary-bar">
+  <div class="summary-left">
+    <div class="summary-items" id="summary-items">90 min session selected</div>
+    <div class="summary-total" id="summary-total">$150</div>
+    <div class="summary-note" id="summary-note">Deposit: $75 due today</div>
+  </div>
+  <div class="summary-right">
+    <label class="deposit-toggle">
+      <input type="checkbox" id="full-payment">
+      Pay in full
+    </label>
+    <button class="pay-btn" id="pay-btn">Secure Session →</button>
+  </div>
+</div>
+
+<script>
+// ── Add-on data (placeholder — update with real offerings + prices) ──
+const ADDONS = [
+  { id: 'fire',      name: 'Fire Play',            desc: 'Cupping, waving, and controlled flame work', price: 75 },
+  { id: 'rope',      name: 'Rope Bondage',          desc: 'Single column, full body, suspension elements', price: 75 },
+  { id: 'impact',    name: 'Impact Artistry',       desc: 'Flogger, cane, paddle — calibrated to your threshold', price: 50 },
+  { id: 'sensory',   name: 'Sensory Deprivation',   desc: 'Blindfold, earplugs, full sensory override', price: 40 },
+  { id: 'photo',     name: 'Documentation',         desc: 'Tasteful photography for your personal record', price: 100 },
+  { id: 'aftercare', name: 'Extended Aftercare',    desc: 'Extra 30 min of grounding, care, and presence', price: 60 },
+];
+
+const DEPOSIT_PCT = 0.5; // 50% deposit
+
+// ── State ──
+let baseCost = 150;
+let selectedAddons = new Set();
+let payFull = false;
+
+// ── Render add-ons ──
+const addonList = document.getElementById('addon-list');
+ADDONS.forEach(addon => {
+  const item = document.createElement('label');
+  item.className = 'addon-item';
+  item.innerHTML = `
+    <input type="checkbox" id="addon-${addon.id}" value="${addon.id}" data-price="${addon.price}">
+    <div class="addon-info">
+      <div class="addon-name">${addon.name}</div>
+      <div class="addon-desc">${addon.desc}</div>
+    </div>
+    <div class="addon-price">+$${addon.price}</div>
+  `;
+  item.querySelector('input').addEventListener('change', e => {
+    if (e.target.checked) { selectedAddons.add(addon.id); item.classList.add('checked'); }
+    else { selectedAddons.delete(addon.id); item.classList.remove('checked'); }
+    updateSummary();
+  });
+  addonList.appendChild(item);
+});
+
+// ── Duration selection ──
+document.querySelectorAll('[name="duration"]').forEach(radio => {
+  radio.addEventListener('change', e => {
+    document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+    radio.closest('.duration-card').classList.add('selected');
+    baseCost = parseInt(radio.dataset.price);
+    updateSummary();
+  });
+});
+
+// ── Full payment toggle ──
+document.getElementById('full-payment').addEventListener('change', e => {
+  payFull = e.target.checked;
+  updateSummary();
+});
+
+// ── Summary ──
+function updateSummary() {
+  const addonCost = ADDONS.filter(a => selectedAddons.has(a.id)).reduce((s, a) => s + a.price, 0);
+  const total = baseCost + addonCost;
+  const due = payFull ? total : Math.round(total * DEPOSIT_PCT);
+
+  const durationLabel = document.querySelector('[name="duration"]:checked')?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
+  const addonNames = ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
+  const itemsText = [durationLabel, ...addonNames].filter(Boolean).join(' · ');
+
+  document.getElementById('summary-items').textContent = itemsText;
+  document.getElementById('summary-total').textContent = `$${total}`;
+  document.getElementById('summary-note').textContent = payFull
+    ? 'Full payment due today'
+    : `Deposit: $${due} due today — remainder at session`;
+}
+
+// ── Pay button (Stripe — wired when keys are added) ──
+document.getElementById('pay-btn').addEventListener('click', () => {
+  const addonCost = ADDONS.filter(a => selectedAddons.has(a.id)).reduce((s, a) => s + a.price, 0);
+  const total = baseCost + addonCost;
+  const due = payFull ? total : Math.round(total * DEPOSIT_PCT);
+  const notes = document.getElementById('session-notes').value;
+  const selectedDuration = document.querySelector('[name="duration"]:checked');
+  const durationLabel = selectedDuration?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
+  const addonNames = ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
+
+  // TODO: wire to /.netlify/functions/create-checkout when Stripe keys are added
+  console.log('Checkout:', { due, total, payFull, durationLabel, addons: addonNames, notes });
+  alert('Stripe not yet connected — drop your keys and this will go live.');
+});
+
+// ── Pre-fill client name from URL param ──
+const params = new URLSearchParams(window.location.search);
+const client = params.get('client');
+if (client) {
+  document.getElementById('build-title').innerHTML = `${client}'s<br><em>session.</em>`;
+}
+
+// Init
+updateSummary();
+
+// Theme
+(function() {
+  const saved = localStorage.getItem('sl-theme') || 'dark';
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+// Cursor
+(function() {
+  const dot = document.getElementById('sl-cursor');
+  const ring = document.getElementById('sl-cursor-ring');
+  if (!dot || !ring) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.addEventListener('mouseover', e => {
+    const over = e.target.closest('a, button, label');
+    ring.style.width = over ? '48px' : '32px';
+    ring.style.height = over ? '48px' : '32px';
+  });
+})();
+</script>
+
+</body>
+</html>

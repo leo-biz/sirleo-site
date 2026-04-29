@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membership — Sir Leo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .pricing-page { min-height: 100vh; padding: 80px 24px 120px; }
+
+    /* ── Header ── */
+    .pricing-header { text-align: center; max-width: 560px; margin: 0 auto 64px; }
+    .pricing-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .pricing-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(36px, 6vw, 56px); font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 20px; }
+    .pricing-sub { font-size: 15px; line-height: 1.9; opacity: 0.6; }
+
+    /* ── Toggle ── */
+    .pricing-toggle { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 56px; border: 1px solid rgba(var(--accent-rgb, 107,26,26), 0.3); border-radius: 4px; width: fit-content; margin-left: auto; margin-right: auto; overflow: hidden; }
+    .toggle-btn { background: transparent; border: none; color: var(--text-muted, #9a7850); padding: 10px 24px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; transition: all 0.2s; position: relative; }
+    .toggle-btn.active { background: rgba(107,26,26,0.2); color: var(--text-primary, #f0e6d0); }
+    .toggle-badge { background: var(--accent, #6B1A1A); color: #f0e6d0; font-size: 9px; padding: 2px 6px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.05em; }
+
+    /* ── Grid ── */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
+    @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+    /* ── Card ── */
+    .pricing-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); padding: 36px 32px 40px; position: relative; transition: border-color 0.2s; }
+    .pricing-card:hover { border-color: rgba(107,26,26,0.4); }
+    .pricing-card.featured { border-color: rgba(107,26,26,0.5); background: rgba(107,26,26,0.07); }
+    .pricing-card.featured::before { content: 'Most Popular'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: #6B1A1A; color: #f0e6d0; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 14px; }
+    .card-tier { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 12px; }
+    .card-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; font-style: italic; margin-bottom: 8px; }
+    .card-desc { font-size: 12px; line-height: 1.8; opacity: 0.5; margin-bottom: 32px; min-height: 54px; }
+
+    /* ── Price ── */
+    .card-price { margin-bottom: 32px; }
+    .price-amount { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; line-height: 1; }
+    .price-amount .currency { font-size: 22px; vertical-align: top; margin-top: 8px; display: inline-block; opacity: 0.6; }
+    .price-amount .cents { font-size: 22px; vertical-align: bottom; margin-bottom: 4px; display: inline-block; opacity: 0.6; }
+    .price-period { font-size: 11px; opacity: 0.4; letter-spacing: 0.1em; margin-top: 6px; }
+    .price-note { font-size: 11px; color: #9a7850; margin-top: 4px; }
+    [data-theme="light"] .price-amount { color: #1a0e06; }
+
+    /* ── Features ── */
+    .card-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .card-features li { font-size: 13px; line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; opacity: 0.75; }
+    .card-features li::before { content: '✦'; color: #6B1A1A; font-size: 8px; margin-top: 4px; flex-shrink: 0; }
+    .card-features li.dim { opacity: 0.25; }
+    .card-features li.dim::before { content: '—'; color: currentColor; font-size: 11px; }
+
+    /* ── CTA ── */
+    .card-cta { display: block; width: 100%; padding: 14px; text-align: center; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; border: 1px solid rgba(107,26,26,0.5); color: #f0e6d0; background: transparent; }
+    .card-cta:hover { background: rgba(107,26,26,0.2); border-color: rgba(107,26,26,0.8); }
+    .pricing-card.featured .card-cta { background: #6B1A1A; border-color: #6B1A1A; }
+    .pricing-card.featured .card-cta:hover { background: #8B2020; }
+    [data-theme="light"] .card-cta { color: #1a0e06; }
+    [data-theme="light"] .pricing-card.featured .card-cta { color: #f0e6d0; }
+
+    /* ── Bottom note ── */
+    .pricing-note { text-align: center; margin-top: 48px; font-size: 12px; opacity: 0.35; line-height: 2; }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">SIR LEO</a>
+  <div class="nav-links">
+    <a href="index.html#offerings">Offerings</a>
+    <a href="index.html#serve">Clients</a>
+    <a href="index.html#events">Events</a>
+  </div>
+  <a href="book.html" class="nav-cta">Book</a>
+</nav>
+
+<main class="pricing-page">
+  <div class="pricing-header">
+    <p class="pricing-eyebrow reveal">Choose Your Rite</p>
+    <h1 class="pricing-title reveal">How deep do you<br><em>want to go?</em></h1>
+    <p class="pricing-sub reveal">Each tier is a different level of access, commitment, and depth.<br>All require an application and Sir Leo's acceptance.</p>
+  </div>
+
+  <!-- Toggle -->
+  <div class="pricing-toggle">
+    <button class="toggle-btn active" data-period="single">Single</button>
+    <button class="toggle-btn" data-period="monthly">Monthly</button>
+    <button class="toggle-btn" data-period="annual">Annual <span class="toggle-badge">Save 20%</span></button>
+  </div>
+
+  <!-- Cards -->
+  <div class="pricing-grid">
+
+    <!-- Tier 1 -->
+    <div class="pricing-card">
+      <div class="card-tier">Tier I</div>
+      <div class="card-name">Initiate</div>
+      <div class="card-desc">A single session. The beginning of something you can't yet name.</div>
+      <div class="card-price">
+        <div class="price-amount" data-single="150" data-monthly="120" data-annual="100">
+          <span class="currency">$</span><span class="price-num">150</span>
+        </div>
+        <div class="price-period" data-single="per session" data-monthly="per session" data-annual="per session">per session</div>
+        <div class="price-note" data-single="" data-monthly="billed monthly" data-annual="billed annually"></div>
+      </div>
+      <ul class="card-features">
+        <li>One private session (1hr)</li>
+        <li>Standard availability</li>
+        <li>Post-session reflection notes</li>
+        <li class="dim">Priority scheduling</li>
+        <li class="dim">Between-session tasks</li>
+        <li class="dim">AfterDark member access</li>
+      </ul>
+      <a href="book.html" class="card-cta">Apply for Session</a>
+    </div>
+
+    <!-- Tier 2 — Featured -->
+    <div class="pricing-card featured">
+      <div class="card-tier">Tier II</div>
+      <div class="card-name">Devotee</div>
+      <div class="card-desc">Recurring access. A practice, not just an experience.</div>
+      <div class="card-price">
+        <div class="price-amount" data-single="—" data-monthly="320" data-annual="256">
+          <span class="currency">$</span><span class="price-num">320</span>
+        </div>
+        <div class="price-period" data-single="membership only" data-monthly="per month" data-annual="per month">per month</div>
+        <div class="price-note" data-single="" data-monthly="2 sessions included" data-annual="billed $3,072/yr">2 sessions included</div>
+      </div>
+      <ul class="card-features">
+        <li>2 private sessions per month</li>
+        <li>Priority scheduling</li>
+        <li>Between-session task assignments</li>
+        <li>Post-session reflection notes</li>
+        <li>AfterDark member early access</li>
+        <li class="dim">Dedicated availability window</li>
+      </ul>
+      <a href="book.html" class="card-cta">Apply for Membership</a>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="pricing-card">
+      <div class="card-tier">Tier III</div>
+      <div class="card-name">Consecrated</div>
+      <div class="card-desc">Dedicated access. The deepest commitment Sir Leo offers.</div>
+      <div class="card-price">
+        <div class="price-amount" data-single="—" data-monthly="600" data-annual="480">
+          <span class="currency">$</span><span class="price-num">600</span>
+        </div>
+        <div class="price-period" data-single="membership only" data-monthly="per month" data-annual="per month">per month</div>
+        <div class="price-note" data-single="" data-monthly="4 sessions included" data-annual="billed $5,760/yr">4 sessions included</div>
+      </div>
+      <ul class="card-features">
+        <li>4 private sessions per month</li>
+        <li>Dedicated availability window</li>
+        <li>All add-ons included</li>
+        <li>Between-session task assignments</li>
+        <li>AfterDark VIP access</li>
+        <li>Direct contact line</li>
+      </ul>
+      <a href="book.html" class="card-cta">Apply for Consecration</a>
+    </div>
+
+  </div>
+
+  <p class="pricing-note">
+    All tiers require an application and Sir Leo's personal acceptance.<br>
+    Prices shown are placeholders — final pricing set during consultation.
+  </p>
+</main>
+
+<script>
+// Toggle logic
+const btns = document.querySelectorAll('.toggle-btn');
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const period = btn.dataset.period;
+
+    document.querySelectorAll('.price-amount').forEach(el => {
+      const val = el.dataset[period];
+      const num = el.querySelector('.price-num');
+      const currency = el.querySelector('.currency');
+      if (val === '—') {
+        if (num) num.textContent = '—';
+        if (currency) currency.style.display = 'none';
+      } else {
+        if (num) num.textContent = val;
+        if (currency) currency.style.display = '';
+      }
+    });
+
+    document.querySelectorAll('.price-period').forEach(el => {
+      el.textContent = el.dataset[period] || '';
+    });
+
+    document.querySelectorAll('.price-note').forEach(el => {
+      el.textContent = el.dataset[period] || '';
+    });
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Theme
+(function() {
+  const saved = localStorage.getItem('sl-theme') || 'dark';
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+// Cursor
+(function() {
+  const dot = document.getElementById('sl-cursor');
+  const ring = document.getElementById('sl-cursor-ring');
+  if (!dot || !ring) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.addEventListener('mouseover', e => {
+    const over = e.target.closest('a, button');
+    ring.style.width = over ? '48px' : '32px';
+    ring.style.height = over ? '48px' : '32px';
+  });
+})();
+</script>
+
+</body>
+</html>

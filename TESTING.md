@@ -181,6 +181,64 @@ Should return `{ sent: N, total: N }`.
 
 ---
 
+## 10. Pricing Page (`/pricing`)
+
+1. Go to **/pricing**
+2. **Default state (Single)**
+   - Initiate shows $150 / per session
+   - Devotee shows `—` (membership only, no single price)
+   - Consecrated shows `—`
+3. **Toggle Monthly**
+   - Initiate → $120, Devotee → $320 / "2 sessions included", Consecrated → $600 / "4 sessions included"
+4. **Toggle Annual**
+   - Initiate → $100, Devotee → $256 / "billed $3,072/yr", Consecrated → $480 / "billed $5,760/yr"
+5. **Featured card** — Devotee has "Most Popular" banner, filled CTA button
+6. **CTAs** — all three "Apply" buttons navigate to `/book.html`
+7. **Theme** — dark/light persists, text readable in both modes
+8. **Mobile** — cards stack to single column on < 768px
+
+---
+
+## 11. Session Builder (`/build`)
+
+### Basic flow
+1. Go to **/build** — verify heading reads "Build your *session.*"
+2. Go to **/build?client=Jordan** — heading should read "Jordan's *session.*"
+
+### Duration selection
+3. Default: Initiation (90min, $150) card is selected (crimson border, tinted background)
+4. Click Immersion → summary bar updates to $250
+5. Click Extended Rite → summary bar updates to $400
+6. Only one card selected at a time
+
+### Add-ons
+7. Check Fire Play (+$75) → total increases by $75
+8. Check Rope Bondage (+$75) → total increases by another $75
+9. Uncheck Fire Play → total decreases by $75
+10. Check multiple add-ons → total = base + all checked add-ons
+11. Checked add-on row gets crimson border highlight
+
+### Summary bar
+12. Items line (top) reflects selected duration name + checked add-on names separated by ` · `
+13. Total price updates instantly on any change
+14. Deposit note: "Deposit: $X due today — remainder at session" (50% of total)
+
+### Pay in full toggle
+15. Check "Pay in full" → note changes to "Full payment due today", deposit note disappears
+16. Uncheck → reverts to deposit note
+
+### Pay button (pre-Stripe)
+17. Click "Secure Session →" → alert fires explaining Stripe not yet connected
+18. No network request, no crash
+
+### Notes textarea
+19. Type in the notes field — no JS errors, content persists while on page
+
+### Theme
+20. Dark/light theme applies via localStorage (same as rest of site)
+
+---
+
 ## Quick Console Shortcuts
 
 ```js
