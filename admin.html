@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sir Leo — Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #080808; color: #c8b89a; font-family: Georgia, serif; min-height: 100vh; }
+
+    /* ── Login ── */
+    #login-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; gap: 20px;
+    }
+    #login-screen h1 { font-size: 28px; font-weight: 300; font-style: italic; color: #f0e6d0; }
+    #login-screen p { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #6B1A1A; }
+    #pw-input {
+      background: transparent; border: 1px solid rgba(200,184,154,0.2); color: #f0e6d0;
+      padding: 14px 20px; font-size: 15px; width: 280px; text-align: center; letter-spacing: 0.1em;
+      outline: none; font-family: Georgia, serif;
+    }
+    #pw-input:focus { border-color: rgba(107,26,26,0.6); }
+    #login-btn {
+      background: #6B1A1A; color: #f0e6d0; border: none; padding: 14px 40px;
+      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+      font-family: Georgia, serif;
+    }
+    #login-btn:hover { background: #8B2020; }
+    #login-error { color: #8B2020; font-size: 13px; display: none; }
+
+    /* ── Dashboard ── */
+    #dashboard { display: none; padding: 48px 40px; }
+    .dash-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      border-bottom: 1px solid rgba(200,184,154,0.1); padding-bottom: 24px; margin-bottom: 40px;
+    }
+    .dash-header h1 { font-size: 24px; font-weight: 300; font-style: italic; color: #f0e6d0; }
+    .dash-header span { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B1A1A; }
+    .section-label {
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #6B1A1A;
+      margin-bottom: 16px;
+    }
+    .stats { display: flex; gap: 32px; margin-bottom: 48px; }
+    .stat { display: flex; flex-direction: column; gap: 6px; }
+    .stat-num { font-size: 36px; font-weight: 300; color: #f0e6d0; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #9a7850; }
+
+    /* ── Filters ── */
+    .filters { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .filter-btn {
+      background: transparent; border: 1px solid rgba(200,184,154,0.15); color: #9a7850;
+      padding: 6px 16px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer;
+      font-family: Georgia, serif; text-transform: uppercase;
+    }
+    .filter-btn.active { border-color: #6B1A1A; color: #f0e6d0; background: rgba(107,26,26,0.15); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 56px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left; padding: 10px 16px; font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #6B1A1A; border-bottom: 1px solid rgba(107,26,26,0.3);
+      font-weight: normal;
+    }
+    td { padding: 14px 16px; border-bottom: 1px solid rgba(200,184,154,0.06); vertical-align: top; }
+    tr:hover td { background: rgba(200,184,154,0.03); }
+    .tag {
+      display: inline-block; padding: 2px 8px; font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; border-radius: 2px;
+    }
+    .tag-book     { background: rgba(107,26,26,0.25); color: #c87878; }
+    .tag-collab   { background: rgba(26,60,107,0.25); color: #78a0c8; }
+    .tag-waitlist { background: rgba(26,107,60,0.25); color: #78c890; }
+    .tag-contact  { background: rgba(107,90,26,0.25); color: #c8b078; }
+    .tag-serve    { background: rgba(80,26,107,0.25); color: #b078c8; }
+    .tag-vip      { background: rgba(107,85,0,0.3);  color: #d4a017; }
+    .tag-ga       { background: rgba(60,60,60,0.3);  color: #999; }
+    .follow-sent  { color: #78c890; font-size: 11px; }
+    .follow-pending { color: #9a7850; font-size: 11px; }
+    a.lead-link   { color: #6B1A1A; text-decoration: none; }
+    a.lead-link:hover { text-decoration: underline; }
+    .data-cell { color: #9a7850; font-size: 12px; max-width: 240px; }
+    .no-data { color: rgba(200,184,154,0.2); font-style: italic; }
+    #refresh-btn {
+      background: transparent; border: 1px solid rgba(200,184,154,0.15); color: #9a7850;
+      padding: 8px 20px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer;
+      font-family: Georgia, serif; text-transform: uppercase;
+    }
+    #refresh-btn:hover { border-color: rgba(200,184,154,0.3); color: #f0e6d0; }
+    .loading { color: #9a7850; font-style: italic; padding: 40px 0; text-align: center; }
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-screen">
+  <p>Sir Leo</p>
+  <h1>Admin Access</h1>
+  <input id="pw-input" type="password" placeholder="Password" autocomplete="current-password">
+  <button id="login-btn">Enter</button>
+  <span id="login-error">Incorrect password.</span>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="dash-header">
+    <h1>Lead Dashboard</h1>
+    <button id="refresh-btn">↺ Refresh</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <p class="section-label">Submissions</p>
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="book">Book</button>
+    <button class="filter-btn" data-filter="collab">Collab</button>
+    <button class="filter-btn" data-filter="waitlist">Waitlist</button>
+    <button class="filter-btn" data-filter="contact">Contact</button>
+    <button class="filter-btn" data-filter="serve">Who I Serve</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="leads-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Type</th>
+          <th>Source</th>
+          <th>Details</th>
+          <th>Follow-up</th>
+        </tr>
+      </thead>
+      <tbody id="leads-body">
+        <tr><td colspan="8" class="loading">Loading leads…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="section-label">Waitlist</p>
+  <div class="table-wrap">
+    <table id="waitlist-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Tier</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="waitlist-body">
+        <tr><td colspan="6" class="loading">Loading waitlist…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  let pw = '';
+  let allSubmissions = [];
+  let activeFilter = 'all';
+
+  const $ = id => document.getElementById(id);
+
+  function tagClass(type) {
+    if (!type) return 'tag-contact';
+    if (type === 'book') return 'tag-book';
+    if (type === 'collab') return 'tag-collab';
+    if (type === 'waitlist') return 'tag-waitlist';
+    if (type === 'contact') return 'tag-contact';
+    if (type.startsWith('serve')) return 'tag-serve';
+    return 'tag-contact';
+  }
+
+  function fmt(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' +
+           d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  function renderSubmissions(rows) {
+    const tbody = $('leads-body');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="no-data" style="padding:32px 16px;">No leads yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(r => {
+      const details = r.data ? Object.entries(r.data)
+        .filter(([k]) => k !== 'selections')
+        .map(([k,v]) => `<span><strong>${k}:</strong> ${Array.isArray(v) ? v.join(', ') : v}</span>`)
+        .join('<br>') : '';
+      const path = r.data?.selections?.length ? `<br><strong>Path:</strong> ${r.data.selections.join(' → ')}` : '';
+      return `<tr>
+        <td style="white-space:nowrap;color:#9a7850">${fmt(r.created_at)}</td>
+        <td style="color:#f0e6d0">${r.name || '<span class="no-data">—</span>'}</td>
+        <td>${r.phone ? `<a class="lead-link" href="sms:${r.phone}">${r.phone}</a>` : '<span class="no-data">—</span>'}</td>
+        <td>${r.email ? `<a class="lead-link" href="mailto:${r.email}">${r.email}</a>` : '<span class="no-data">—</span>'}</td>
+        <td><span class="tag ${tagClass(r.panel_type)}">${r.panel_type || '—'}</span></td>
+        <td style="color:#9a7850;font-size:12px">${r.utm_source || '<span class="no-data">direct</span>'}</td>
+        <td class="data-cell">${details}${path || ''}</td>
+        <td>${r.follow_up_sent
+          ? '<span class="follow-sent">✓ Sent</span>'
+          : '<span class="follow-pending">Pending</span>'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderWaitlist(rows) {
+    const tbody = $('waitlist-body');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data" style="padding:32px 16px;">No waitlist entries yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(r => `<tr>
+      <td style="white-space:nowrap;color:#9a7850">${fmt(r.created_at)}</td>
+      <td style="color:#f0e6d0">${r.name || '—'}</td>
+      <td>${r.phone ? `<a class="lead-link" href="sms:${r.phone}">${r.phone}</a>` : '—'}</td>
+      <td>${r.email ? `<a class="lead-link" href="mailto:${r.email}">${r.email}</a>` : '—'}</td>
+      <td><span class="tag ${r.tier === 'vip' ? 'tag-vip' : 'tag-ga'}">${(r.tier || 'ga').toUpperCase()}</span></td>
+      <td style="color:#9a7850;font-size:12px">${r.utm_source || 'direct'}</td>
+    </tr>`).join('');
+  }
+
+  function renderStats(submissions, waitlist) {
+    const total = submissions.length;
+    const book = submissions.filter(s => s.panel_type === 'book').length;
+    const wl = waitlist.length;
+    const vip = waitlist.filter(w => w.tier === 'vip').length;
+    $('stats').innerHTML = [
+      ['total leads', total],
+      ['book inquiries', book],
+      ['waitlist', wl],
+      ['vip', vip],
+    ].map(([label, num]) => `
+      <div class="stat">
+        <span class="stat-num">${num}</span>
+        <span class="stat-label">${label}</span>
+      </div>`).join('');
+  }
+
+  function applyFilter(filter) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+    const filtered = filter === 'all' ? allSubmissions
+      : filter === 'serve' ? allSubmissions.filter(s => s.panel_type?.startsWith('serve'))
+      : allSubmissions.filter(s => s.panel_type === filter);
+    renderSubmissions(filtered);
+  }
+
+  async function loadData() {
+    const res = await fetch(`/.netlify/functions/admin-leads`, {
+      headers: { 'x-admin-password': pw }
+    });
+    if (res.status === 401) {
+      $('login-error').textContent = 'Session expired.';
+      $('login-error').style.display = 'block';
+      $('dashboard').style.display = 'none';
+      $('login-screen').style.display = 'flex';
+      return;
+    }
+    const { submissions, waitlist } = await res.json();
+    allSubmissions = submissions || [];
+    renderStats(allSubmissions, waitlist || []);
+    applyFilter(activeFilter);
+    renderWaitlist(waitlist || []);
+  }
+
+  // Login
+  async function attemptLogin() {
+    pw = $('pw-input').value;
+    const res = await fetch('/.netlify/functions/admin-leads', {
+      headers: { 'x-admin-password': pw }
+    });
+    if (res.ok) {
+      $('login-screen').style.display = 'none';
+      $('dashboard').style.display = 'block';
+      const { submissions, waitlist } = await res.json();
+      allSubmissions = submissions || [];
+      renderStats(allSubmissions, waitlist || []);
+      applyFilter('all');
+      renderWaitlist(waitlist || []);
+    } else {
+      $('login-error').style.display = 'block';
+      $('pw-input').value = '';
+    }
+  }
+
+  $('login-btn').addEventListener('click', attemptLogin);
+  $('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
+  $('refresh-btn').addEventListener('click', loadData);
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.addEventListener('click', () => applyFilter(b.dataset.filter));
+  });
+</script>
+</body>
+</html>

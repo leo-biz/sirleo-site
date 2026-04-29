@@ -123,6 +123,44 @@ After test submissions:
 
 ---
 
+## 8. Admin Dashboard
+
+1. Go to **https://dev--sirleo-site.netlify.app/admin**
+2. Enter password: `SirLeo2024!` (change via `netlify env:set ADMIN_PASSWORD yourpassword`)
+3. **Verify:**
+   - Login works, wrong password shows error
+   - Stats row shows correct counts
+   - Submissions table shows all leads with name, phone, email, type, source
+   - Filter buttons narrow table correctly (Book, Collab, Waitlist, etc.)
+   - Phone links open SMS app, email links open mail client
+   - Waitlist table shows tier badges (GA / VIP)
+   - Refresh button reloads data without re-login
+
+### Security check
+- Open Network tab → verify `/.netlify/functions/admin-leads` returns 401 with wrong/no password
+- Verify service key is NOT present anywhere in page source or JS
+
+---
+
+## 9. Day 2 Follow-up
+
+### Manual trigger test
+```bash
+curl -X POST https://dev--sirleo-site.netlify.app/.netlify/functions/followup
+```
+Should return `{ sent: N, total: N }`.
+
+### End-to-end test
+1. Submit a form with a real email
+2. In Supabase editor, manually set `created_at` on that row to 48 hours ago
+3. Trigger the function manually (curl above)
+4. **Verify:**
+   - Follow-up email arrives at the submitted address
+   - `follow_up_sent` flips to `true` on the row in Supabase
+   - Running the function again does NOT re-send (idempotent)
+
+---
+
 ## Quick Console Shortcuts
 
 ```js

@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.3 — 2026-04-29
+**Day 2 Follow-up & Admin Dashboard**
+- Scheduled follow-up function (`followup.js`) — runs daily at noon CT, emails leads 44–52 hours after inquiry with no response
+- `follow_up_sent` boolean column added to submissions table — prevents duplicate follow-ups
+- Admin dashboard at `/admin` — password-gated, shows all leads + waitlist with stats, filters, source, follow-up status
+- Admin API function (`admin-leads.js`) — server-side password check, service role key never exposed to browser
+- `/admin` redirect added to netlify.toml
+
 ## v1.2 — 2026-04-29
 **Notifications, Audience Sync & Attribution**
 - Phone number updated to (773) 234-8238 across site, hub, vCard, and notify function

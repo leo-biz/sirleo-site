@@ -9,3 +9,11 @@
   from = "/book"
   to   = "/book.html"
   status = 200
+
+[[redirects]]
+  from = "/admin"
+  to   = "/admin.html"
+  status = 200
+
+[functions."followup"]
+  schedule = "0 17 * * *"

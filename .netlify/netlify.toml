@@ -6,7 +6,9 @@ headers = []
 
 [build]
 publish = "/Users/sir/Workspaces/sirleo-site"
-publishOrigin = "ui"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "node scripts/version.js"
 functions = "/Users/sir/Workspaces/sirleo-site/netlify/functions"
 
 [build.environment]
