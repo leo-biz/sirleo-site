@@ -19,13 +19,14 @@ function collectFields(el) {
 function saveToSupabase(panelType, name, phone, email, data) {
   if (!window.SLDb) return;
   const utm = window.SL_UTM || {};
+  const source = window.SL_SOURCE || utm.utm_source || null;
   window.SLDb.from('submissions').insert({
     session_id:   window.SL_SESSION || null,
     panel_type:   panelType,
     name:         name  || null,
     phone:        phone || null,
     email:        email || null,
-    utm_source:   utm.utm_source   || null,
+    utm_source:   source,
     utm_medium:   utm.utm_medium   || null,
     utm_campaign: utm.utm_campaign || null,
     data: data && Object.keys(data).length ? data : null,
@@ -38,7 +39,7 @@ function saveToSupabase(panelType, name, phone, email, data) {
       p_email:        email || null,
       p_source:       panelType,
       p_session_id:   window.SL_SESSION || null,
-      p_utm_source:   utm.utm_source   || null,
+      p_utm_source:   source,
       p_utm_medium:   utm.utm_medium   || null,
       p_utm_campaign: utm.utm_campaign || null,
     });

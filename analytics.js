@@ -21,6 +21,27 @@
   const utm = JSON.parse(sessionStorage.getItem('sl_utm') || '{}');
   window.SL_UTM = utm;
 
+  // ── Referrer source — fallback when no UTM ──
+  const parseReferrer = (ref) => {
+    if (!ref) return 'direct';
+    try {
+      const host = new URL(ref).hostname.replace('www.', '').replace('l.', '');
+      if (host.includes('instagram')) return 'instagram';
+      if (host.includes('facebook') || host.includes('fb.')) return 'facebook';
+      if (host.includes('twitter') || host.includes('t.co') || host.includes('x.com')) return 'twitter';
+      if (host.includes('tiktok')) return 'tiktok';
+      if (host.includes('google')) return 'google';
+      if (host.includes('bing')) return 'bing';
+      if (host.includes('linktr')) return 'linktree';
+      return host;
+    } catch { return 'unknown'; }
+  };
+  if (!sessionStorage.getItem('sl_source')) {
+    const src = utm.utm_source || parseReferrer(document.referrer);
+    sessionStorage.setItem('sl_source', src);
+  }
+  window.SL_SOURCE = sessionStorage.getItem('sl_source');
+
   // ── Geo fetch ──
   let geo = {};
   fetch('https://ipapi.co/json/')
