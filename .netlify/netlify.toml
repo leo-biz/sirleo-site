@@ -1,14 +1,13 @@
+functionsDirectory = "/Users/sir/Workspaces/sirleo-site/netlify/functions"
+functionsDirectoryOrigin = "config"
 redirectsOrigin = "config"
 plugins = []
 headers = []
 
-[functions]
-
-[functions."*"]
-
 [build]
 publish = "/Users/sir/Workspaces/sirleo-site"
 publishOrigin = "ui"
+functions = "/Users/sir/Workspaces/sirleo-site/netlify/functions"
 
 [build.environment]
 
@@ -23,6 +22,10 @@ publishOrigin = "ui"
 [build.processing.js]
 
 [build.services]
+
+[functions]
+
+[functions."*"]
 
 [[redirects]]
 from = "/book"
