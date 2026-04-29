@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Sir Leo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<!-- Progress bar -->
+<div class="book-progress"><div class="book-progress-bar" id="progress-bar" style="width:0%"></div></div>
+
+<!-- Nav chrome -->
+<a href="index.html" class="book-home">← Sir Leo</a>
+<div class="book-counter" id="step-counter"></div>
+
+<!-- Slide container -->
+<div id="slides"></div>
+
+<script>
+const STEPS = [
+  {
+    id: 'type',
+    label: 'Begin',
+    headline: 'How can Sir Leo<br><em>serve you?</em>',
+    options: [
+      { label: 'Private Session',      sub: '1-on-1 or couple · Apply to be considered', next: 'private-format' },
+      { label: 'Group Experience',     sub: 'Performance or interactive immersion',        next: 'group-format' },
+      { label: 'Performance Booking',  sub: 'Fire · Impact artistry · Events & clubs',    next: 'perf-q' },
+      { label: 'Workshop / Education', sub: 'Conscious kink · Chicago & virtual',         next: 'workshop-q' },
+      { label: 'Attend an Event',      sub: 'KINK AfterDark — join the waitlist',          next: '__event__' },
+    ],
+    back: null,
+  },
+  {
+    id: 'private-format',
+    label: 'Private Session',
+    headline: 'Who is this<br><em>session for?</em>',
+    options: [
+      { label: '1-on-1', sub: 'Just you and Sir Leo', next: 'private-tier' },
+      { label: 'Couple', sub: 'You and your partner', next: 'private-tier' },
+    ],
+    back: 'type',
+  },
+  {
+    id: 'private-tier',
+    label: 'Choose Your Rite',
+    headline: 'How deep do you<br><em>want to go?</em>',
+    options: [
+      { label: 'Sensual Surrender',  sub: 'Massage, touch, restrained control',    next: 'private-q' },
+      { label: 'The Naughty Ritual', sub: 'Moderate impact, erotic aggression',    next: 'private-q' },
+      { label: 'Rite of Dark Ruin',  sub: 'Heavy impact, full ritual domination',  next: 'private-q' },
+    ],
+    back: 'private-format',
+  },
+  {
+    id: 'private-q',
+    label: 'A Few Questions',
+    headline: 'A few things Sir Leo<br><em>needs to know.</em>',
+    form: [
+      { type: 'select', label: 'Experience Level', name: 'level', options: ['Never — this would be my first time','Curious beginner','Some experience','Experienced'] },
+      { type: 'text',   label: 'Any hard limits?', name: 'limits', placeholder: 'Optional' },
+      { type: 'text',   label: 'Best days & times for a consultation call', name: 'availability', placeholder: 'e.g. Weekday evenings, Saturday mornings' },
+      { type: 'textarea', label: 'Anything else?', name: 'notes', placeholder: 'Open space — say whatever feels right' },
+    ],
+    next: 'contact',
+    back: 'private-tier',
+  },
+  {
+    id: 'group-format',
+    label: 'Group Experience',
+    headline: 'How do you want<br><em>to experience this?</em>',
+    options: [
+      { label: 'Performance',  sub: 'Watch Sir Leo perform — no participation',      next: 'group-q' },
+      { label: 'Interactive',  sub: 'Watch and participate — choose your depth',     next: 'group-level' },
+    ],
+    back: 'type',
+  },
+  {
+    id: 'group-level',
+    label: 'Depth',
+    headline: 'How deep do you<br><em>want to go?</em>',
+    options: [
+      { label: 'Taste',          sub: 'A brief, introductory touch',              next: 'group-q' },
+      { label: 'Semi-Immersive', sub: "Deeper participation — you're in it",      next: 'group-q' },
+      { label: 'Full Immersion', sub: 'As deep and wild as you desire',           next: 'group-q' },
+    ],
+    back: 'group-format',
+  },
+  {
+    id: 'group-q',
+    label: 'A Few Questions',
+    headline: 'A few things Sir Leo<br><em>needs to know.</em>',
+    form: [
+      { type: 'select', label: 'Experience Level', name: 'level', options: ['Never — this would be my first time','Curious beginner','Some experience','Experienced'] },
+      { type: 'text',   label: 'Availability', name: 'availability', placeholder: 'e.g. Weekends, Friday evenings' },
+      { type: 'textarea', label: 'Anything else?', name: 'notes', placeholder: 'Open space' },
+    ],
+    next: 'contact',
+    back: 'group-format',
+  },
+  {
+    id: 'perf-q',
+    label: 'Performance Booking',
+    headline: 'Tell Sir Leo about<br><em>your event.</em>',
+    form: [
+      { type: 'select', label: 'Event Type', name: 'eventType', options: ['Club / Nightlife','Private party','Art gallery','Conference / Workshop','Other'] },
+      { type: 'text',   label: 'Event Date & City', name: 'date', placeholder: 'e.g. June 14, Chicago' },
+      { type: 'textarea', label: 'Vision, vibe, expectations', name: 'notes', placeholder: 'Tell Sir Leo what you have in mind...' },
+    ],
+    next: 'contact',
+    back: 'type',
+  },
+  {
+    id: 'workshop-q',
+    label: 'Workshop / Education',
+    headline: "Let's build the<br><em>right experience.</em>",
+    form: [
+      { type: 'select', label: 'Who is this for?', name: 'who', options: ['Just me','Me and my partner','A group'] },
+      { type: 'select', label: 'Format', name: 'format', options: ['In-person (Chicago)','Virtual','Either works'] },
+      { type: 'textarea', label: 'Topics, goals, questions', name: 'notes', placeholder: 'Tell Sir Leo what you want to learn...' },
+    ],
+    next: 'contact',
+    back: 'type',
+  },
+  {
+    id: 'contact',
+    label: 'Your Details',
+    headline: 'Almost done.<br><em>Your details.</em>',
+    form: [
+      { type: 'text',  label: 'Name',  name: 'name',  placeholder: 'Your name' },
+      { type: 'tel',   label: 'Phone', name: 'phone', placeholder: 'Your number', required: true },
+      { type: 'email', label: 'Email', name: 'email', placeholder: 'Your email' },
+    ],
+    next: 'confirm',
+    back: '__prev__',
+    submitLabel: 'Submit Application',
+  },
+  {
+    id: 'confirm',
+    label: 'Done',
+    headline: null,
+    confirm: true,
+  },
+];
+
+const stepMap = Object.fromEntries(STEPS.map(s => [s.id, s]));
+const orderedIds = STEPS.map(s => s.id);
+
+let currentStep = 'type';
+let prevStep    = null;
+let selections  = [];
+
+function totalSteps() {
+  return orderedIds.indexOf('confirm') + 1;
+}
+function currentIndex() {
+  return orderedIds.indexOf(currentStep) + 1;
+}
+
+function updateProgress() {
+  const pct = Math.round((currentIndex() / totalSteps()) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  const step = stepMap[currentStep];
+  document.getElementById('step-counter').textContent =
+    currentStep === 'confirm' ? '' : `${String(currentIndex()).padStart(2,'0')} / ${String(totalSteps()-1).padStart(2,'0')}`;
+}
+
+function renderSlide(stepId, direction = 'forward') {
+  const step   = stepMap[stepId];
+  const slides = document.getElementById('slides');
+
+  // Remove old slide
+  const old = slides.querySelector('.book-slide');
+  if (old) {
+    old.classList.add('exit');
+    if (direction === 'back') old.style.transform = 'translateX(60px)';
+    setTimeout(() => old.remove(), 420);
+  }
+
+  const slide = document.createElement('div');
+  slide.className = 'book-slide enter';
+  if (direction === 'back') {
+    slide.style.animation = 'none';
+    slide.style.transform = 'translateX(-60px)';
+    slide.style.opacity   = '0';
+    requestAnimationFrame(() => {
+      slide.style.transition = 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease';
+      slide.style.transform  = 'translateX(0)';
+      slide.style.opacity    = '1';
+    });
+  }
+
+  const inner = document.createElement('div');
+  inner.className = 'book-slide-inner';
+
+  if (step.confirm) {
+    inner.innerHTML = `
+      <div class="book-confirm">
+        <div class="book-confirm-icon">✦</div>
+        <div class="book-confirm-title">Application received.</div>
+        <div class="book-confirm-sub">Sir Leo will be in touch.<br>Consider carefully — not all are chosen.</div>
+      </div>`;
+    localStorage.setItem('sl_submitted', '1');
+  } else {
+    const sel = selections.filter(Boolean).join(' · ');
+    inner.innerHTML = `
+      <div class="book-step-label">${sel || step.label}</div>
+      <h1 class="book-headline">${step.headline}</h1>
+      ${step.options ? renderOptions(step.options) : ''}
+      ${step.form    ? renderForm(step) : ''}
+      ${step.back != null ? `<button class="book-back" id="back-btn">← Back</button>` : ''}
+    `;
+  }
+
+  slide.appendChild(inner);
+  slides.appendChild(slide);
+
+  // Wire options
+  if (step.options) {
+    inner.querySelectorAll('.book-option').forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        const opt = step.options[i];
+        if (opt.next === '__event__') {
+          window.open('https://kinkafterdark.short.gy/casting', '_blank');
+          return;
+        }
+        selections.push(opt.label);
+        prevStep    = currentStep;
+        currentStep = opt.next;
+        renderSlide(currentStep, 'forward');
+        updateProgress();
+      });
+    });
+  }
+
+  // Wire form submit
+  if (step.form && step.next) {
+    const submitBtn = inner.querySelector('.book-submit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', () => {
+        const phoneEl = inner.querySelector('[name="phone"]');
+        if (phoneEl && !phoneEl.value.trim()) {
+          phoneEl.style.borderColor = 'rgba(155,32,32,0.8)';
+          setTimeout(() => phoneEl.style.borderColor = '', 2000);
+          return;
+        }
+        prevStep    = currentStep;
+        currentStep = step.next;
+        renderSlide(currentStep, 'forward');
+        updateProgress();
+      });
+    }
+  }
+
+  // Wire back
+  const backBtn = inner.querySelector('#back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      let target;
+      if (step.back === '__prev__') {
+        target = prevStep || 'type';
+      } else {
+        target = step.back;
+      }
+      selections.pop();
+      const tmp    = currentStep;
+      currentStep  = target;
+      prevStep     = null;
+      renderSlide(currentStep, 'back');
+      updateProgress();
+    });
+  }
+}
+
+function renderOptions(options) {
+  return `<div class="book-options">` + options.map(opt => `
+    <button class="book-option">
+      <div>
+        <div class="book-option-label">${opt.label}</div>
+        <div class="book-option-sub">${opt.sub}</div>
+      </div>
+      <span class="book-option-arrow">→</span>
+    </button>
+  `).join('') + `</div>`;
+}
+
+function renderForm(step) {
+  const fields = step.form.map(f => {
+    if (f.type === 'select') {
+      return `<div class="book-field">
+        <label class="book-field-label">${f.label}</label>
+        <select class="book-select" name="${f.name}">
+          <option value="" disabled selected>Select</option>
+          ${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}
+        </select>
+      </div>`;
+    }
+    if (f.type === 'textarea') {
+      return `<div class="book-field">
+        <label class="book-field-label">${f.label}</label>
+        <textarea class="book-textarea" name="${f.name}" placeholder="${f.placeholder || ''}"></textarea>
+      </div>`;
+    }
+    return `<div class="book-field">
+      <label class="book-field-label">${f.label}</label>
+      <input class="book-input" type="${f.type}" name="${f.name}" placeholder="${f.placeholder || ''}">
+    </div>`;
+  }).join('');
+
+  return `<div class="book-form">${fields}<button class="book-submit">${step.submitLabel || 'Continue'}</button></div>`;
+}
+
+// Init
+renderSlide(currentStep, 'forward');
+updateProgress();
+</script>
+
+<!-- Cursor -->
+<script>
+(function() {
+  const dot  = document.getElementById('sl-cursor');
+  const ring = document.getElementById('sl-cursor-ring');
+  if (!dot || !ring) return;
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
+  (function loop() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(loop); })();
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button')) { ring.style.width='48px'; ring.style.height='48px'; }
+    else { ring.style.width='32px'; ring.style.height='32px'; }
+  });
+})();
+</script>
+
+</body>
+</html>

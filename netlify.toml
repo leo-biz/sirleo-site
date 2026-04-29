@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/book"
+  to   = "/book.html"
+  status = 200
