@@ -718,6 +718,88 @@ function ServePanel({ onClose, type }) {
   );
 }
 
+// ── Waitlist Panel ──
+function WaitlistPanel({ onClose }) {
+  const [step, setStep] = useState('form');
+  const nameRef = useRef(); const phoneRef = useRef(); const emailRef = useRef();
+  const [tier, setTier] = useState('ga');
+
+  useEffect(() => {
+    const n = localStorage.getItem('sl_name'); const e = localStorage.getItem('sl_email');
+    if (nameRef.current && n) nameRef.current.value = n;
+    if (emailRef.current && e) emailRef.current.value = e;
+  }, []);
+
+  function submit() {
+    if (!phoneRef.current?.value?.trim()) {
+      phoneRef.current.style.borderColor = 'rgba(155,32,32,0.8)';
+      setTimeout(() => { if (phoneRef.current) phoneRef.current.style.borderColor = ''; }, 2000);
+      return;
+    }
+    const name  = nameRef.current?.value?.trim();
+    const phone = phoneRef.current?.value?.trim();
+    const email = emailRef.current?.value?.trim();
+    if (name)  localStorage.setItem('sl_name',  name);
+    if (email) localStorage.setItem('sl_email', email);
+    // Save to waitlist table — fetch event_id for KINK AfterDark
+    if (window.SLDb) {
+      window.SLDb.from('events_calendar').select('id').eq('name', 'KINK / AfterDark').single()
+        .then(({ data }) => {
+          window.SLDb.from('waitlist').insert({
+            event_id:   data?.id || null,
+            name, phone, email, tier,
+            session_id: window.SL_SESSION || null,
+          });
+        });
+      saveToSupabase('waitlist', name, phone, email, { tier });
+    }
+    localStorage.setItem('sl_submitted', '1');
+    setStep('confirm');
+    setTimeout(() => onClose(true), 3200);
+  }
+
+  const S = id => stepStyle(id, step);
+
+  return (
+    <div style={{ position: 'relative', minHeight: '280px', overflow: 'hidden' }}>
+      <div style={S('form')}>
+        <p className="hub-eyebrow">KINK / AfterDark</p>
+        <p className="hub-dialog-title">Join the<br />waitlist.</p>
+        <div className="hub-form">
+          <div className="hub-field">
+            <label className="hub-label">Experience tier</label>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
+              {[['ga','General Admission'],['vip','VIP Access']].map(([val, label]) => (
+                <button key={val} onClick={() => setTier(val)}
+                  className="hub-panel-option"
+                  style={{ flex: 1, padding: '14px 16px', background: tier === val ? 'rgba(107,26,26,0.2)' : 'transparent', borderColor: tier === val ? 'rgba(107,26,26,0.5)' : undefined }}>
+                  <div className="hub-card-label">{label}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">Name</label>
+            <input className="hub-input" ref={nameRef} type="text" placeholder="Your name" /></div>
+          <div className="hub-field"><label className="hub-label">Phone</label>
+            <input className="hub-input" ref={phoneRef} type="tel" placeholder="Your number" /></div>
+          <div className="hub-field"><label className="hub-label">Email</label>
+            <input className="hub-input" ref={emailRef} type="email" placeholder="Your email" /></div>
+          <button className="hub-submit" onClick={submit}>Join the Waitlist</button>
+        </div>
+      </div>
+      <div style={S('confirm')}>
+        <div style={{ textAlign: 'center', padding: '48px 0' }}>
+          <div style={{ fontSize: '28px', color: '#B8922E', marginBottom: '16px' }}>✦</div>
+          <p className="hub-dialog-title" style={{ fontStyle: 'italic' }}>You're on the list.</p>
+          <p style={{ fontSize: '15px', fontWeight: 400, color: 'rgba(240,232,216,0.55)', letterSpacing: '0.04em', lineHeight: '2.0' }}>
+            Sir Leo will be in touch<br />as the date approaches.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Hub Section ──
 function Hub() {
   const [activePanel, setActivePanel] = useState(null);
@@ -801,6 +883,7 @@ function Hub() {
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
             {['serve-individuals','serve-organizers','serve-artists','serve-learners'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
+            {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>
       )}

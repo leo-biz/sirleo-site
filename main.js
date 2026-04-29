@@ -45,6 +45,7 @@ function wireHeroButtons() {
   document.getElementById('hero-explore-btn')?.addEventListener('click', () => {
     document.getElementById('philosophy')?.scrollIntoView({ behavior: 'smooth' });
   });
+  document.getElementById('waitlist-btn')?.addEventListener('click', () => window.SLHub?.open('waitlist'));
 }
 document.addEventListener('DOMContentLoaded', wireHeroButtons);
 
@@ -65,11 +66,21 @@ document.querySelectorAll('.serve-item[data-book]').forEach(item => {
   });
 });
 
-// ── Auto-popup: first visit after 2.5s ──
+// ── Auto-popup: first visit, after 15s AND 50% scroll ──
 document.addEventListener('DOMContentLoaded', () => {
-  if (!localStorage.getItem('sl_submitted')) {
-    setTimeout(() => window.SLHub?.open('contact'), 2500);
+  if (localStorage.getItem('sl_submitted')) return;
+  let ready = false, scrolled = false, fired = false;
+  function tryOpen() {
+    if (fired || !ready || !scrolled) return;
+    fired = true;
+    window.SLHub?.open('contact');
   }
+  setTimeout(() => { ready = true; tryOpen(); }, 15000);
+  window.addEventListener('scroll', () => {
+    if (scrolled) return;
+    const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+    if (pct >= 50) { scrolled = true; tryOpen(); }
+  }, { passive: true });
 });
 
 // ── Custom cursor ──
