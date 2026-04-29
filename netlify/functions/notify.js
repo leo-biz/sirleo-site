@@ -32,7 +32,19 @@ exports.handler = async (event) => {
     return fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${RESEND_AUDIENCE_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, first_name: firstName, last_name: name?.split(' ').slice(1).join(' ') || '', unsubscribed: false, properties: { panel_type: panel_type || 'unknown', utm_source: utm_source || '' } }),
+      body: JSON.stringify({
+        email,
+        first_name: firstName,
+        last_name: name?.split(' ').slice(1).join(' ') || '',
+        unsubscribed: false,
+        properties: {
+          panel_type:  panel_type || 'unknown',
+          utm_source:  utm_source || '',
+          tier:        data?.tier || '',
+          serve_type:  panel_type?.startsWith('serve-') ? panel_type.replace('serve-', '') : '',
+          converted:   'false',
+        },
+      }),
     });
   };
 
