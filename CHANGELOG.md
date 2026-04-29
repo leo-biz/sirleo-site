@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.8 — 2026-04-29
+**Version badge, light mode fixes, Pricing nav link**
+- Version badge now shows `v1.8` (reads from CHANGELOG) instead of raw git SHA
+- Main site nav: "Pricing" link added → `/pricing`
+- Admin light mode: tag and status dot colors darkened for contrast on cream background
+- Admin light mode: login input border fixed (was hardcoded white, now uses `--border2` CSS var)
+- Pricing page light mode: card borders visible (was `rgba(255,255,255,0.07)`, now dark)
+
 ## v1.7 — 2026-04-29
 **Admin: Send Links in Lead Drawer**
 - "Send Links" section added to lead drawer (appears after Quick Actions)

@@ -36,8 +36,8 @@
     .login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; width: 100%; }
     .login-title { font-family: Georgia, serif; font-size: 34px; font-weight: 300; font-style: italic; color: var(--text); letter-spacing: -0.5px; }
     .login-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--red-bright); }
-    .login input { background: var(--card); border: 1px solid var(--border2); color: var(--text); padding: 14px 20px; font-size: 15px; width: 300px; text-align: center; outline: none; border-radius: var(--radius-sm); font-family: inherit; transition: border-color 0.15s; }
-    .login input:focus { border-color: var(--red-bright); box-shadow: 0 0 0 3px rgba(160,40,40,0.15); }
+    .login-input { background: var(--card); border: 1px solid var(--border2); color: var(--text); padding: 14px 20px; font-size: 15px; width: 300px; text-align: center; outline: none; border-radius: var(--radius-sm); font-family: inherit; transition: border-color 0.15s; }
+    .login-input:focus { border-color: var(--red-bright); box-shadow: 0 0 0 3px rgba(160,40,40,0.15); }
     .login-btn { background: var(--red-bright); color: #fff; border: none; padding: 14px 48px; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius-sm); font-family: inherit; font-weight: 500; transition: opacity 0.15s, transform 0.1s; }
     .login-btn:hover { opacity: 0.88; }
     .login-btn:active { transform: scale(0.98); }
@@ -114,6 +114,24 @@
     .tag-closed   { background: rgba(80,80,80,0.15); color: #888; }
     .tag-vip      { background: rgba(201,168,76,0.18); color: var(--gold); }
     .tag-ga       { background: rgba(80,80,80,0.15); color: #999; }
+    /* Light mode: darken tag text so it reads on cream backgrounds */
+    [data-theme="light"] .tag-book     { background: rgba(160,40,40,0.12); color: #8B1A1A; }
+    [data-theme="light"] .tag-collab   { background: rgba(40,80,160,0.12); color: #1A3A8B; }
+    [data-theme="light"] .tag-waitlist { background: rgba(40,130,80,0.12); color: #1A6B3A; }
+    [data-theme="light"] .tag-contact  { background: rgba(160,120,40,0.12); color: #7A5A10; }
+    [data-theme="light"] .tag-serve    { background: rgba(100,40,160,0.12); color: #5A1A8B; }
+    [data-theme="light"] .tag-new      { background: rgba(160,40,40,0.1);  color: #8B1A1A; }
+    [data-theme="light"] .tag-contacted{ background: rgba(40,80,160,0.1);  color: #1A3A8B; }
+    [data-theme="light"] .tag-responded{ background: rgba(100,40,160,0.1); color: #5A1A8B; }
+    [data-theme="light"] .tag-converted{ background: rgba(40,130,80,0.1);  color: #1A6B3A; }
+    [data-theme="light"] .tag-closed   { background: rgba(80,80,80,0.1);   color: #444; }
+    [data-theme="light"] .tag-vip      { background: rgba(139,105,20,0.12); color: #6B4E10; }
+    [data-theme="light"] .tag-ga       { background: rgba(80,80,80,0.1);   color: #555; }
+    [data-theme="light"] .dot-new      { background: #8B1A1A; }
+    [data-theme="light"] .dot-contacted{ background: #1A3A8B; }
+    [data-theme="light"] .dot-responded{ background: #5A1A8B; }
+    [data-theme="light"] .dot-converted{ background: #1A6B3A; }
+    [data-theme="light"] .dot-closed   { background: #666; }
 
     /* ── Detail drawer ── */
     .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; backdrop-filter: blur(2px); }
@@ -779,7 +797,7 @@ function App() {
     <div className="login">
       <span className="login-label">Sir Leo</span>
       <h1 className="login-title">Admin Access</h1>
-      <input type="password" className="login" style={{background:'transparent',border:'1px solid rgba(255,255,255,0.1)',color:'var(--text)',padding:'14px 20px',fontSize:15,width:300,textAlign:'center',outline:'none'}}
+      <input type="password" className="login-input"
         placeholder="Password" value={pw} onChange={e => { setPw(e.target.value); setErr(false); }}
         onKeyDown={e => e.key === 'Enter' && login()} />
       <button className="login-btn" onClick={login}>Enter</button>

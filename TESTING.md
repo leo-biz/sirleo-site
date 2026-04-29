@@ -247,6 +247,18 @@ Should return `{ sent: N, total: N }`.
 
 ---
 
+## 12. Light Mode
+
+- [ ] Main site: toggle to light → all nav links, hero text, section content readable
+- [ ] Footer version badge visible in both modes
+- [ ] Admin: toggle to light → login input has visible border, password field readable
+- [ ] Admin: tag pills (book, collab, waitlist, etc.) have dark text, not washed-out light colors
+- [ ] Admin: pipeline status dots are dark and visible in light mode
+- [ ] Pricing page: card borders visible in light mode (not white-on-white)
+- [ ] Build page: summary bar has correct background and readable text in light mode
+
+---
+
 ## Quick Console Shortcuts
 
 ```js
