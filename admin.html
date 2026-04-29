@@ -5,300 +5,780 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sir Leo — Admin</title>
   <meta name="robots" content="noindex,nofollow">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #080808; color: #c8b89a; font-family: Georgia, serif; min-height: 100vh; }
+    :root {
+      --bg: #090909; --sidebar: #111; --card: #141414; --card2: #1a1a1a;
+      --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.1);
+      --gold: #c9a84c; --red: #6B1A1A; --red-bright: #8B2020;
+      --text: #f0e6d0; --text2: #9a7850; --text3: rgba(200,184,154,0.4);
+      --green: #4a9a6a; --blue: #4a6a9a; --purple: #7a4a9a;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; }
+    #root { display: flex; min-height: 100vh; }
 
     /* ── Login ── */
-    #login-screen {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 100vh; gap: 20px;
-    }
-    #login-screen h1 { font-size: 28px; font-weight: 300; font-style: italic; color: #f0e6d0; }
-    #login-screen p { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #6B1A1A; }
-    #pw-input {
-      background: transparent; border: 1px solid rgba(200,184,154,0.2); color: #f0e6d0;
-      padding: 14px 20px; font-size: 15px; width: 280px; text-align: center; letter-spacing: 0.1em;
-      outline: none; font-family: Georgia, serif;
-    }
-    #pw-input:focus { border-color: rgba(107,26,26,0.6); }
-    #login-btn {
-      background: #6B1A1A; color: #f0e6d0; border: none; padding: 14px 40px;
-      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
-      font-family: Georgia, serif;
-    }
-    #login-btn:hover { background: #8B2020; }
-    #login-error { color: #8B2020; font-size: 13px; display: none; }
+    .login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; width: 100%; }
+    .login-title { font-family: Georgia, serif; font-size: 32px; font-weight: 300; font-style: italic; color: var(--text); }
+    .login-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--red-bright); }
+    .login input { background: transparent; border: 1px solid var(--border2); color: var(--text); padding: 14px 20px; font-size: 15px; width: 300px; text-align: center; outline: none; }
+    .login input:focus { border-color: var(--red); }
+    .login-btn { background: var(--red); color: var(--text); border: none; padding: 14px 48px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+    .login-btn:hover { background: var(--red-bright); }
+    .login-err { color: var(--red-bright); font-size: 13px; }
 
-    /* ── Dashboard ── */
-    #dashboard { display: none; padding: 48px 40px; }
-    .dash-header {
-      display: flex; align-items: baseline; justify-content: space-between;
-      border-bottom: 1px solid rgba(200,184,154,0.1); padding-bottom: 24px; margin-bottom: 40px;
-    }
-    .dash-header h1 { font-size: 24px; font-weight: 300; font-style: italic; color: #f0e6d0; }
-    .dash-header span { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6B1A1A; }
-    .section-label {
-      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #6B1A1A;
-      margin-bottom: 16px;
-    }
-    .stats { display: flex; gap: 32px; margin-bottom: 48px; }
-    .stat { display: flex; flex-direction: column; gap: 6px; }
-    .stat-num { font-size: 36px; font-weight: 300; color: #f0e6d0; }
-    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #9a7850; }
+    /* ── Sidebar ── */
+    .sidebar { width: 220px; min-width: 220px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .sidebar-logo { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
+    .sidebar-logo h1 { font-family: Georgia, serif; font-size: 18px; font-weight: 300; font-style: italic; color: var(--text); }
+    .sidebar-logo span { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red-bright); }
+    .nav-section { padding: 20px 16px 8px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text3); }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; color: var(--text2); font-size: 13px; border-left: 2px solid transparent; transition: all 0.15s; }
+    .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .nav-item.active { color: var(--text); border-left-color: var(--red-bright); background: rgba(107,26,26,0.12); }
+    .nav-icon { width: 16px; text-align: center; font-size: 14px; }
+    .nav-badge { margin-left: auto; background: var(--red); color: var(--text); font-size: 10px; padding: 1px 6px; border-radius: 10px; }
+    .sidebar-footer { margin-top: auto; padding: 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
 
-    /* ── Filters ── */
-    .filters { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
-    .filter-btn {
-      background: transparent; border: 1px solid rgba(200,184,154,0.15); color: #9a7850;
-      padding: 6px 16px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer;
-      font-family: Georgia, serif; text-transform: uppercase;
-    }
-    .filter-btn.active { border-color: #6B1A1A; color: #f0e6d0; background: rgba(107,26,26,0.15); }
+    /* ── Main ── */
+    .main { flex: 1; overflow-y: auto; min-width: 0; }
+    .page-header { padding: 32px 40px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 20px; }
+    .page-title { font-family: Georgia, serif; font-size: 26px; font-weight: 300; font-style: italic; color: var(--text); }
+    .page-sub { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 6px; }
+    .page-body { padding: 32px 40px; }
+
+    /* ── Stats grid ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); padding: 20px 24px; }
+    .stat-num { font-size: 40px; font-weight: 300; color: var(--text); line-height: 1; margin-bottom: 8px; }
+    .stat-num.gold { color: var(--gold); }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); }
+    .stat-delta { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+    /* ── Section label ── */
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red-bright); }
+
+    /* ── Search + filters ── */
+    .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .search-box { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; font-size: 13px; outline: none; flex: 1; min-width: 200px; }
+    .search-box:focus { border-color: var(--border2); }
+    .search-box::placeholder { color: var(--text3); }
+    .filter-btn { background: transparent; border: 1px solid var(--border); color: var(--text2); padding: 7px 14px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
+    .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+    .filter-btn.active { border-color: var(--red); color: var(--text); background: rgba(107,26,26,0.15); }
 
     /* ── Table ── */
-    .table-wrap { overflow-x: auto; margin-bottom: 56px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th {
-      text-align: left; padding: 10px 16px; font-size: 10px; letter-spacing: 0.2em;
-      text-transform: uppercase; color: #6B1A1A; border-bottom: 1px solid rgba(107,26,26,0.3);
-      font-weight: normal;
-    }
-    td { padding: 14px 16px; border-bottom: 1px solid rgba(200,184,154,0.06); vertical-align: top; }
-    tr:hover td { background: rgba(200,184,154,0.03); }
-    .tag {
-      display: inline-block; padding: 2px 8px; font-size: 10px; letter-spacing: 0.1em;
-      text-transform: uppercase; border-radius: 2px;
-    }
-    .tag-book     { background: rgba(107,26,26,0.25); color: #c87878; }
-    .tag-collab   { background: rgba(26,60,107,0.25); color: #78a0c8; }
-    .tag-waitlist { background: rgba(26,107,60,0.25); color: #78c890; }
-    .tag-contact  { background: rgba(107,90,26,0.25); color: #c8b078; }
-    .tag-serve    { background: rgba(80,26,107,0.25); color: #b078c8; }
-    .tag-vip      { background: rgba(107,85,0,0.3);  color: #d4a017; }
-    .tag-ga       { background: rgba(60,60,60,0.3);  color: #999; }
-    .follow-sent  { color: #78c890; font-size: 11px; }
-    .follow-pending { color: #9a7850; font-size: 11px; }
-    a.lead-link   { color: #6B1A1A; text-decoration: none; }
-    a.lead-link:hover { text-decoration: underline; }
-    .data-cell { color: #9a7850; font-size: 12px; max-width: 240px; }
-    .no-data { color: rgba(200,184,154,0.2); font-style: italic; }
-    #refresh-btn {
-      background: transparent; border: 1px solid rgba(200,184,154,0.15); color: #9a7850;
-      padding: 8px 20px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer;
-      font-family: Georgia, serif; text-transform: uppercase;
-    }
-    #refresh-btn:hover { border-color: rgba(200,184,154,0.3); color: #f0e6d0; }
-    .loading { color: #9a7850; font-style: italic; padding: 40px 0; text-align: center; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--card); }
+    th { text-align: left; padding: 10px 16px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); border-bottom: 1px solid var(--border); font-weight: normal; white-space: nowrap; }
+    td { padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+    tr:hover td { background: rgba(255,255,255,0.02); cursor: pointer; }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Tags ── */
+    .tag { display: inline-block; padding: 2px 8px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; white-space: nowrap; }
+    .tag-book     { background: rgba(107,26,26,0.3); color: #e07070; }
+    .tag-collab   { background: rgba(26,60,107,0.3); color: #70a0e0; }
+    .tag-waitlist { background: rgba(26,107,60,0.3); color: #70e090; }
+    .tag-contact  { background: rgba(107,90,26,0.3); color: #e0b870; }
+    .tag-serve    { background: rgba(80,26,107,0.3); color: #b070e0; }
+    .tag-new      { background: rgba(107,26,26,0.2); color: #c87878; }
+    .tag-contacted{ background: rgba(26,60,107,0.2); color: #78a0c8; }
+    .tag-responded{ background: rgba(80,26,107,0.2); color: #b070e0; }
+    .tag-converted{ background: rgba(26,107,60,0.2); color: #70c890; }
+    .tag-closed   { background: rgba(60,60,60,0.2); color: #888; }
+    .tag-vip      { background: rgba(201,168,76,0.2); color: var(--gold); }
+    .tag-ga       { background: rgba(60,60,60,0.2); color: #888; }
+
+    /* ── Detail drawer ── */
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; }
+    .drawer { position: fixed; top: 0; right: 0; width: 480px; max-width: 100vw; height: 100vh; background: var(--card); border-left: 1px solid var(--border2); z-index: 101; overflow-y: auto; display: flex; flex-direction: column; }
+    .drawer-header { padding: 28px 28px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+    .drawer-close { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 20px; padding: 4px; line-height: 1; }
+    .drawer-close:hover { color: var(--text); }
+    .drawer-body { padding: 24px 28px; flex: 1; display: flex; flex-direction: column; gap: 24px; }
+    .drawer-name { font-family: Georgia, serif; font-size: 22px; font-weight: 300; font-style: italic; color: var(--text); }
+    .drawer-row { display: flex; gap: 8px; align-items: center; }
+    .drawer-field { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); width: 80px; flex-shrink: 0; }
+    .drawer-val { color: var(--text2); font-size: 13px; }
+    .drawer-val a { color: var(--gold); text-decoration: none; }
+    .drawer-val a:hover { text-decoration: underline; }
+    .drawer-section { border-top: 1px solid var(--border); padding-top: 20px; }
+    .drawer-section-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 14px; }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .action-btn { background: transparent; border: 1px solid var(--border2); color: var(--text2); padding: 8px 16px; font-size: 11px; letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase; }
+    .action-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .action-btn.primary { background: var(--red); color: var(--text); border-color: var(--red); }
+    .action-btn.primary:hover { background: var(--red-bright); }
+    .status-select { background: var(--card2); border: 1px solid var(--border2); color: var(--text); padding: 8px 12px; font-size: 12px; outline: none; cursor: pointer; }
+    .notes-area { background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 12px; font-size: 13px; width: 100%; min-height: 80px; resize: vertical; outline: none; font-family: inherit; line-height: 1.6; }
+    .notes-area:focus { border-color: var(--border2); }
+    .save-btn { background: var(--red); color: var(--text); border: none; padding: 10px 24px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; align-self: flex-start; margin-top: 8px; }
+    .save-btn:hover { background: var(--red-bright); }
+    .saved-msg { font-size: 11px; color: var(--green); }
+
+    /* ── Data answers ── */
+    .answers { background: var(--card2); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .answer-item { display: flex; gap: 12px; font-size: 12px; }
+    .answer-key { color: var(--text3); min-width: 120px; }
+    .answer-val { color: var(--text2); }
+
+    /* ── Pipeline ── */
+    .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 32px; }
+    .pipeline-col { background: var(--card); border: 1px solid var(--border); padding: 16px; }
+    .pipeline-col-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); margin-bottom: 12px; }
+    .pipeline-count { font-size: 28px; font-weight: 300; color: var(--text); }
+    .pipeline-card { background: var(--card2); border: 1px solid var(--border); padding: 12px; margin-bottom: 8px; cursor: pointer; }
+    .pipeline-card:hover { border-color: var(--border2); }
+    .pipeline-card-name { font-size: 13px; color: var(--text); margin-bottom: 4px; }
+    .pipeline-card-sub { font-size: 11px; color: var(--text2); }
+
+    /* ── Bar chart ── */
+    .bar-list { display: flex; flex-direction: column; gap: 10px; }
+    .bar-item { display: flex; align-items: center; gap: 12px; }
+    .bar-label { width: 100px; font-size: 12px; color: var(--text2); text-align: right; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 6px; background: var(--card2); }
+    .bar-fill { height: 100%; background: var(--red-bright); transition: width 0.4s; }
+    .bar-fill.gold { background: var(--gold); }
+    .bar-val { width: 32px; font-size: 12px; color: var(--text3); text-align: right; }
+
+    /* ── Two-col layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .panel-card { background: var(--card); border: 1px solid var(--border); padding: 24px; }
+
+    /* ── Misc ── */
+    .empty { color: var(--text3); font-style: italic; padding: 40px; text-align: center; }
+    .copy-btn { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 11px; padding: 2px 6px; }
+    .copy-btn:hover { color: var(--gold); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .dot-new { background: var(--red-bright); }
+    .dot-contacted { background: #78a0c8; }
+    .dot-responded { background: #b070e0; }
+    .dot-converted { background: #70c890; }
+    .dot-closed { background: #555; }
+    .recent-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .recent-item:last-child { border-bottom: none; }
+    .time-ago { font-size: 11px; color: var(--text3); white-space: nowrap; }
+    a.ghost { color: var(--text2); text-decoration: none; }
+    a.ghost:hover { color: var(--gold); }
   </style>
 </head>
 <body>
+<div id="root"></div>
 
-<!-- Login -->
-<div id="login-screen">
-  <p>Sir Leo</p>
-  <h1>Admin Access</h1>
-  <input id="pw-input" type="password" placeholder="Password" autocomplete="current-password">
-  <button id="login-btn">Enter</button>
-  <span id="login-error">Incorrect password.</span>
-</div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
 
-<!-- Dashboard -->
-<div id="dashboard">
-  <div class="dash-header">
-    <h1>Lead Dashboard</h1>
-    <button id="refresh-btn">↺ Refresh</button>
-  </div>
+// ── Helpers ──
+const fmt = (iso) => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' · ' +
+         d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+};
 
-  <div class="stats" id="stats"></div>
+const timeAgo = (iso) => {
+  if (!iso) return '';
+  const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s/60)}m ago`;
+  if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+  if (s < 604800) return `${Math.floor(s/86400)}d ago`;
+  return fmt(iso);
+};
 
-  <p class="section-label">Submissions</p>
-  <div class="filters" id="filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="book">Book</button>
-    <button class="filter-btn" data-filter="collab">Collab</button>
-    <button class="filter-btn" data-filter="waitlist">Waitlist</button>
-    <button class="filter-btn" data-filter="contact">Contact</button>
-    <button class="filter-btn" data-filter="serve">Who I Serve</button>
-  </div>
+const tagClass = (type) => {
+  if (!type) return 'tag-contact';
+  if (type === 'book') return 'tag-book';
+  if (type === 'collab') return 'tag-collab';
+  if (type === 'waitlist') return 'tag-waitlist';
+  if (type === 'contact') return 'tag-contact';
+  if (type.startsWith('serve')) return 'tag-serve';
+  return 'tag-contact';
+};
 
-  <div class="table-wrap">
-    <table id="leads-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Type</th>
-          <th>Source</th>
-          <th>Details</th>
-          <th>Follow-up</th>
-        </tr>
-      </thead>
-      <tbody id="leads-body">
-        <tr><td colspan="8" class="loading">Loading leads…</td></tr>
-      </tbody>
-    </table>
-  </div>
+const statusDot = (s) => {
+  const map = { new: 'dot-new', contacted: 'dot-contacted', responded: 'dot-responded', converted: 'dot-converted', closed: 'dot-closed' };
+  return map[s] || 'dot-new';
+};
 
-  <p class="section-label">Waitlist</p>
-  <div class="table-wrap">
-    <table id="waitlist-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Tier</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody id="waitlist-body">
-        <tr><td colspan="6" class="loading">Loading waitlist…</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+const copyText = (text) => navigator.clipboard?.writeText(text);
 
-<script>
-  let pw = '';
-  let allSubmissions = [];
-  let activeFilter = 'all';
+// ── API ──
+let adminPw = '';
+const api = {
+  get: () => fetch('/.netlify/functions/admin-leads', { headers: { 'x-admin-password': adminPw } }),
+  patch: (type, id, body) => fetch(`/.netlify/functions/admin-leads?type=${type}&id=${id}`, {
+    method: 'PATCH', headers: { 'x-admin-password': adminPw, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }),
+};
 
-  const $ = id => document.getElementById(id);
+// ── Lead Drawer ──
+function LeadDrawer({ lead, contacts, onClose, onSave }) {
+  const contact = contacts.find(c => c.phone === lead.phone || c.email === lead.email);
+  const [status, setStatus] = useState(contact?.status || 'new');
+  const [notes, setNotes] = useState(contact?.notes || '');
+  const [saved, setSaved] = useState(false);
 
-  function tagClass(type) {
-    if (!type) return 'tag-contact';
-    if (type === 'book') return 'tag-book';
-    if (type === 'collab') return 'tag-collab';
-    if (type === 'waitlist') return 'tag-waitlist';
-    if (type === 'contact') return 'tag-contact';
-    if (type.startsWith('serve')) return 'tag-serve';
-    return 'tag-contact';
-  }
-
-  function fmt(iso) {
-    if (!iso) return '—';
-    const d = new Date(iso);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' +
-           d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  }
-
-  function renderSubmissions(rows) {
-    const tbody = $('leads-body');
-    if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="no-data" style="padding:32px 16px;">No leads yet.</td></tr>';
-      return;
+  const save = async () => {
+    if (contact) {
+      await api.patch('contact', contact.id, { status, notes, last_seen: new Date().toISOString() });
     }
-    tbody.innerHTML = rows.map(r => {
-      const details = r.data ? Object.entries(r.data)
-        .filter(([k]) => k !== 'selections')
-        .map(([k,v]) => `<span><strong>${k}:</strong> ${Array.isArray(v) ? v.join(', ') : v}</span>`)
-        .join('<br>') : '';
-      const path = r.data?.selections?.length ? `<br><strong>Path:</strong> ${r.data.selections.join(' → ')}` : '';
-      return `<tr>
-        <td style="white-space:nowrap;color:#9a7850">${fmt(r.created_at)}</td>
-        <td style="color:#f0e6d0">${r.name || '<span class="no-data">—</span>'}</td>
-        <td>${r.phone ? `<a class="lead-link" href="sms:${r.phone}">${r.phone}</a>` : '<span class="no-data">—</span>'}</td>
-        <td>${r.email ? `<a class="lead-link" href="mailto:${r.email}">${r.email}</a>` : '<span class="no-data">—</span>'}</td>
-        <td><span class="tag ${tagClass(r.panel_type)}">${r.panel_type || '—'}</span></td>
-        <td style="color:#9a7850;font-size:12px">${r.utm_source || '<span class="no-data">direct</span>'}</td>
-        <td class="data-cell">${details}${path || ''}</td>
-        <td>${r.follow_up_sent
-          ? '<span class="follow-sent">✓ Sent</span>'
-          : '<span class="follow-pending">Pending</span>'}</td>
-      </tr>`;
-    }).join('');
-  }
+    onSave({ ...contact, status, notes });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
-  function renderWaitlist(rows) {
-    const tbody = $('waitlist-body');
-    if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="no-data" style="padding:32px 16px;">No waitlist entries yet.</td></tr>';
-      return;
-    }
-    tbody.innerHTML = rows.map(r => `<tr>
-      <td style="white-space:nowrap;color:#9a7850">${fmt(r.created_at)}</td>
-      <td style="color:#f0e6d0">${r.name || '—'}</td>
-      <td>${r.phone ? `<a class="lead-link" href="sms:${r.phone}">${r.phone}</a>` : '—'}</td>
-      <td>${r.email ? `<a class="lead-link" href="mailto:${r.email}">${r.email}</a>` : '—'}</td>
-      <td><span class="tag ${r.tier === 'vip' ? 'tag-vip' : 'tag-ga'}">${(r.tier || 'ga').toUpperCase()}</span></td>
-      <td style="color:#9a7850;font-size:12px">${r.utm_source || 'direct'}</td>
-    </tr>`).join('');
-  }
+  const answers = lead.data ? Object.entries(lead.data).filter(([k]) => k !== 'selections') : [];
+  const path = lead.data?.selections;
 
-  function renderStats(submissions, waitlist) {
-    const total = submissions.length;
-    const book = submissions.filter(s => s.panel_type === 'book').length;
-    const wl = waitlist.length;
-    const vip = waitlist.filter(w => w.tier === 'vip').length;
-    $('stats').innerHTML = [
-      ['total leads', total],
-      ['book inquiries', book],
-      ['waitlist', wl],
-      ['vip', vip],
-    ].map(([label, num]) => `
-      <div class="stat">
-        <span class="stat-num">${num}</span>
-        <span class="stat-label">${label}</span>
-      </div>`).join('');
-  }
+  return (
+    <>
+      <div className="drawer-overlay" onClick={onClose} />
+      <div className="drawer">
+        <div className="drawer-header">
+          <div>
+            <div className="page-sub" style={{marginBottom:8}}>{lead.panel_type}</div>
+            <div className="drawer-name">{lead.name || 'Unknown'}</div>
+            <div style={{marginTop:6}}><span className={`dot ${statusDot(status)}`}/><span style={{fontSize:11,color:'var(--text2)'}}>{status}</span></div>
+          </div>
+          <button className="drawer-close" onClick={onClose}>×</button>
+        </div>
+        <div className="drawer-body">
+          {/* Contact info */}
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            {lead.phone && (
+              <div className="drawer-row">
+                <span className="drawer-field">Phone</span>
+                <span className="drawer-val"><a href={`sms:${lead.phone}`}>{lead.phone}</a></span>
+                <button className="copy-btn" onClick={() => copyText(lead.phone)}>copy</button>
+              </div>
+            )}
+            {lead.email && (
+              <div className="drawer-row">
+                <span className="drawer-field">Email</span>
+                <span className="drawer-val"><a href={`mailto:${lead.email}`}>{lead.email}</a></span>
+                <button className="copy-btn" onClick={() => copyText(lead.email)}>copy</button>
+              </div>
+            )}
+            <div className="drawer-row">
+              <span className="drawer-field">Source</span>
+              <span className="drawer-val">{lead.utm_source || 'direct'}</span>
+            </div>
+            <div className="drawer-row">
+              <span className="drawer-field">Submitted</span>
+              <span className="drawer-val">{fmt(lead.created_at)}</span>
+            </div>
+            {contact && (
+              <div className="drawer-row">
+                <span className="drawer-field">Last seen</span>
+                <span className="drawer-val">{timeAgo(contact.last_seen)}</span>
+              </div>
+            )}
+            {contact?.submission_count > 1 && (
+              <div className="drawer-row">
+                <span className="drawer-field">Submissions</span>
+                <span className="drawer-val" style={{color:'var(--gold)'}}>{contact.submission_count} total</span>
+              </div>
+            )}
+          </div>
 
-  function applyFilter(filter) {
-    activeFilter = filter;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
-    const filtered = filter === 'all' ? allSubmissions
-      : filter === 'serve' ? allSubmissions.filter(s => s.panel_type?.startsWith('serve'))
-      : allSubmissions.filter(s => s.panel_type === filter);
-    renderSubmissions(filtered);
-  }
+          {/* Quick actions */}
+          <div className="drawer-section">
+            <div className="drawer-section-label">Quick Actions</div>
+            <div className="action-row">
+              {lead.phone && <a href={`sms:${lead.phone}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Text</a>}
+              {lead.email && <a href={`mailto:${lead.email}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Email</a>}
+              {lead.phone && <a href={`tel:${lead.phone}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Call</a>}
+            </div>
+          </div>
 
-  async function loadData() {
-    const res = await fetch(`/.netlify/functions/admin-leads`, {
-      headers: { 'x-admin-password': pw }
-    });
-    if (res.status === 401) {
-      $('login-error').textContent = 'Session expired.';
-      $('login-error').style.display = 'block';
-      $('dashboard').style.display = 'none';
-      $('login-screen').style.display = 'flex';
-      return;
-    }
-    const { submissions, waitlist } = await res.json();
-    allSubmissions = submissions || [];
-    renderStats(allSubmissions, waitlist || []);
-    applyFilter(activeFilter);
-    renderWaitlist(waitlist || []);
-  }
+          {/* Form answers */}
+          {answers.length > 0 && (
+            <div className="drawer-section">
+              <div className="drawer-section-label">Their Answers</div>
+              <div className="answers">
+                {answers.map(([k, v]) => (
+                  <div key={k} className="answer-item">
+                    <span className="answer-key">{k}</span>
+                    <span className="answer-val">{Array.isArray(v) ? v.join(', ') : String(v)}</span>
+                  </div>
+                ))}
+                {path?.length > 0 && (
+                  <div className="answer-item">
+                    <span className="answer-key">Path</span>
+                    <span className="answer-val">{path.join(' → ')}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-  // Login
-  async function attemptLogin() {
-    pw = $('pw-input').value;
-    const res = await fetch('/.netlify/functions/admin-leads', {
-      headers: { 'x-admin-password': pw }
-    });
-    if (res.ok) {
-      $('login-screen').style.display = 'none';
-      $('dashboard').style.display = 'block';
-      const { submissions, waitlist } = await res.json();
-      allSubmissions = submissions || [];
-      renderStats(allSubmissions, waitlist || []);
-      applyFilter('all');
-      renderWaitlist(waitlist || []);
-    } else {
-      $('login-error').style.display = 'block';
-      $('pw-input').value = '';
-    }
-  }
+          {/* Status + notes */}
+          <div className="drawer-section">
+            <div className="drawer-section-label">Pipeline Status</div>
+            <select className="status-select" value={status} onChange={e => setStatus(e.target.value)}>
+              <option value="new">New Lead</option>
+              <option value="contacted">Reached Out</option>
+              <option value="responded">Responded</option>
+              <option value="converted">Converted</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
 
-  $('login-btn').addEventListener('click', attemptLogin);
-  $('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
-  $('refresh-btn').addEventListener('click', loadData);
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.addEventListener('click', () => applyFilter(b.dataset.filter));
+          <div className="drawer-section">
+            <div className="drawer-section-label">Notes</div>
+            <textarea className="notes-area" value={notes} onChange={e => setNotes(e.target.value)} placeholder="Add notes about this lead…" />
+            <div style={{display:'flex',alignItems:'center',gap:12,marginTop:8}}>
+              <button className="save-btn" onClick={save}>Save</button>
+              {saved && <span className="saved-msg">✓ Saved</span>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Overview ──
+function Overview({ data, onNavigate }) {
+  const { submissions = [], contacts = [], waitlist = [], analytics_summary: as = {} } = data;
+  const recent = submissions.slice(0, 8);
+  const converted = contacts.filter(c => c.status === 'converted').length;
+  const vip = waitlist.filter(w => w.tier === 'vip').length;
+
+  const topSources = Object.entries(as.sources || {}).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  const maxSrc = topSources[0]?.[1] || 1;
+  const topCities = Object.entries(as.cities || {}).sort((a,b) => b[1]-a[1]).slice(0, 5);
+  const maxCity = topCities[0]?.[1] || 1;
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">Sir Leo</div><div className="page-title">Dashboard</div></div>
+        <div style={{fontSize:11,color:'var(--text3)'}}>Updated {timeAgo(new Date().toISOString())}</div>
+      </div>
+      <div className="page-body">
+        <div className="stats-grid">
+          <div className="stat-card"><div className="stat-num">{submissions.length}</div><div className="stat-label">Total Leads</div></div>
+          <div className="stat-card"><div className="stat-num">{submissions.filter(s=>s.panel_type==='book').length}</div><div className="stat-label">Book Inquiries</div></div>
+          <div className="stat-card"><div className="stat-num gold">{converted}</div><div className="stat-label">Converted</div></div>
+          <div className="stat-card"><div className="stat-num">{waitlist.length}</div><div className="stat-label">Waitlist</div></div>
+          <div className="stat-card"><div className="stat-num gold">{vip}</div><div className="stat-label">VIP</div></div>
+          <div className="stat-card"><div className="stat-num">{as.pageviews_7d || 0}</div><div className="stat-label">Pageviews (7d)</div><div className="stat-delta">{as.pageviews_30d || 0} last 30d</div></div>
+        </div>
+
+        <div className="two-col" style={{marginBottom:32}}>
+          {/* Recent leads */}
+          <div className="panel-card">
+            <div className="section-head"><span className="section-label">Recent Leads</span><span style={{fontSize:11,color:'var(--text3)',cursor:'pointer'}} onClick={() => onNavigate('leads')}>View all →</span></div>
+            {recent.length === 0 ? <div className="empty">No leads yet.</div> : recent.map(s => (
+              <div key={s.id} className="recent-item">
+                <div>
+                  <div style={{fontSize:13,color:'var(--text)',marginBottom:3}}>{s.name || 'Unknown'}</div>
+                  <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                    <span className={`tag ${tagClass(s.panel_type)}`}>{s.panel_type}</span>
+                    <span style={{fontSize:11,color:'var(--text3)'}}>{s.utm_source || 'direct'}</span>
+                  </div>
+                </div>
+                <span className="time-ago">{timeAgo(s.created_at)}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Sources */}
+          <div className="panel-card">
+            <div className="section-head"><span className="section-label">Traffic Sources</span></div>
+            {topSources.length === 0 ? <div className="empty">No data yet.</div> : (
+              <div className="bar-list">
+                {topSources.map(([src, cnt]) => (
+                  <div key={src} className="bar-item">
+                    <span className="bar-label">{src}</span>
+                    <div className="bar-track"><div className="bar-fill gold" style={{width: `${Math.round(cnt/maxSrc*100)}%`}} /></div>
+                    <span className="bar-val">{cnt}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {topCities.length > 0 && <>
+              <div className="section-label" style={{margin:'24px 0 14px'}}>Top Cities</div>
+              <div className="bar-list">
+                {topCities.map(([city, cnt]) => (
+                  <div key={city} className="bar-item">
+                    <span className="bar-label" style={{width:130,fontSize:11}}>{city}</span>
+                    <div className="bar-track"><div className="bar-fill" style={{width: `${Math.round(cnt/maxCity*100)}%`}} /></div>
+                    <span className="bar-val">{cnt}</span>
+                  </div>
+                ))}
+              </div>
+            </>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Leads ──
+function Leads({ data, onContactUpdate }) {
+  const { submissions = [], contacts = [] } = data;
+  const [q, setQ] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [selected, setSelected] = useState(null);
+
+  const filters = ['all','book','collab','waitlist','contact','serve'];
+  const filtered = submissions.filter(s => {
+    const matchType = filter === 'all' ? true : filter === 'serve' ? s.panel_type?.startsWith('serve') : s.panel_type === filter;
+    const matchQ = !q || [s.name, s.email, s.phone, s.utm_source].some(v => v?.toLowerCase().includes(q.toLowerCase()));
+    return matchType && matchQ;
   });
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">CRM</div><div className="page-title">Leads</div></div>
+        <div style={{fontSize:11,color:'var(--text3)'}}>{filtered.length} showing</div>
+      </div>
+      <div className="page-body">
+        <div className="toolbar">
+          <input className="search-box" placeholder="Search name, email, phone…" value={q} onChange={e => setQ(e.target.value)} />
+          {filters.map(f => <button key={f} className={`filter-btn ${filter===f?'active':''}`} onClick={() => setFilter(f)}>{f}</button>)}
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Name</th><th>Contact</th><th>Type</th><th>Source</th><th>Status</th><th>Follow-up</th>
+            </tr></thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr><td colSpan="7" className="empty">No leads found.</td></tr>
+              ) : filtered.map(s => {
+                const contact = contacts.find(c => c.phone === s.phone || c.email === s.email);
+                return (
+                  <tr key={s.id} onClick={() => setSelected(s)}>
+                    <td style={{color:'var(--text3)',whiteSpace:'nowrap',fontSize:12}}>{timeAgo(s.created_at)}</td>
+                    <td style={{color:'var(--text)',fontWeight:500}}>{s.name || <span style={{color:'var(--text3)'}}>—</span>}</td>
+                    <td>
+                      <div style={{display:'flex',flexDirection:'column',gap:3}}>
+                        {s.phone && <a href={`sms:${s.phone}`} className="ghost" style={{fontSize:12}} onClick={e=>e.stopPropagation()}>{s.phone}</a>}
+                        {s.email && <a href={`mailto:${s.email}`} className="ghost" style={{fontSize:12}} onClick={e=>e.stopPropagation()}>{s.email}</a>}
+                      </div>
+                    </td>
+                    <td><span className={`tag ${tagClass(s.panel_type)}`}>{s.panel_type || '—'}</span></td>
+                    <td style={{color:'var(--text2)',fontSize:12}}>{s.utm_source || 'direct'}</td>
+                    <td>
+                      {contact ? (
+                        <span><span className={`dot ${statusDot(contact.status || 'new')}`}/><span style={{fontSize:12,color:'var(--text2)'}}>{contact.status || 'new'}</span></span>
+                      ) : <span style={{color:'var(--text3)',fontSize:12}}>—</span>}
+                    </td>
+                    <td>{s.follow_up_sent ? <span style={{color:'var(--green)',fontSize:12}}>✓ sent</span> : <span style={{color:'var(--text3)',fontSize:12}}>pending</span>}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {selected && <LeadDrawer lead={selected} contacts={contacts} onClose={() => setSelected(null)} onSave={(updated) => { onContactUpdate(updated); }} />}
+    </div>
+  );
+}
+
+// ── Contacts / Pipeline ──
+function Contacts({ data, onContactUpdate }) {
+  const { contacts = [], submissions = [] } = data;
+  const [selected, setSelected] = useState(null);
+  const [view, setView] = useState('pipeline');
+
+  const stages = ['new','contacted','responded','converted','closed'];
+  const stageLabel = { new:'New Lead', contacted:'Reached Out', responded:'Responded', converted:'Converted', closed:'Closed' };
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">CRM</div><div className="page-title">Contacts</div></div>
+        <div style={{display:'flex',gap:8}}>
+          {['pipeline','table'].map(v => <button key={v} className={`filter-btn ${view===v?'active':''}`} onClick={() => setView(v)}>{v}</button>)}
+        </div>
+      </div>
+      <div className="page-body">
+        {view === 'pipeline' ? (
+          <>
+            <div className="stats-grid" style={{gridTemplateColumns:'repeat(5,1fr)',marginBottom:24}}>
+              {stages.map(s => (
+                <div key={s} className="stat-card" style={{padding:'14px 16px'}}>
+                  <div className="stat-num" style={{fontSize:28}}>{contacts.filter(c => (c.status||'new') === s).length}</div>
+                  <div className="stat-label">{stageLabel[s]}</div>
+                </div>
+              ))}
+            </div>
+            <div className="pipeline">
+              {stages.map(stage => {
+                const group = contacts.filter(c => (c.status||'new') === stage);
+                return (
+                  <div key={stage} style={{display:'flex',flexDirection:'column',gap:8}}>
+                    <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                      <span className="section-label">{stageLabel[stage]}</span>
+                      <span style={{fontSize:11,color:'var(--text3)'}}>{group.length}</span>
+                    </div>
+                    {group.map(c => {
+                      const sub = submissions.find(s => s.phone === c.phone || s.email === c.email);
+                      return (
+                        <div key={c.id} className="pipeline-card" onClick={() => sub && setSelected(sub)}>
+                          <div className="pipeline-card-name">{c.name || 'Unknown'}</div>
+                          <div className="pipeline-card-sub">{c.phone || c.email || '—'}</div>
+                          {c.utm_source && <div style={{fontSize:10,color:'var(--text3)',marginTop:4}}>{c.utm_source}</div>}
+                          {c.notes && <div style={{fontSize:11,color:'var(--text2)',marginTop:6,borderTop:'1px solid var(--border)',paddingTop:6}}>{c.notes.slice(0,60)}{c.notes.length>60?'…':''}</div>}
+                        </div>
+                      );
+                    })}
+                    {group.length === 0 && <div style={{fontSize:11,color:'var(--text3)',fontStyle:'italic',padding:'8px 0'}}>Empty</div>}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <div className="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Source</th><th>Status</th><th>Submissions</th><th>Last Seen</th><th>Notes</th></tr></thead>
+              <tbody>
+                {contacts.length === 0 ? <tr><td colSpan="8" className="empty">No contacts yet.</td></tr> :
+                  contacts.map(c => {
+                    const sub = submissions.find(s => s.phone === c.phone || s.email === c.email);
+                    return (
+                      <tr key={c.id} onClick={() => sub && setSelected(sub)}>
+                        <td style={{color:'var(--text)'}}>{c.name || '—'}</td>
+                        <td>{c.phone ? <a href={`sms:${c.phone}`} className="ghost" onClick={e=>e.stopPropagation()}>{c.phone}</a> : '—'}</td>
+                        <td>{c.email ? <a href={`mailto:${c.email}`} className="ghost" onClick={e=>e.stopPropagation()} style={{fontSize:12}}>{c.email}</a> : '—'}</td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{c.utm_source||'direct'}</td>
+                        <td><span className={`dot ${statusDot(c.status||'new')}`}/><span style={{fontSize:12,color:'var(--text2)'}}>{c.status||'new'}</span></td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{c.submission_count||1}</td>
+                        <td style={{color:'var(--text3)',fontSize:12}}>{timeAgo(c.last_seen)}</td>
+                        <td style={{color:'var(--text2)',fontSize:12,maxWidth:160}}>{c.notes ? c.notes.slice(0,50)+(c.notes.length>50?'…':'') : <span style={{color:'var(--text3)'}}>—</span>}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      {selected && <LeadDrawer lead={selected} contacts={contacts} onClose={() => setSelected(null)} onSave={onContactUpdate} />}
+    </div>
+  );
+}
+
+// ── Waitlist ──
+function Waitlist({ data }) {
+  const { waitlist = [] } = data;
+  const vip = waitlist.filter(w => w.tier === 'vip');
+  const ga  = waitlist.filter(w => w.tier !== 'vip');
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">AfterDark</div><div className="page-title">Waitlist</div></div>
+        <div style={{fontSize:11,color:'var(--text3)'}}>{waitlist.length} total · {vip.length} VIP</div>
+      </div>
+      <div className="page-body">
+        <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)',marginBottom:32}}>
+          <div className="stat-card"><div className="stat-num">{waitlist.length}</div><div className="stat-label">Total</div></div>
+          <div className="stat-card"><div className="stat-num gold">{vip.length}</div><div className="stat-label">VIP</div></div>
+          <div className="stat-card"><div className="stat-num">{ga.length}</div><div className="stat-label">General Admission</div></div>
+        </div>
+        {[['VIP', vip, 'tag-vip'], ['General Admission', ga, 'tag-ga']].map(([label, list, cls]) => (
+          <div key={label} style={{marginBottom:32}}>
+            <div className="section-label" style={{marginBottom:16}}>{label} — {list.length}</div>
+            {list.length === 0 ? <div className="empty">None yet.</div> : (
+              <div className="table-wrap">
+                <table>
+                  <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>Tier</th></tr></thead>
+                  <tbody>
+                    {list.map(w => (
+                      <tr key={w.id}>
+                        <td style={{color:'var(--text3)',fontSize:12,whiteSpace:'nowrap'}}>{timeAgo(w.created_at)}</td>
+                        <td style={{color:'var(--text)'}}>{w.name||'—'}</td>
+                        <td>{w.phone ? <a href={`sms:${w.phone}`} className="ghost">{w.phone}</a> : '—'}</td>
+                        <td>{w.email ? <a href={`mailto:${w.email}`} className="ghost" style={{fontSize:12}}>{w.email}</a> : '—'}</td>
+                        <td><span className={`tag ${cls}`}>{(w.tier||'ga').toUpperCase()}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Analytics ──
+function Analytics({ data }) {
+  const { analytics_summary: as = {} } = data;
+  const eventTypes = Object.entries(as.events_by_type || {}).sort((a,b) => b[1]-a[1]);
+  const maxEvt = eventTypes[0]?.[1] || 1;
+  const sources = Object.entries(as.sources || {}).sort((a,b) => b[1]-a[1]);
+  const maxSrc = sources[0]?.[1] || 1;
+  const cities = Object.entries(as.cities || {}).sort((a,b) => b[1]-a[1]).slice(0,10);
+  const maxCity = cities[0]?.[1] || 1;
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">Insights</div><div className="page-title">Analytics</div></div>
+      </div>
+      <div className="page-body">
+        <div className="stats-grid" style={{marginBottom:32}}>
+          <div className="stat-card"><div className="stat-num">{as.pageviews_7d||0}</div><div className="stat-label">Pageviews (7d)</div></div>
+          <div className="stat-card"><div className="stat-num">{as.pageviews_30d||0}</div><div className="stat-label">Pageviews (30d)</div></div>
+        </div>
+        <div className="two-col">
+          <div className="panel-card">
+            <div className="section-label" style={{marginBottom:20}}>Events by Type</div>
+            {eventTypes.length === 0 ? <div className="empty">No data yet.</div> : (
+              <div className="bar-list">
+                {eventTypes.map(([type, cnt]) => (
+                  <div key={type} className="bar-item">
+                    <span className="bar-label" style={{width:120,fontSize:11}}>{type}</span>
+                    <div className="bar-track"><div className="bar-fill" style={{width:`${Math.round(cnt/maxEvt*100)}%`}} /></div>
+                    <span className="bar-val">{cnt}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:24}}>
+            <div className="panel-card">
+              <div className="section-label" style={{marginBottom:20}}>Traffic Sources</div>
+              {sources.length === 0 ? <div className="empty">No data yet.</div> : (
+                <div className="bar-list">
+                  {sources.map(([src, cnt]) => (
+                    <div key={src} className="bar-item">
+                      <span className="bar-label">{src}</span>
+                      <div className="bar-track"><div className="bar-fill gold" style={{width:`${Math.round(cnt/maxSrc*100)}%`}} /></div>
+                      <span className="bar-val">{cnt}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="panel-card">
+              <div className="section-label" style={{marginBottom:20}}>Top Cities</div>
+              {cities.length === 0 ? <div className="empty">No data yet.</div> : (
+                <div className="bar-list">
+                  {cities.map(([city, cnt]) => (
+                    <div key={city} className="bar-item">
+                      <span className="bar-label" style={{width:130,fontSize:11}}>{city}</span>
+                      <div className="bar-track"><div className="bar-fill" style={{width:`${Math.round(cnt/maxCity*100)}%`}} /></div>
+                      <span className="bar-val">{cnt}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── App ──
+function App() {
+  const [authed, setAuthed] = useState(false);
+  const [pw, setPw] = useState('');
+  const [err, setErr] = useState(false);
+  const [page, setPage] = useState('overview');
+  const [data, setData] = useState({ submissions: [], contacts: [], waitlist: [], analytics_summary: {} });
+  const [loading, setLoading] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const res = await api.get();
+    if (res.ok) { const d = await res.json(); setData(d); }
+    setLoading(false);
+  }, []);
+
+  const login = async () => {
+    adminPw = pw;
+    const res = await api.get();
+    if (res.ok) { const d = await res.json(); setData(d); setAuthed(true); }
+    else { setErr(true); setPw(''); adminPw = ''; }
+  };
+
+  const handleContactUpdate = (updated) => {
+    setData(prev => ({
+      ...prev,
+      contacts: prev.contacts.map(c => c.id === updated?.id ? { ...c, ...updated } : c),
+    }));
+  };
+
+  if (!authed) return (
+    <div className="login">
+      <span className="login-label">Sir Leo</span>
+      <h1 className="login-title">Admin Access</h1>
+      <input type="password" className="login" style={{background:'transparent',border:'1px solid rgba(255,255,255,0.1)',color:'var(--text)',padding:'14px 20px',fontSize:15,width:300,textAlign:'center',outline:'none'}}
+        placeholder="Password" value={pw} onChange={e => { setPw(e.target.value); setErr(false); }}
+        onKeyDown={e => e.key === 'Enter' && login()} />
+      <button className="login-btn" onClick={login}>Enter</button>
+      {err && <span className="login-err">Incorrect password.</span>}
+    </div>
+  );
+
+  const nav = [
+    { id:'overview', icon:'◈', label:'Overview' },
+    { id:'leads',    icon:'◎', label:'Leads',    badge: data.submissions.filter(s => {
+        const c = data.contacts.find(c => c.phone === s.phone || c.email === s.email);
+        return !c || c.status === 'new';
+      }).length || null },
+    { id:'contacts', icon:'◉', label:'Contacts' },
+    { id:'waitlist', icon:'◇', label:'Waitlist', badge: data.waitlist.length || null },
+    { id:'analytics',icon:'◫', label:'Analytics' },
+  ];
+
+  const pages = { overview: Overview, leads: Leads, contacts: Contacts, waitlist: Waitlist, analytics: Analytics };
+  const PageComponent = pages[page];
+
+  return (
+    <>
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          <div style={{fontSize:10,letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--red-bright)',marginBottom:6}}>Sir Leo</div>
+          <h1 style={{fontFamily:'Georgia,serif',fontSize:20,fontWeight:300,fontStyle:'italic',color:'var(--text)'}}>Admin</h1>
+        </div>
+        <div className="nav-section">Menu</div>
+        {nav.map(n => (
+          <div key={n.id} className={`nav-item ${page===n.id?'active':''}`} onClick={() => setPage(n.id)}>
+            <span className="nav-icon">{n.icon}</span>
+            {n.label}
+            {n.badge ? <span className="nav-badge">{n.badge}</span> : null}
+          </div>
+        ))}
+        <div className="sidebar-footer">
+          <div style={{marginBottom:6}}>
+            <button onClick={load} style={{background:'none',border:'none',color:'var(--text3)',cursor:'pointer',fontSize:11,padding:0}}>↺ Refresh data</button>
+          </div>
+          <div style={{fontSize:10,color:'rgba(200,184,154,0.2)'}}>Chicago · Est. 2024</div>
+        </div>
+      </aside>
+      <main className="main">
+        {loading && <div style={{padding:'12px 40px',fontSize:11,color:'var(--text3)',background:'rgba(107,26,26,0.1)'}}>Loading…</div>}
+        <PageComponent data={data} onNavigate={setPage} onContactUpdate={handleContactUpdate} />
+      </main>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>
 </html>

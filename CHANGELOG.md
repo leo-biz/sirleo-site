@@ -4,6 +4,18 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.4 — 2026-04-29
+**Full Admin Dashboard**
+- Full React SPA admin at `/admin` — sidebar navigation, dark luxury design
+- Overview page: stats grid, recent leads feed, traffic sources + top cities bar charts
+- Leads page: searchable/filterable table with inline contact links and status indicators
+- Contacts page: dual view (pipeline kanban + table) — 5-stage pipeline (New → Reached Out → Responded → Converted → Closed)
+- Lead detail drawer: full form answers, quick actions (text/email/call), pipeline status selector, notes editor — saves to Supabase contacts table
+- Waitlist page: VIP/GA breakdown with separate tables
+- Analytics page: event types, traffic sources, top cities — all CSS bar charts
+- Admin API updated: handles PATCH for contact and submission updates, returns full data including analytics summary
+- GitHub repo made public to fix Netlify contributor limit on free plan
+
 ## v1.3 — 2026-04-29
 **Day 2 Follow-up & Admin Dashboard**
 - Scheduled follow-up function (`followup.js`) — runs daily at noon CT, emails leads 44–52 hours after inquiry with no response

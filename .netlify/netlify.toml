@@ -27,11 +27,26 @@ functions = "/Users/sir/Workspaces/sirleo-site/netlify/functions"
 
 [functions]
 
+[functions.followup]
+schedule = "0 17 * * *"
+
 [functions."*"]
 
 [[redirects]]
 from = "/book"
 to = "/book.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/admin"
+to = "/admin.html"
 status = 200.0
 force = false
 

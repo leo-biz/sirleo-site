@@ -123,7 +123,27 @@ After test submissions:
 
 ---
 
-## 8. Admin Dashboard
+## 8. Admin Dashboard (Full)
+
+1. Go to **/admin** → enter password `SirLeo2024!`
+2. **Overview** — verify stats cards populate, recent leads show, bar charts render
+3. **Leads page:**
+   - Search by name/email/phone — results narrow in real time
+   - Filter buttons (book, collab, waitlist, etc.) — verify each narrows correctly
+   - Click a row → detail drawer opens
+   - Drawer: phone/email links work, copy buttons copy to clipboard
+   - Select a pipeline status → click Save → reopen drawer → status persists
+   - Add notes → Save → notes persist in Supabase
+4. **Contacts page:**
+   - Pipeline view shows 5 columns with contact cards
+   - Table view shows all columns
+   - Click card/row → opens lead drawer
+5. **Waitlist page** — VIP and GA tables render separately
+6. **Analytics page** — event type bars, source bars, city bars render (empty if no data)
+7. **Refresh button** in sidebar reloads all data
+8. **Security:** Open Network tab → confirm `admin-leads` returns 401 with wrong password
+
+
 
 1. Go to **https://dev--sirleo-site.netlify.app/admin**
 2. Enter password: `SirLeo2024!` (change via `netlify env:set ADMIN_PASSWORD yourpassword`)
