@@ -17,7 +17,14 @@
       --text: #f0e6d0; --text2: #9a7850; --text3: rgba(200,184,154,0.4);
       --green: #4a9a6a; --blue: #4a6a9a; --purple: #7a4a9a;
     }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; }
+    [data-theme="light"] {
+      --bg: #f4ebd9; --sidebar: #ede3cf; --card: #faf6ee; --card2: #ede3cf;
+      --border: rgba(26,14,6,0.08); --border2: rgba(26,14,6,0.18);
+      --gold: #8B6914; --red: #6B1A1A; --red-bright: #8B2020;
+      --text: #1a0e06; --text2: #5a3e1e; --text3: rgba(26,14,6,0.35);
+      --green: #2a7a4a; --blue: #2a4a7a; --purple: #5a2a7a;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; min-height: 100vh; transition: background 0.2s, color 0.2s; }
     #root { display: flex; min-height: 100vh; }
 
     /* ── Login ── */
@@ -700,6 +707,14 @@ function App() {
   const [page, setPage] = useState('overview');
   const [data, setData] = useState({ submissions: [], contacts: [], waitlist: [], analytics_summary: {} });
   const [loading, setLoading] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('sl-admin-theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sl-admin-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -764,10 +779,15 @@ function App() {
           </div>
         ))}
         <div className="sidebar-footer">
-          <div style={{marginBottom:6}}>
+          <div style={{marginBottom:8}}>
             <button onClick={load} style={{background:'none',border:'none',color:'var(--text3)',cursor:'pointer',fontSize:11,padding:0}}>↺ Refresh data</button>
           </div>
-          <div style={{fontSize:10,color:'rgba(200,184,154,0.2)'}}>Chicago · Est. 2024</div>
+          <div style={{marginBottom:10}}>
+            <button onClick={toggleTheme} style={{background:'none',border:'1px solid var(--border2)',color:'var(--text2)',cursor:'pointer',fontSize:11,padding:'5px 12px',width:'100%',textAlign:'left',letterSpacing:'0.1em',textTransform:'uppercase'}}>
+              {theme === 'dark' ? '◑ Light Mode' : '◐ Dark Mode'}
+            </button>
+          </div>
+          <div style={{fontSize:10,color:'var(--text3)'}}>Chicago · Est. 2024</div>
         </div>
       </aside>
       <main className="main">
