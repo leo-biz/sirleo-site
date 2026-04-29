@@ -47,7 +47,7 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         from: 'Sir Leo Site <onboarding@resend.dev>',
-        to: ['sir.black.leo@gmail.com'],
+        to: ['leo.biz.llc@gmail.com'],
         subject,
         html,
       }),
