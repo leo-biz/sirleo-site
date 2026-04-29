@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.9 — 2026-04-29
+**Hide Pricing from nav**
+- Pricing link removed from main site nav (page still accessible via direct URL)
+
 ## v1.8 — 2026-04-29
 **Version badge, light mode fixes, Pricing nav link**
 - Version badge now shows `v1.8` (reads from CHANGELOG) instead of raw git SHA
