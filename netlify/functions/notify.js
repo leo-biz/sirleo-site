@@ -17,17 +17,13 @@ exports.handler = async (event) => {
       body: JSON.stringify({ from: 'Sir Leo Site <onboarding@resend.dev>', to: [to], subject, html }),
     });
 
-  // ── SMS via Twilio (only fires if env vars set) ──
-  const sendSMS = async (to, body) => {
-    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER } = process.env;
-    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_FROM_NUMBER) return;
-    const creds = Buffer.from(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`).toString('base64');
-    return fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`, {
+  // ── SMS via Google Voice email gateway ──
+  const sendSMS = (body) =>
+    fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ To: to, From: TWILIO_FROM_NUMBER, Body: body }),
+      headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: 'Sir Leo Site <onboarding@resend.dev>', to: ['17732348238@txt.voice.google.com'], subject: body, html: body }),
     });
-  };
 
   // ── Resend audience sync (only fires if audience key + ID set) ──
   const syncAudience = async () => {
@@ -36,7 +32,7 @@ exports.handler = async (event) => {
     return fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${RESEND_AUDIENCE_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, first_name: firstName, last_name: name?.split(' ').slice(1).join(' ') || '', unsubscribed: false }),
+      body: JSON.stringify({ email, first_name: firstName, last_name: name?.split(' ').slice(1).join(' ') || '', unsubscribed: false, data: { panel_type: panel_type || 'unknown', utm_source: utm_source || '' } }),
     });
   };
 
@@ -85,7 +81,7 @@ exports.handler = async (event) => {
     await Promise.allSettled([
       sendEmail('sir.black.leo@gmail.com', `New lead: ${name || 'Unknown'} — ${panel_type || 'site'}`, notifyHtml),
       email ? sendEmail(email, 'Sir Leo received your inquiry.', replyHtml) : null,
-      sendSMS('+17732348238', smsBody),
+      sendSMS(smsBody),
       syncAudience(),
     ].filter(Boolean));
 
