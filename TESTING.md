@@ -143,6 +143,14 @@ After test submissions:
 7. **Refresh button** in sidebar reloads all data
 8. **Security:** Open Network tab → confirm `admin-leads` returns 401 with wrong password
 
+### Send Links (lead drawer)
+9. Open any lead drawer → verify "Send Links" section appears below Quick Actions
+10. URL displayed: should read `https://<domain>/build?client=<FirstName>` (first word of lead name)
+11. Click "Session Builder" button → clipboard contains the URL, "✓ Copied" appears
+12. Paste URL in a new tab → build.html loads with personalized heading ("Jordan's *session.*")
+13. Lead with no name → URL ends with `/build` (no `?client=` param)
+14. "Payment Link" button is disabled/greyed out — no click action
+
 
 
 1. Go to **https://dev--sirleo-site.netlify.app/admin**

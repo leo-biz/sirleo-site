@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.7 — 2026-04-29
+**Admin: Send Links in Lead Drawer**
+- "Send Links" section added to lead drawer (appears after Quick Actions)
+- Session Builder button generates `https://sirleo.com/build?client=FirstName` from lead's name
+- One-tap copy to clipboard with "✓ Copied" confirmation
+- URL displayed inline so it can be manually selected/shared
+- Payment Link button stubbed (disabled, "soon") — will activate when Stripe is wired
+
 ## v1.6 — 2026-04-29
 **Pricing Page + Session Builder**
 - `pricing.html` — membership tier page with Single/Monthly/Annual toggle

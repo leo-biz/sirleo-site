@@ -243,6 +243,7 @@ function LeadDrawer({ lead, contacts, onClose, onSave }) {
   const [status, setStatus] = useState(contact?.status || 'new');
   const [notes, setNotes] = useState(contact?.notes || '');
   const [saved, setSaved] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const save = async () => {
     if (contact) {
@@ -251,6 +252,15 @@ function LeadDrawer({ lead, contacts, onClose, onSave }) {
     onSave({ ...contact, status, notes });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const firstName = (lead.name || '').split(' ')[0] || '';
+  const sessionBuilderUrl = `${window.location.origin}/build${firstName ? `?client=${encodeURIComponent(firstName)}` : ''}`;
+
+  const copySessionLink = () => {
+    copyText(sessionBuilderUrl);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2500);
   };
 
   const answers = lead.data ? Object.entries(lead.data).filter(([k]) => k !== 'selections') : [];
@@ -314,6 +324,23 @@ function LeadDrawer({ lead, contacts, onClose, onSave }) {
               {lead.phone && <a href={`sms:${lead.phone}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Text</a>}
               {lead.email && <a href={`mailto:${lead.email}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Email</a>}
               {lead.phone && <a href={`tel:${lead.phone}`} className="action-btn" style={{textDecoration:'none',display:'inline-block'}}>Call</a>}
+            </div>
+          </div>
+
+          {/* Send Links */}
+          <div className="drawer-section">
+            <div className="drawer-section-label">Send Links</div>
+            <div style={{display:'flex',gap:8,marginBottom:10,flexWrap:'wrap',alignItems:'center'}}>
+              <button className="action-btn" onClick={copySessionLink} style={{borderColor:'rgba(201,168,76,0.4)',color:'var(--gold)'}}>
+                ⬡ Session Builder
+              </button>
+              <button className="action-btn" disabled style={{opacity:0.3,cursor:'not-allowed'}}>
+                $ Payment Link — soon
+              </button>
+              {linkCopied && <span className="saved-msg">✓ Copied</span>}
+            </div>
+            <div style={{background:'var(--card2)',border:'1px solid var(--border)',borderRadius:'var(--radius-sm)',padding:'9px 12px',fontSize:11,color:'var(--text2)',fontFamily:'monospace',wordBreak:'break-all',lineHeight:1.6}}>
+              {sessionBuilderUrl}
             </div>
           </div>
 
