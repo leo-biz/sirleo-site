@@ -4,6 +4,18 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.2 — 2026-04-29
+**Notifications, Audience Sync & Attribution**
+- Phone number updated to (773) 234-8238 across site, hub, vCard, and notify function
+- AfterDark event label changed to "Coming Soon · Chicago" (no premature date)
+- Footer version badge auto-updates on every Netlify deploy (reads git SHA/tag via build script)
+- SMS notification on form submission via Google Voice email gateway — no Twilio required
+- Resend audience sync: every form submission adds contact to "General" audience
+- Resend contact properties: `panel_type`, `utm_source`, `tier`, `serve_type`, `converted`
+- Traffic source attribution: referrer parsed as fallback when UTM params absent (`instagram`, `facebook`, `tiktok`, `google`, `direct`, etc.)
+- `SL_SOURCE` window global — resolved source persisted in sessionStorage across the session
+- All Supabase submissions and CRM upserts now use resolved source (UTM → referrer → direct)
+
 ## v1.1 — 2026-04-29
 **Notifications & Polish**
 - Email notification to Sir Leo on every form submission (Resend + Netlify function)
