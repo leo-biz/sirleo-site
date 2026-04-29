@@ -1,3 +1,9 @@
+// ── Footer version (injected by build script) ──
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.querySelector('.footer-version');
+  if (el && window.SL_VERSION) el.textContent = window.SL_VERSION;
+});
+
 // ── Theme toggle ──
 (function() {
   const saved = localStorage.getItem('sl-theme') || 'dark';

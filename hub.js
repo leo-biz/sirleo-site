@@ -837,7 +837,7 @@ function Hub() {
     { id: 'contact', num: '03', label: 'Contact',        sub: 'Text or email directly',
       expandContent: (
         <div className="hub-expand-options">
-          <a href="sms:+13124567890" className="hub-expand-opt">Text Sir Leo <span>→</span></a>
+          <a href="sms:+17732348238" className="hub-expand-opt">Text Sir Leo <span>→</span></a>
           <a href="mailto:sir.black.leo@gmail.com" className="hub-expand-opt">Email Sir Leo <span>→</span></a>
         </div>
       )

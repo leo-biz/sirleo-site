@@ -1,4 +1,4 @@
-// Receives Supabase webhook on new submission → emails Sir Leo + auto-replies to lead
+// New submission → notify Sir Leo (email + SMS) + auto-reply to lead + Resend audience sync
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
@@ -7,18 +7,39 @@ exports.handler = async (event) => {
 
   const row = payload.record || payload;
   const { name, phone, email, panel_type, utm_source, data } = row;
+  const firstName = name?.split(' ')[0] || '';
 
-  const send = (to, subject, html) =>
+  // ── Email via Resend ──
+  const sendEmail = (to, subject, html) =>
     fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ from: 'Sir Leo Site <onboarding@resend.dev>', to: [to], subject, html }),
     });
 
-  // ── 1. Notify Sir Leo ──
+  // ── SMS via Twilio (only fires if env vars set) ──
+  const sendSMS = async (to, body) => {
+    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER } = process.env;
+    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_FROM_NUMBER) return;
+    const creds = Buffer.from(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`).toString('base64');
+    return fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`, {
+      method: 'POST',
+      headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ To: to, From: TWILIO_FROM_NUMBER, Body: body }),
+    });
+  };
+
+  // ── Resend audience sync (only fires if audience key + ID set) ──
+  const syncAudience = async () => {
+    const { RESEND_AUDIENCE_KEY, RESEND_AUDIENCE_ID } = process.env;
+    if (!RESEND_AUDIENCE_KEY || !RESEND_AUDIENCE_ID || !email) return;
+    return fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_AUDIENCE_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, first_name: firstName, last_name: name?.split(' ').slice(1).join(' ') || '', unsubscribed: false }),
+    });
+  };
+
   const notifyHtml = `
     <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a0e06;background:#f4ebd9;padding:40px 36px;border-top:3px solid #6B1A1A;">
       <p style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#8B2020;margin-bottom:8px;">New Inquiry</p>
@@ -41,29 +62,33 @@ exports.handler = async (event) => {
       </p>
     </div>`;
 
-  // ── 2. Auto-reply to lead ──
   const replyHtml = `
     <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a0e06;background:#f4ebd9;padding:48px 36px;border-top:3px solid #6B1A1A;">
       <p style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#8B2020;margin-bottom:8px;">Sir Leo</p>
       <h1 style="font-size:32px;font-weight:300;font-style:italic;line-height:1.2;margin:0 0 28px;">
-        ${name ? `${name.split(' ')[0]},` : ''}<br>your inquiry was received.
+        ${firstName ? `${firstName},` : ''}<br>your inquiry was received.
       </h1>
       <p style="font-size:15px;line-height:2;color:#5a3e1e;margin-bottom:24px;">
         Sir Leo reviews every inquiry personally and responds within 48 hours.<br>
         Until then — consider carefully. Not every inquiry leads to a session.
       </p>
       <div style="border-top:1px solid rgba(107,26,26,0.2);padding-top:28px;margin-top:28px;font-size:13px;color:#9a7850;line-height:2;">
-        <p>Text: <a href="sms:+13124567890" style="color:#6B1A1A;">+1 (312) 456-7890</a></p>
+        <p>Text: <a href="sms:+17732348238" style="color:#6B1A1A;">(773) 234-8238</a></p>
         <p>Instagram: <a href="https://instagram.com/sir_black_leo" style="color:#6B1A1A;">@sir_black_leo</a></p>
       </div>
       <p style="margin-top:32px;font-size:11px;color:#b0a080;letter-spacing:0.1em;">Chicago · Est. 2024</p>
     </div>`;
 
-  try {
-    const promises = [send('sir.black.leo@gmail.com', `New lead: ${name || 'Unknown'} — ${panel_type || 'site'}`, notifyHtml)];
-    if (email) promises.push(send(email, 'Sir Leo received your inquiry.', replyHtml));
+  const smsBody = `Sir Leo — New inquiry from ${name || 'someone'} (${panel_type || 'site'}). Phone: ${phone || 'none'}. Email: ${email || 'none'}.`;
 
-    await Promise.all(promises);
+  try {
+    await Promise.allSettled([
+      sendEmail('sir.black.leo@gmail.com', `New lead: ${name || 'Unknown'} — ${panel_type || 'site'}`, notifyHtml),
+      email ? sendEmail(email, 'Sir Leo received your inquiry.', replyHtml) : null,
+      sendSMS('+17732348238', smsBody),
+      syncAudience(),
+    ].filter(Boolean));
+
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (err) {
     console.error('Notify error:', err.message);
