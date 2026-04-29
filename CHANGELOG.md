@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v1.5 — 2026-04-29
+**Cal.com Scheduling + book.html Supabase Wiring**
+- Cal.com popup integrated into book.html — after submission, confirm screen shows "Schedule Consultation Call" button opening 15min cal.com booking
+- book.html now saves all form answers + selections to Supabase submissions table on submit
+- Contacts CRM upserted on every book.html submission
+- UTM/referrer source attribution applied to book.html submissions
+- Stripe integration deferred pending pricing structure decision
+
 ## v1.4 — 2026-04-29
 **Full Admin Dashboard**
 - Full React SPA admin at `/admin` — sidebar navigation, dark luxury design

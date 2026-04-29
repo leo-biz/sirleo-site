@@ -8,6 +8,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="version.js"></script>
+  <script src="db.js"></script>
+  <script src="analytics.js"></script>
+  <!-- Cal.com embed -->
+  <script type="text/javascript">
+    (function(C,A,L){let p=function(a,ar){a.q.push(ar);};let d=C.document;C.Cal=C.Cal||function(){let cal=C.Cal;let ar=arguments;if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement("script")).src=A;cal.loaded=true;}if(ar[0]===L){const api=function(){p(api,arguments);};const namespace=ar[1];api.q=api.q||[];typeof namespace==="string"?(cal.ns[namespace]=api)&&p(api,ar):p(cal,ar);return;}p(cal,ar);};})(window,"https://app.cal.com/embed/embed.js","init");
+    Cal("init", { origin: "https://cal.com" });
+  </script>
 </head>
 <body>
 
@@ -206,9 +216,16 @@ function renderSlide(stepId, direction = 'forward') {
       <div class="book-confirm">
         <div class="book-confirm-icon">✦</div>
         <div class="book-confirm-title">Application received.</div>
-        <div class="book-confirm-sub">Sir Leo will be in touch.<br>Consider carefully — not all are chosen.</div>
+        <div class="book-confirm-sub">Sir Leo reviews every inquiry personally.<br>Schedule a 15-minute consultation to continue.</div>
+        <button class="book-submit" id="cal-btn" style="margin-top:32px;max-width:320px;">Schedule Consultation Call →</button>
+        <p style="margin-top:16px;font-size:12px;opacity:0.4;letter-spacing:0.05em;">Not all inquiries lead to a session.</p>
       </div>`;
     localStorage.setItem('sl_submitted', '1');
+    requestAnimationFrame(() => {
+      document.getElementById('cal-btn')?.addEventListener('click', () => {
+        Cal("openModal", { calLink: "sir-leo-xz2bov/15min" });
+      });
+    });
   } else {
     const sel = selections.filter(Boolean).join(' · ');
     inner.innerHTML = `
@@ -252,6 +269,25 @@ function renderSlide(stepId, direction = 'forward') {
           setTimeout(() => phoneEl.style.borderColor = '', 2000);
           return;
         }
+
+        // Collect all form fields on this step
+        const fields = {};
+        inner.querySelectorAll('[name]').forEach(el => {
+          if (el.value.trim() && !['name','phone','email'].includes(el.name))
+            fields[el.name] = el.value.trim();
+        });
+
+        // Save contact info for the final contact step
+        if (step.id === 'contact') {
+          formData.name  = inner.querySelector('[name="name"]')?.value.trim() || '';
+          formData.phone = inner.querySelector('[name="phone"]')?.value.trim() || '';
+          formData.email = inner.querySelector('[name="email"]')?.value.trim() || '';
+          // Submit to Supabase
+          saveBooking();
+        } else {
+          Object.assign(formData.answers, fields);
+        }
+
         prevStep    = currentStep;
         currentStep = step.next;
         renderSlide(currentStep, 'forward');
@@ -316,6 +352,45 @@ function renderForm(step) {
   }).join('');
 
   return `<div class="book-form">${fields}<button class="book-submit">${step.submitLabel || 'Continue'}</button></div>`;
+}
+
+// ── Booking state ──
+const formData = { name: '', phone: '', email: '', answers: {} };
+
+async function saveBooking() {
+  if (!window.SLDb) return;
+  const utm = window.SL_UTM || {};
+  const source = window.SL_SOURCE || utm.utm_source || null;
+  const panel_type = selections[0]?.toLowerCase().replace(/\s+/g, '-') || 'book';
+
+  await window.SLDb.from('submissions').insert({
+    session_id:   window.SL_SESSION || null,
+    panel_type:   'book',
+    name:         formData.name  || null,
+    phone:        formData.phone || null,
+    email:        formData.email || null,
+    utm_source:   source,
+    utm_medium:   utm.utm_medium   || null,
+    utm_campaign: utm.utm_campaign || null,
+    data: {
+      ...formData.answers,
+      selections,
+      booking_type: panel_type,
+    },
+  });
+
+  if (formData.phone) {
+    window.SLDb.rpc('upsert_contact', {
+      p_phone:        formData.phone,
+      p_name:         formData.name  || null,
+      p_email:        formData.email || null,
+      p_source:       'book',
+      p_session_id:   window.SL_SESSION || null,
+      p_utm_source:   source,
+      p_utm_medium:   utm.utm_medium   || null,
+      p_utm_campaign: utm.utm_campaign || null,
+    });
+  }
 }
 
 // Init
