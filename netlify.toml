@@ -25,5 +25,10 @@
   to   = "/build.html"
   status = 200
 
+[[redirects]]
+  from = "/pay-success"
+  to   = "/pay-success.html"
+  status = 200
+
 [functions."followup"]
   schedule = "0 17 * * *"

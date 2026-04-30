@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session Secured — Sir Leo</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .success-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .success-inner { max-width: 480px; text-align: center; }
+    .success-mark { font-size: 48px; margin-bottom: 32px; opacity: 0.9; }
+    .success-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 16px; }
+    .success-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(32px, 6vw, 52px); font-weight: 300; font-style: italic; line-height: 1.15; margin-bottom: 20px; }
+    .success-body { font-size: 14px; line-height: 1.9; opacity: 0.6; margin-bottom: 40px; }
+    .success-divider { width: 40px; height: 1px; background: rgba(107,26,26,0.4); margin: 32px auto; }
+    .success-next { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; margin-bottom: 16px; }
+    .success-btn { display: inline-block; background: #6B1A1A; color: #f0e6d0; border: none; padding: 14px 40px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; text-decoration: none; transition: background 0.15s; }
+    .success-btn:hover { background: #8B2020; }
+    .success-btn.ghost { background: transparent; border: 1px solid rgba(107,26,26,0.4); color: inherit; margin-left: 12px; }
+    [data-theme="light"] .success-btn.ghost { color: #1a0e06; }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">SIR LEO</a>
+  <div class="nav-links"></div>
+  <a href="book.html" class="nav-cta">Book</a>
+</nav>
+
+<main class="success-page">
+  <div class="success-inner">
+    <div class="success-mark">✦</div>
+    <div class="success-eyebrow">Payment Confirmed</div>
+    <h1 class="success-title" id="success-title">Your session<br><em>is secured.</em></h1>
+    <p class="success-body">
+      Sir Leo will be in touch to confirm the details and finalize your date.<br>
+      Check your email for a receipt and confirmation.
+    </p>
+    <div class="success-divider"></div>
+    <div class="success-next">What's next</div>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:16px;">
+      <a href="index.html" class="success-btn ghost">Back to Site</a>
+    </div>
+  </div>
+</main>
+
+<script>
+// Personalize heading if client name passed
+const params = new URLSearchParams(window.location.search);
+const client = params.get('client');
+if (client) {
+  document.getElementById('success-title').innerHTML = `${client}'s session<br><em>is secured.</em>`;
+  document.title = `Session Secured — ${client}`;
+}
+
+(function() {
+  const saved = localStorage.getItem('sl-theme') || 'dark';
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+(function() {
+  const dot = document.getElementById('sl-cursor');
+  const ring = document.getElementById('sl-cursor-ring');
+  if (!dot || !ring) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+})();
+</script>
+
+</body>
+</html>

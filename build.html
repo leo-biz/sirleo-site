@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://js.stripe.com/v3/"></script>
   <style>
     .build-page { min-height: 100vh; padding: 80px 24px 160px; }
     .build-inner { max-width: 720px; margin: 0 auto; }
@@ -227,19 +228,42 @@ function updateSummary() {
     : `Deposit: $${due} due today — remainder at session`;
 }
 
-// ── Pay button (Stripe — wired when keys are added) ──
-document.getElementById('pay-btn').addEventListener('click', () => {
+// ── Pay button ──
+const stripe = Stripe('pk_live_51R0p5WKiT5i4Xqi6x4nO3wPrFtBRadxMnjI4hAxpeAZUJ1x4BBRbjCNOZGKSUWA0NkiKCSfe8ATnHW2lh2rtU1y200UYwtaKVi');
+
+document.getElementById('pay-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting…';
+
+  const selectedDuration = document.querySelector('[name="duration"]:checked');
+  const durationName = selectedDuration?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
+  const durationMinutes = parseInt(selectedDuration?.value || '90');
   const addonCost = ADDONS.filter(a => selectedAddons.has(a.id)).reduce((s, a) => s + a.price, 0);
   const total = baseCost + addonCost;
   const due = payFull ? total : Math.round(total * DEPOSIT_PCT);
+  const addonsSelected = ADDONS.filter(a => selectedAddons.has(a.id));
   const notes = document.getElementById('session-notes').value;
-  const selectedDuration = document.querySelector('[name="duration"]:checked');
-  const durationLabel = selectedDuration?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
-  const addonNames = ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
+  const params = new URLSearchParams(window.location.search);
+  const clientName = params.get('client') || '';
 
-  // TODO: wire to /.netlify/functions/create-checkout when Stripe keys are added
-  console.log('Checkout:', { due, total, payFull, durationLabel, addons: addonNames, notes });
-  alert('Stripe not yet connected — drop your keys and this will go live.');
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ durationName, durationMinutes, basePrice: baseCost, addons: addonsSelected, total, due, payFull, notes, clientName }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'No checkout URL returned');
+    }
+  } catch (err) {
+    alert('Something went wrong: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = 'Secure Session →';
+  }
 });
 
 // ── Pre-fill client name from URL param ──

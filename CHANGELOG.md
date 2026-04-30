@@ -4,6 +4,17 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.0 — 2026-04-30
+**Stripe Checkout Integration**
+- `create-checkout.js` Netlify function — creates Stripe Checkout Session with line items
+- Deposit (50%) and pay-in-full both supported as separate line item sets
+- Session metadata captured: client name, duration, add-ons, notes, pay type
+- `build.html` pay button calls function → redirects to Stripe hosted checkout
+- `pay-success.html` — branded confirmation page, personalized with `?client=Name`
+- `/pay-success` redirect added to netlify.toml
+- Stripe publishable key wired in frontend; secret key reads from `STRIPE_SECRET_KEY` env var
+- Requires: `netlify env:set STRIPE_SECRET_KEY sk_live_...` to activate
+
 ## v1.9 — 2026-04-29
 **Hide Pricing from nav**
 - Pricing link removed from main site nav (page still accessible via direct URL)
