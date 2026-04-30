@@ -252,7 +252,7 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
     const res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ durationName, durationMinutes, basePrice: baseCost, addons: addonsSelected, total, due, payFull, notes, clientName }),
+      body: JSON.stringify({ durationName, durationMinutes, basePrice: baseCost, addons: addonsSelected, total, due, payFull, notes, clientName, offerId: loadedOfferId }),
     });
     const data = await res.json();
     if (data.url) {
@@ -267,11 +267,70 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
   }
 });
 
-// ── Pre-fill client name from URL param ──
+// ── Load session offer by ID or fall back to ?client param ──
 const params = new URLSearchParams(window.location.search);
-const client = params.get('client');
-if (client) {
-  document.getElementById('build-title').innerHTML = `${client}'s<br><em>session.</em>`;
+const offerId = params.get('id');
+const clientParam = params.get('client');
+let loadedOfferId = null;
+
+async function loadOffer(id) {
+  try {
+    const res = await fetch(`/.netlify/functions/get-session?id=${id}`);
+    if (!res.ok) return;
+    const offer = await res.json();
+    loadedOfferId = offer.id;
+
+    // Personalize heading
+    if (offer.client_name) {
+      document.getElementById('build-title').innerHTML = `${offer.client_name}'s<br><em>session.</em>`;
+    }
+
+    // Block if already paid
+    if (['paid','completed'].includes(offer.status)) {
+      document.getElementById('pay-btn').disabled = true;
+      document.getElementById('pay-btn').textContent = 'Already paid ✓';
+      document.getElementById('summary-note').textContent = 'This session has been secured.';
+    }
+
+    // Pre-select duration
+    if (offer.duration_value) {
+      const radio = document.querySelector(`[name="duration"][value="${offer.duration_value}"]`);
+      if (radio) {
+        radio.checked = true;
+        document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+        radio.closest('.duration-card').classList.add('selected');
+        baseCost = offer.base_price || parseInt(radio.dataset.price);
+      }
+    }
+
+    // Pre-check add-ons
+    if (offer.addon_ids?.length) {
+      offer.addon_ids.forEach(id => {
+        const cb = document.getElementById(`addon-${id}`);
+        if (cb) {
+          cb.checked = true;
+          cb.closest('.addon-item')?.classList.add('checked');
+          selectedAddons.add(id);
+        }
+      });
+    }
+
+    // Show notes from Sir Leo
+    if (offer.notes) {
+      const notesSection = document.getElementById('session-notes');
+      notesSection.placeholder = offer.notes;
+    }
+
+    updateSummary();
+  } catch (e) {
+    console.warn('Could not load session offer:', e);
+  }
+}
+
+if (offerId) {
+  loadOffer(offerId);
+} else if (clientParam) {
+  document.getElementById('build-title').innerHTML = `${clientParam}'s<br><em>session.</em>`;
 }
 
 // Init

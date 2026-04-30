@@ -255,13 +255,238 @@ const api = {
   }),
 };
 
+// ── Constants ──
+const DURATIONS = [
+  { value: 90,  name: 'Initiation',    price: 150 },
+  { value: 120, name: 'Immersion',     price: 250 },
+  { value: 180, name: 'Extended Rite', price: 400 },
+];
+const ADDONS = [
+  { id: 'fire',      name: 'Fire Play',           price: 75 },
+  { id: 'rope',      name: 'Rope Bondage',         price: 75 },
+  { id: 'impact',    name: 'Impact Artistry',      price: 50 },
+  { id: 'sensory',   name: 'Sensory Deprivation',  price: 40 },
+  { id: 'photo',     name: 'Documentation',        price: 100 },
+  { id: 'aftercare', name: 'Extended Aftercare',   price: 60 },
+];
+const SESSION_STATUS_COLORS = {
+  draft: 'tag-ga', sent: 'tag-contact', viewed: 'tag-collab',
+  paid: 'tag-converted', completed: 'tag-waitlist', cancelled: 'tag-closed',
+};
+
+// ── Session Offer Editor ──
+function SessionOfferEditor({ lead, sessions, onSessionUpdate }) {
+  const existing = sessions.find(s =>
+    s.submission_id === lead.id ||
+    (s.client_email && s.client_email === lead.email) ||
+    (s.client_phone && s.client_phone === lead.phone)
+  );
+
+  const [offer, setOffer] = useState(existing || null);
+  const [form, setForm] = useState({
+    duration_value: existing?.duration_value || 90,
+    addon_ids: existing?.addon_ids || [],
+    notes: existing?.notes || '',
+    private_notes: existing?.private_notes || '',
+    scheduled_at: existing?.scheduled_at ? existing.scheduled_at.slice(0, 16) : '',
+    completed: existing?.completed || false,
+    rating: existing?.rating || '',
+    feedback: existing?.feedback || '',
+  });
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const dur = DURATIONS.find(d => d.value === form.duration_value) || DURATIONS[0];
+  const addonTotal = ADDONS.filter(a => form.addon_ids.includes(a.id)).reduce((s, a) => s + a.price, 0);
+  const total = dur.price + addonTotal;
+  const deposit = Math.round(total * 0.5);
+
+  const toggleAddon = (id) => setForm(prev => ({
+    ...prev,
+    addon_ids: prev.addon_ids.includes(id) ? prev.addon_ids.filter(a => a !== id) : [...prev.addon_ids, id],
+  }));
+
+  const save = async (sendLink = false) => {
+    setSaving(true);
+    const payload = {
+      submission_id: lead.id || null,
+      client_name: lead.name || null,
+      client_email: lead.email || null,
+      client_phone: lead.phone || null,
+      duration_value: form.duration_value,
+      duration_name: dur.name,
+      base_price: dur.price,
+      addon_ids: form.addon_ids,
+      addon_names: ADDONS.filter(a => form.addon_ids.includes(a.id)).map(a => a.name),
+      total_price: total,
+      deposit_amount: deposit,
+      notes: form.notes,
+      private_notes: form.private_notes,
+      scheduled_at: form.scheduled_at || null,
+      completed: form.completed,
+      rating: form.rating ? parseInt(form.rating) : null,
+      feedback: form.feedback || null,
+      source: offer ? offer.source : 'manual',
+      ...(sendLink ? { status: 'sent', sent_at: new Date().toISOString() } : {}),
+    };
+
+    let result;
+    if (offer?.id) {
+      const res = await api.patch('session', offer.id, payload);
+      result = await res.json();
+    } else {
+      const res = await fetch('/.netlify/functions/create-session', {
+        method: 'POST',
+        headers: { 'x-admin-password': adminPw, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      result = await res.json();
+    }
+
+    const updated = Array.isArray(result) ? result[0] : result;
+    setOffer(updated);
+    onSessionUpdate(updated);
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+
+    if (sendLink && updated?.id) {
+      const url = `${window.location.origin}/build?id=${updated.id}`;
+      copyText(url);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 3000);
+    }
+  };
+
+  const sessionUrl = offer?.id ? `${window.location.origin}/build?id=${offer.id}` : null;
+  const isPaid = ['paid','completed'].includes(offer?.status);
+
+  return (
+    <div className="drawer-section">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
+        <div className="drawer-section-label">Session Offer</div>
+        {offer && <span className={`tag ${SESSION_STATUS_COLORS[offer.status]||'tag-ga'}`}>{offer.status}</span>}
+      </div>
+
+      {/* Duration */}
+      <div style={{marginBottom:10}}>
+        <div style={{fontSize:10,color:'var(--text3)',marginBottom:6,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase'}}>Duration</div>
+        <div style={{display:'flex',gap:6}}>
+          {DURATIONS.map(d => (
+            <button key={d.value} onClick={() => setForm(p => ({...p, duration_value: d.value}))}
+              style={{flex:1,padding:'8px 4px',fontSize:11,border:`1px solid ${form.duration_value===d.value?'var(--red-bright)':'var(--border)'}`,background:form.duration_value===d.value?'rgba(160,40,40,0.15)':'var(--card2)',color:form.duration_value===d.value?'var(--text)':'var(--text2)',cursor:'pointer',borderRadius:'var(--radius-sm)',fontFamily:'inherit',transition:'all 0.12s',lineHeight:1.4}}>
+              {d.name}<br/><span style={{opacity:0.55,fontSize:10}}>${d.price}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Add-ons */}
+      <div style={{marginBottom:10}}>
+        <div style={{fontSize:10,color:'var(--text3)',marginBottom:6,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase'}}>Add-ons</div>
+        <div style={{display:'flex',flexWrap:'wrap',gap:4}}>
+          {ADDONS.map(a => (
+            <button key={a.id} onClick={() => toggleAddon(a.id)}
+              style={{padding:'4px 10px',fontSize:11,border:`1px solid ${form.addon_ids.includes(a.id)?'var(--red-bright)':'var(--border)'}`,background:form.addon_ids.includes(a.id)?'rgba(160,40,40,0.15)':'var(--card2)',color:form.addon_ids.includes(a.id)?'var(--text)':'var(--text2)',cursor:'pointer',borderRadius:'var(--radius-pill)',fontFamily:'inherit',transition:'all 0.12s'}}>
+              {a.name} <span style={{opacity:0.55}}>+${a.price}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Total */}
+      <div style={{background:'var(--card2)',border:'1px solid var(--border)',borderRadius:'var(--radius-sm)',padding:'10px 14px',marginBottom:10,display:'flex',justifyContent:'space-between'}}>
+        <span style={{fontSize:12,color:'var(--text2)'}}>Total · Deposit</span>
+        <span style={{fontSize:13,fontWeight:500,color:'var(--text)'}}>${total} · <span style={{color:'var(--gold)'}}>${deposit}</span></span>
+      </div>
+
+      {/* Notes for client */}
+      <textarea className="notes-area" placeholder="Notes for client (shown on their page)…"
+        value={form.notes} onChange={e => setForm(p => ({...p, notes: e.target.value}))}
+        style={{marginBottom:6,minHeight:56}} />
+
+      {/* Private notes */}
+      <textarea className="notes-area" placeholder="Private notes (not shown to client)…"
+        value={form.private_notes} onChange={e => setForm(p => ({...p, private_notes: e.target.value}))}
+        style={{marginBottom:10,minHeight:44,opacity:0.65}} />
+
+      {/* Schedule */}
+      <div style={{marginBottom:10}}>
+        <div style={{fontSize:10,color:'var(--text3)',marginBottom:4,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase'}}>Session Date / Time</div>
+        <input type="datetime-local" className="status-select"
+          value={form.scheduled_at} onChange={e => setForm(p => ({...p, scheduled_at: e.target.value}))} />
+      </div>
+
+      {/* Post-session (only when paid/completed) */}
+      {isPaid && (
+        <div style={{marginBottom:10,padding:'12px',background:'rgba(40,130,80,0.06)',border:'1px solid rgba(40,130,80,0.15)',borderRadius:'var(--radius-sm)'}}>
+          <div style={{fontSize:10,color:'var(--text3)',marginBottom:8,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase'}}>Post-Session</div>
+          <label style={{display:'flex',alignItems:'center',gap:8,fontSize:12,color:'var(--text2)',cursor:'pointer',marginBottom:8}}>
+            <input type="checkbox" checked={form.completed} onChange={e => setForm(p => ({...p, completed: e.target.checked}))}
+              style={{accentColor:'var(--red-bright)'}} />
+            Mark session completed
+          </label>
+          {form.completed && <>
+            <select className="status-select" style={{marginBottom:6}}
+              value={form.rating} onChange={e => setForm(p => ({...p, rating: e.target.value}))}>
+              <option value="">Rating (optional)</option>
+              {[5,4,3,2,1].map(n => <option key={n} value={n}>{'★'.repeat(n)} {n}/5</option>)}
+            </select>
+            <textarea className="notes-area" placeholder="Post-session notes / feedback…"
+              value={form.feedback} onChange={e => setForm(p => ({...p, feedback: e.target.value}))}
+              style={{minHeight:44}} />
+          </>}
+        </div>
+      )}
+
+      {/* Actions */}
+      <div style={{display:'flex',gap:8,flexWrap:'wrap',alignItems:'center',marginBottom:10}}>
+        <button className="save-btn" onClick={() => save(false)} disabled={saving}>{saving?'Saving…':'Save Draft'}</button>
+        <button className="save-btn" onClick={() => save(true)} disabled={saving}
+          style={{background:'var(--gold)',color:'#1a0e06'}}>Save & Copy Link</button>
+        {saved && <span className="saved-msg">✓ Saved</span>}
+        {linkCopied && <span className="saved-msg" style={{color:'var(--gold)'}}>✓ Link copied</span>}
+      </div>
+
+      {/* Link */}
+      {sessionUrl && (
+        <div style={{background:'var(--card2)',border:'1px solid var(--border)',borderRadius:'var(--radius-sm)',padding:'8px 12px',display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+          <span style={{fontSize:11,color:'var(--text2)',fontFamily:'monospace',flex:1,wordBreak:'break-all'}}>{sessionUrl}</span>
+          <button className="copy-btn" onClick={() => { copyText(sessionUrl); setLinkCopied(true); setTimeout(()=>setLinkCopied(false),2500); }}>copy</button>
+        </div>
+      )}
+
+      {/* Timeline */}
+      {offer && [['Created',offer.created_at],['Sent',offer.sent_at],['Viewed',offer.viewed_at],['Paid',offer.paid_at],['Scheduled',offer.scheduled_at],['Completed',offer.completed_at]].filter(([,v])=>v).length > 0 && (
+        <div style={{borderTop:'1px solid var(--border)',paddingTop:10}}>
+          <div style={{fontSize:10,color:'var(--text3)',marginBottom:6,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase'}}>Timeline</div>
+          {[['Created',offer.created_at],['Sent',offer.sent_at],['Viewed',offer.viewed_at],['Paid',offer.paid_at],['Scheduled',offer.scheduled_at],['Completed',offer.completed_at]]
+            .filter(([,v])=>v)
+            .map(([label,ts]) => (
+              <div key={label} style={{display:'flex',justifyContent:'space-between',fontSize:11,padding:'3px 0',borderBottom:'1px solid var(--border)'}}>
+                <span style={{color:'var(--text3)'}}>{label}</span>
+                <span style={{color:'var(--text2)'}}>{fmt(ts)}</span>
+              </div>
+          ))}
+          {offer.view_count > 0 && (
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:11,padding:'3px 0'}}>
+              <span style={{color:'var(--text3)'}}>Link opens</span>
+              <span style={{color:'var(--text2)'}}>{offer.view_count}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Lead Drawer ──
-function LeadDrawer({ lead, contacts, onClose, onSave }) {
+function LeadDrawer({ lead, contacts, sessions, onClose, onSave, onSessionUpdate }) {
   const contact = contacts.find(c => c.phone === lead.phone || c.email === lead.email);
   const [status, setStatus] = useState(contact?.status || 'new');
   const [notes, setNotes] = useState(contact?.notes || '');
   const [saved, setSaved] = useState(false);
-  const [linkCopied, setLinkCopied] = useState(false);
 
   const save = async () => {
     if (contact) {
@@ -270,15 +495,6 @@ function LeadDrawer({ lead, contacts, onClose, onSave }) {
     onSave({ ...contact, status, notes });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
-  };
-
-  const firstName = (lead.name || '').split(' ')[0] || '';
-  const sessionBuilderUrl = `${window.location.origin}/build${firstName ? `?client=${encodeURIComponent(firstName)}` : ''}`;
-
-  const copySessionLink = () => {
-    copyText(sessionBuilderUrl);
-    setLinkCopied(true);
-    setTimeout(() => setLinkCopied(false), 2500);
   };
 
   const answers = lead.data ? Object.entries(lead.data).filter(([k]) => k !== 'selections') : [];
@@ -345,22 +561,8 @@ function LeadDrawer({ lead, contacts, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Send Links */}
-          <div className="drawer-section">
-            <div className="drawer-section-label">Send Links</div>
-            <div style={{display:'flex',gap:8,marginBottom:10,flexWrap:'wrap',alignItems:'center'}}>
-              <button className="action-btn" onClick={copySessionLink} style={{borderColor:'rgba(201,168,76,0.4)',color:'var(--gold)'}}>
-                ⬡ Session Builder
-              </button>
-              <button className="action-btn" disabled style={{opacity:0.3,cursor:'not-allowed'}}>
-                $ Payment Link — soon
-              </button>
-              {linkCopied && <span className="saved-msg">✓ Copied</span>}
-            </div>
-            <div style={{background:'var(--card2)',border:'1px solid var(--border)',borderRadius:'var(--radius-sm)',padding:'9px 12px',fontSize:11,color:'var(--text2)',fontFamily:'monospace',wordBreak:'break-all',lineHeight:1.6}}>
-              {sessionBuilderUrl}
-            </div>
-          </div>
+          {/* Session Offer */}
+          <SessionOfferEditor lead={lead} sessions={sessions || []} onSessionUpdate={onSessionUpdate || (() => {})} />
 
           {/* Form answers */}
           {answers.length > 0 && (
@@ -489,8 +691,8 @@ function Overview({ data, onNavigate }) {
 }
 
 // ── Leads ──
-function Leads({ data, onContactUpdate }) {
-  const { submissions = [], contacts = [] } = data;
+function Leads({ data, onContactUpdate, onSessionUpdate }) {
+  const { submissions = [], contacts = [], sessions = [] } = data;
   const [q, setQ] = useState('');
   const [filter, setFilter] = useState('all');
   const [selected, setSelected] = useState(null);
@@ -548,14 +750,14 @@ function Leads({ data, onContactUpdate }) {
           </table>
         </div>
       </div>
-      {selected && <LeadDrawer lead={selected} contacts={contacts} onClose={() => setSelected(null)} onSave={(updated) => { onContactUpdate(updated); }} />}
+      {selected && <LeadDrawer lead={selected} contacts={contacts} sessions={sessions} onClose={() => setSelected(null)} onSave={(updated) => { onContactUpdate(updated); }} onSessionUpdate={onSessionUpdate} />}
     </div>
   );
 }
 
 // ── Contacts / Pipeline ──
-function Contacts({ data, onContactUpdate }) {
-  const { contacts = [], submissions = [] } = data;
+function Contacts({ data, onContactUpdate, onSessionUpdate }) {
+  const { contacts = [], submissions = [], sessions = [] } = data;
   const [selected, setSelected] = useState(null);
   const [view, setView] = useState('pipeline');
 
@@ -633,7 +835,7 @@ function Contacts({ data, onContactUpdate }) {
           </div>
         )}
       </div>
-      {selected && <LeadDrawer lead={selected} contacts={contacts} onClose={() => setSelected(null)} onSave={onContactUpdate} />}
+      {selected && <LeadDrawer lead={selected} contacts={contacts} sessions={sessions} onClose={() => setSelected(null)} onSave={onContactUpdate} onSessionUpdate={onSessionUpdate} />}
     </div>
   );
 }
@@ -755,13 +957,77 @@ function Analytics({ data }) {
   );
 }
 
+// ── Sessions ──
+function Sessions({ data, onContactUpdate, onSessionUpdate }) {
+  const { sessions = [], submissions = [], contacts = [] } = data;
+  const [filter, setFilter] = useState('all');
+  const [selected, setSelected] = useState(null);
+
+  const statuses = ['all','draft','sent','viewed','paid','completed','cancelled'];
+  const filtered = sessions.filter(s => filter === 'all' || s.status === filter);
+  const revenue = sessions.filter(s => s.amount_paid).reduce((sum, s) => sum + (s.amount_paid || 0), 0);
+  const counts = statuses.slice(1).reduce((acc, s) => { acc[s] = sessions.filter(o => o.status === s).length; return acc; }, {});
+
+  return (
+    <div>
+      <div className="page-header">
+        <div><div className="page-sub">Bookings</div><div className="page-title">Sessions</div></div>
+        <div style={{fontSize:11,color:'var(--text3)'}}>{filtered.length} showing</div>
+      </div>
+      <div className="page-body">
+        <div className="stats-grid" style={{marginBottom:24}}>
+          <div className="stat-card"><div className="stat-num">{sessions.length}</div><div className="stat-label">Total Offers</div></div>
+          <div className="stat-card"><div className="stat-num">{counts.draft||0}</div><div className="stat-label">Draft</div></div>
+          <div className="stat-card"><div className="stat-num">{(counts.sent||0)+(counts.viewed||0)}</div><div className="stat-label">Sent / Viewed</div></div>
+          <div className="stat-card"><div className="stat-num gold">{counts.paid||0}</div><div className="stat-label">Paid</div></div>
+          <div className="stat-card"><div className="stat-num gold">{counts.completed||0}</div><div className="stat-label">Completed</div></div>
+          <div className="stat-card"><div className="stat-num gold">${revenue.toLocaleString()}</div><div className="stat-label">Revenue</div></div>
+        </div>
+        <div className="toolbar">
+          {statuses.map(s => (
+            <button key={s} className={`filter-btn ${filter===s?'active':''}`} onClick={() => setFilter(s)}>{s}</button>
+          ))}
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Created</th><th>Client</th><th>Duration</th><th>Add-ons</th><th>Total</th><th>Status</th><th>Views</th><th>Scheduled</th></tr></thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr><td colSpan="8" className="empty">No sessions yet.</td></tr>
+              ) : filtered.map(s => {
+                const sub = submissions.find(sub => sub.id === s.submission_id || sub.email === s.client_email || sub.phone === s.client_phone);
+                return (
+                  <tr key={s.id} onClick={() => sub && setSelected(sub)} style={{cursor:sub?'pointer':'default'}}>
+                    <td style={{color:'var(--text3)',fontSize:12,whiteSpace:'nowrap'}}>{timeAgo(s.created_at)}</td>
+                    <td style={{color:'var(--text)',fontWeight:500}}>{s.client_name||'—'}</td>
+                    <td style={{color:'var(--text2)',fontSize:12}}>{s.duration_name||<span style={{color:'var(--text3)'}}>—</span>}</td>
+                    <td style={{color:'var(--text2)',fontSize:11,maxWidth:140}}>{s.addon_names?.length ? s.addon_names.join(', ') : <span style={{color:'var(--text3)'}}>none</span>}</td>
+                    <td style={{color:s.amount_paid?'var(--green)':'var(--text2)',fontSize:13}}>
+                      {s.total_price?`$${s.total_price}`:'—'}
+                      {s.amount_paid?<span style={{fontSize:10,opacity:0.7}}> (${s.amount_paid} paid)</span>:''}
+                    </td>
+                    <td><span className={`tag ${SESSION_STATUS_COLORS[s.status]||'tag-ga'}`}>{s.status||'draft'}</span></td>
+                    <td style={{color:'var(--text2)',fontSize:12}}>{s.view_count||0}</td>
+                    <td style={{color:'var(--text3)',fontSize:12}}>{s.scheduled_at?fmt(s.scheduled_at):'—'}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {selected && <LeadDrawer lead={selected} contacts={contacts} sessions={sessions} onClose={() => setSelected(null)} onSave={onContactUpdate} onSessionUpdate={onSessionUpdate} />}
+    </div>
+  );
+}
+
 // ── App ──
 function App() {
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState('');
   const [err, setErr] = useState(false);
   const [page, setPage] = useState('overview');
-  const [data, setData] = useState({ submissions: [], contacts: [], waitlist: [], analytics_summary: {} });
+  const [data, setData] = useState({ submissions: [], contacts: [], waitlist: [], sessions: [], analytics_summary: {} });
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('sl-admin-theme') || 'dark');
 
@@ -793,6 +1059,19 @@ function App() {
     }));
   };
 
+  const handleSessionUpdate = (updated) => {
+    if (!updated?.id) return;
+    setData(prev => {
+      const exists = prev.sessions.find(s => s.id === updated.id);
+      return {
+        ...prev,
+        sessions: exists
+          ? prev.sessions.map(s => s.id === updated.id ? { ...s, ...updated } : s)
+          : [updated, ...prev.sessions],
+      };
+    });
+  };
+
   if (!authed) return (
     <div className="login">
       <span className="login-label">Sir Leo</span>
@@ -812,11 +1091,12 @@ function App() {
         return !c || c.status === 'new';
       }).length || null },
     { id:'contacts', icon:'◉', label:'Contacts' },
+    { id:'sessions', icon:'◈', label:'Sessions', badge: data.sessions.filter(s=>['draft','sent','viewed'].includes(s.status)).length || null },
     { id:'waitlist', icon:'◇', label:'Waitlist', badge: data.waitlist.length || null },
     { id:'analytics',icon:'◫', label:'Analytics' },
   ];
 
-  const pages = { overview: Overview, leads: Leads, contacts: Contacts, waitlist: Waitlist, analytics: Analytics };
+  const pages = { overview: Overview, leads: Leads, contacts: Contacts, sessions: Sessions, waitlist: Waitlist, analytics: Analytics };
   const PageComponent = pages[page];
 
   return (
@@ -847,7 +1127,7 @@ function App() {
       </aside>
       <main className="main">
         {loading && <div style={{padding:'12px 40px',fontSize:11,color:'var(--text3)',background:'rgba(107,26,26,0.1)'}}>Loading…</div>}
-        <PageComponent data={data} onNavigate={setPage} onContactUpdate={handleContactUpdate} />
+        <PageComponent data={data} onNavigate={setPage} onContactUpdate={handleContactUpdate} onSessionUpdate={handleSessionUpdate} />
       </main>
     </>
   );

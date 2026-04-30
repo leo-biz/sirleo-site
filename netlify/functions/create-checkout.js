@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, body: 'Invalid JSON' }; }
 
-  const { durationName, durationMinutes, basePrice, addons, total, due, payFull, notes, clientName } = body;
+  const { durationName, durationMinutes, basePrice, addons, total, due, payFull, notes, clientName, offerId } = body;
 
   // Build line items
   const lineItems = [
@@ -53,8 +53,8 @@ exports.handler = async (event) => {
       payment_method_types: ['card'],
       line_items: checkoutItems,
       mode: 'payment',
-      success_url: `${SITE_URL}/pay-success?session_id={CHECKOUT_SESSION_ID}&client=${encodeURIComponent(clientName || '')}`,
-      cancel_url: `${SITE_URL}/build${clientName ? `?client=${encodeURIComponent(clientName)}` : ''}`,
+      success_url: `${SITE_URL}/pay-success?session_id={CHECKOUT_SESSION_ID}&client=${encodeURIComponent(clientName || '')}${offerId ? `&offer_id=${offerId}` : ''}`,
+      cancel_url: `${SITE_URL}/build${offerId ? `?id=${offerId}` : (clientName ? `?client=${encodeURIComponent(clientName)}` : '')}`,
       metadata: {
         client_name: clientName || '',
         duration: durationName,
@@ -62,6 +62,7 @@ exports.handler = async (event) => {
         notes: notes || '',
         pay_type: payFull ? 'full' : 'deposit',
         total_amount: String(total),
+        offer_id: offerId || '',
       },
     });
 

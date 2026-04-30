@@ -89,12 +89,35 @@ exports.handler = async (event) => {
 
   const smsBody = `Sir Leo — New inquiry from ${name || 'someone'} (${panel_type || 'site'}). Phone: ${phone || 'none'}. Email: ${email || 'none'}.`;
 
+  // ── Auto-create draft session offer ──
+  const createSessionOffer = async () => {
+    const { SUPABASE_SERVICE_KEY } = process.env;
+    if (!SUPABASE_SERVICE_KEY) return;
+    const sbHeaders = {
+      'apikey': SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+      'Content-Type': 'application/json', 'Prefer': 'return=minimal',
+    };
+    return fetch('https://mwpscytkzjtkqjjqytqu.supabase.co/rest/v1/session_offers', {
+      method: 'POST', headers: sbHeaders,
+      body: JSON.stringify({
+        submission_id: row.id || null,
+        client_name: name || null,
+        client_email: email || null,
+        client_phone: phone || null,
+        status: 'draft',
+        source: 'auto',
+        created_at: new Date().toISOString(),
+      }),
+    });
+  };
+
   try {
     await Promise.allSettled([
       sendEmail('sir.black.leo@gmail.com', `New lead: ${name || 'Unknown'} — ${panel_type || 'site'}`, notifyHtml),
       email ? sendEmail(email, 'Sir Leo received your inquiry.', replyHtml) : null,
       sendSMS(smsBody),
       syncAudience(),
+      createSessionOffer(),
     ].filter(Boolean));
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };

@@ -4,6 +4,21 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.1 — 2026-04-30
+**Session Offers — full lifecycle tracking**
+- `session_offers` Supabase table (run `supabase/session_offers.sql`)
+- Auto-created as draft on every form submission via notify.js
+- `create-session.js` — admin-protected POST/PATCH for session offers
+- `get-session.js` — public, fetches offer by ID, tracks view_count + viewed_at, blocks paid sessions
+- `confirm-payment.js` — called from pay-success, verifies Stripe payment, marks offer as paid
+- `build.html` — loads offer by `?id=UUID`, pre-populates duration/add-ons/notes, blocks if already paid
+- `pay-success.html` — calls confirm-payment on load to mark session paid
+- `create-checkout.js` — passes offer_id through to success URL and metadata
+- Admin: Sessions page with pipeline stats (draft/sent/viewed/paid/completed/revenue)
+- Admin: SessionOfferEditor in every lead drawer — create or edit offer, Save Draft or Save & Copy Link
+- Admin: timeline (created/sent/viewed/paid/scheduled/completed) + view count per offer
+- Admin nav: Sessions item with live badge count of active (non-completed) offers
+
 ## v2.0 — 2026-04-30
 **Stripe Checkout Integration**
 - `create-checkout.js` Netlify function — creates Stripe Checkout Session with line items

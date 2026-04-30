@@ -52,12 +52,20 @@
 </main>
 
 <script>
-// Personalize heading if client name passed
 const params = new URLSearchParams(window.location.search);
 const client = params.get('client');
+const stripeSessionId = params.get('session_id');
+const offerId = params.get('offer_id');
+
 if (client) {
   document.getElementById('success-title').innerHTML = `${client}'s session<br><em>is secured.</em>`;
   document.title = `Session Secured — ${client}`;
+}
+
+// Confirm payment and mark session offer as paid
+if (stripeSessionId) {
+  const url = `/.netlify/functions/confirm-payment?stripe_session_id=${stripeSessionId}${offerId ? `&offer_id=${offerId}` : ''}`;
+  fetch(url).catch(() => {});
 }
 
 (function() {
