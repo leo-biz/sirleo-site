@@ -4,6 +4,15 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.7 — 2026-05-01
+**Real session packages + Stripe wired**
+- `build.html` — updated packages: Sensual Surrender ($200), Mr. Naughty & Nasty ($300), The Sadistic Devil ($400), all 1 hour
+- `build.html` — updated add-ons: Fire Play ($100), Rope Bondage ($75), Sensory Deprivation ($40), Session Photography ($100), Extended Aftercare ($60), Time Extension ($75), Orgasmic Edition ($150)
+- Stripe products + prices created in both test and live environments
+- Stripe keys set per Netlify context (live → production, test → preview/branch-deploy)
+- `scripts/stripe-setup.js` — one-shot product creation script
+- `scripts/setup-env.sh` — Netlify env var setup script
+
 ## v2.6 — 2026-05-01
 **Test data isolation improvements**
 - `notify.js` — skip Resend audience sync for test submissions (`is_test: true`) so dev contacts never land in production audiences
