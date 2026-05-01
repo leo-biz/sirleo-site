@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/version.js"
+  command = "npm --prefix netlify/functions install && node scripts/version.js"
   publish = "."
 
 [build.environment]
