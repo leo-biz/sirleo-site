@@ -5,9 +5,9 @@ All updates, features, and fixes tracked here in reverse order.
 ---
 
 ## v2.3 — 2026-04-30
-**Test environment data isolation**
-- `hub.js` — detects non-production hostname, flags submissions with `is_test: true` in data field, skips CRM upsert
-- `notify.js` — skips auto-creating session offer if submission is flagged as test
+**Test environment data tagging**
+- `hub.js` — detects non-production hostname, flags submissions with `is_test: true` in data field
+- Full flow still runs on dev (contacts, session offers) — tag lets you filter/delete test data in Supabase
 
 ## v2.2 — 2026-04-30
 **Pre-deploy fixes**

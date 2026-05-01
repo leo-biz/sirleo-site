@@ -35,8 +35,7 @@ function saveToSupabase(panelType, name, phone, email, data) {
     utm_campaign: utm.utm_campaign || null,
     data: enrichedData && Object.keys(enrichedData).length ? enrichedData : null,
   });
-  // Skip CRM upsert for test environments to avoid polluting contacts
-  if (phone && !IS_TEST_ENV) {
+  if (phone) {
     window.SLDb.rpc('upsert_contact', {
       p_phone:        phone,
       p_name:         name  || null,
