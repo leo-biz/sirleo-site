@@ -25,11 +25,11 @@ exports.handler = async (event) => {
       body: JSON.stringify({ from: 'Sir Leo Site <onboarding@resend.dev>', to: ['17732348238@txt.voice.google.com'], subject: body, html: body }),
     });
 
-  // ── Resend audience sync (skipped for test submissions) ──
+  // ── Resend audience sync (test submissions go to test audience) ──
   const syncAudience = async () => {
-    if (row.data?.is_test) return;
-    const { RESEND_AUDIENCE_KEY, RESEND_AUDIENCE_ID } = process.env;
-    if (!RESEND_AUDIENCE_KEY || !RESEND_AUDIENCE_ID || !email) return;
+    const { RESEND_AUDIENCE_KEY, RESEND_AUDIENCE_ID, RESEND_TEST_AUDIENCE_ID } = process.env;
+    const audienceId = row.data?.is_test ? RESEND_TEST_AUDIENCE_ID : RESEND_AUDIENCE_ID;
+    if (!RESEND_AUDIENCE_KEY || !audienceId || !email) return;
     return fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${RESEND_AUDIENCE_KEY}`, 'Content-Type': 'application/json' },
