@@ -35,10 +35,8 @@ function saveToSupabase(panelType, name, phone, email, data) {
     utm_campaign: utm.utm_campaign || null,
     data: enrichedData && Object.keys(enrichedData).length ? enrichedData : null,
   };
-  console.log('[SL] saveToSupabase', panelType, row);
   window.SLDb.from('submissions').insert(row).then(({ error }) => {
     if (error) console.error('[SL] submissions insert error:', error);
-    else console.log('[SL] submission saved ok');
   });
   if (phone) {
     window.SLDb.rpc('upsert_contact', {
