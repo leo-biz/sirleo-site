@@ -107,6 +107,7 @@ exports.handler = async (event) => {
         status: 'draft',
         source: 'auto',
         created_at: new Date().toISOString(),
+        ...(row.data?.is_test ? { private_notes: '[TEST]' } : {}),
       }),
     });
   };
