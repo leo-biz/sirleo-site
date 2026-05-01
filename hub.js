@@ -524,7 +524,7 @@ function FAQ() {
   ];
 
   return (
-    <section id="faq" style={{ background: 'var(--bg-deep, #030202)', padding: '0 0 140px' }}>
+    <section id="faq" style={{ background: 'var(--bg-deep)', padding: '0 0 140px' }}>
       <div className="section-inner" style={{ maxWidth: '680px', margin: '0 auto' }}>
 
         {/* Section header */}
@@ -534,10 +534,10 @@ function FAQ() {
             <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(139,32,32,0.75)', whiteSpace: 'nowrap' }}>Common Questions</span>
             <div style={{ flex: 1, height: '1px', background: 'rgba(107,26,26,0.2)' }} />
           </div>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 300, fontStyle: 'italic', color: 'rgba(240,232,216,0.85)', lineHeight: 1.3, marginBottom: '16px' }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.3, marginBottom: '16px' }}>
             Everything you need to know<br />before reaching out.
           </p>
-          <p style={{ fontSize: '15px', fontWeight: 400, color: '#A08868', lineHeight: 1.9, maxWidth: '480px', margin: '0 auto' }}>
+          <p style={{ fontSize: '15px', fontWeight: 400, color: 'var(--text-body)', lineHeight: 1.9, maxWidth: '480px', margin: '0 auto' }}>
             These are the questions Sir Leo hears most. If yours isn't here, ask directly.
           </p>
         </div>
@@ -545,11 +545,11 @@ function FAQ() {
           <div key={i} onClick={() => setOpen(open === i ? null : i)}
             style={{ borderTop: '1px solid rgba(107,26,26,0.12)', padding: '20px 0', cursor: 'pointer', minHeight: '64px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 400, color: 'rgba(240,232,216,0.85)', lineHeight: 1.4 }}>{f.q}</span>
-              <span style={{ color: 'rgba(184,146,46,0.7)', fontSize: '24px', fontWeight: 300, lineHeight: 1, transition: 'transform 0.25s', transform: open === i ? 'rotate(45deg)' : 'none', flexShrink: 0 }}>+</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 400, color: 'var(--text)', lineHeight: 1.4 }}>{f.q}</span>
+              <span style={{ color: 'var(--gold)', fontSize: '24px', fontWeight: 300, lineHeight: 1, transition: 'transform 0.25s', transform: open === i ? 'rotate(45deg)' : 'none', flexShrink: 0 }}>+</span>
             </div>
             <div style={{ maxHeight: open === i ? '220px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease, padding-top 0.25s ease', paddingTop: open === i ? '14px' : 0 }}>
-              <p style={{ fontSize: '15px', fontWeight: 400, lineHeight: '2.0', color: 'rgba(240,232,216,0.55)' }}>{f.a}</p>
+              <p style={{ fontSize: '15px', fontWeight: 400, lineHeight: '2.0', color: 'var(--text-faint)' }}>{f.a}</p>
             </div>
           </div>
         ))}

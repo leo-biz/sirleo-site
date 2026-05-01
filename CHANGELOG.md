@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.4 — 2026-04-30
+**FAQ light mode fix**
+- FAQ section: replaced hardcoded dark-mode inline colors with CSS variables (`--text`, `--text-body`, `--text-faint`, `--gold`, `--bg-deep`) so all text is readable in light mode
+
 ## v2.3 — 2026-04-30
 **Test environment data tagging**
 - `hub.js` — detects non-production hostname, flags submissions with `is_test: true` in data field
