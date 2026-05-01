@@ -230,9 +230,10 @@ function updateSummary() {
 }
 
 // ── Pay button ──
-const stripe = Stripe(window.SL_STRIPE_PK);
+const stripe = window.SL_STRIPE_PK ? Stripe(window.SL_STRIPE_PK) : null;
 
 document.getElementById('pay-btn').addEventListener('click', async () => {
+  if (!stripe) { alert('Payment not configured. Contact Sir Leo directly.'); return; }
   const btn = document.getElementById('pay-btn');
   btn.disabled = true;
   btn.textContent = 'Redirecting…';

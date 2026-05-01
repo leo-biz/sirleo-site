@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.2 — 2026-04-30
+**Pre-deploy fixes**
+- `build.html` — guard `Stripe()` init with null check so empty key doesn't crash page JS in local dev
+- `TESTING.md` — redacted admin password from public repo (was `SirLeo2024!` in plain text)
+
 ## v2.1 — 2026-04-30
 **Session Offers — full lifecycle tracking**
 - `session_offers` Supabase table (run `supabase/session_offers.sql`)

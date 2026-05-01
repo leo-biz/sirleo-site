@@ -125,7 +125,7 @@ After test submissions:
 
 ## 8. Admin Dashboard (Full)
 
-1. Go to **/admin** → enter password `SirLeo2024!`
+1. Go to **/admin** → enter your admin password (set via `ADMIN_PASSWORD` env var)
 2. **Overview** — verify stats cards populate, recent leads show, bar charts render
 3. **Leads page:**
    - Search by name/email/phone — results narrow in real time
@@ -154,7 +154,7 @@ After test submissions:
 
 
 1. Go to **https://dev--sirleo-site.netlify.app/admin**
-2. Enter password: `SirLeo2024!` (change via `netlify env:set ADMIN_PASSWORD yourpassword`)
+2. Enter your admin password (change via `netlify env:set ADMIN_PASSWORD yourpassword`)
 3. **Verify:**
    - Login works, wrong password shows error
    - Stats row shows correct counts
