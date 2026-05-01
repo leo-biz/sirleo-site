@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.3 — 2026-04-30
+**Test environment data isolation**
+- `hub.js` — detects non-production hostname, flags submissions with `is_test: true` in data field, skips CRM upsert
+- `notify.js` — skips auto-creating session offer if submission is flagged as test
+
 ## v2.2 — 2026-04-30
 **Pre-deploy fixes**
 - `build.html` — guard `Stripe()` init with null check so empty key doesn't crash page JS in local dev

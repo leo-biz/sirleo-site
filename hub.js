@@ -16,10 +16,14 @@ function collectFields(el) {
   return out;
 }
 
+const PROD_HOSTS = ['sirleo-site.netlify.app', 'sirleo.com', 'www.sirleo.com'];
+const IS_TEST_ENV = !PROD_HOSTS.some(h => window.location.hostname === h);
+
 function saveToSupabase(panelType, name, phone, email, data) {
   if (!window.SLDb) return;
   const utm = window.SL_UTM || {};
   const source = window.SL_SOURCE || utm.utm_source || null;
+  const enrichedData = IS_TEST_ENV ? { ...(data || {}), is_test: true } : data;
   window.SLDb.from('submissions').insert({
     session_id:   window.SL_SESSION || null,
     panel_type:   panelType,
@@ -29,10 +33,10 @@ function saveToSupabase(panelType, name, phone, email, data) {
     utm_source:   source,
     utm_medium:   utm.utm_medium   || null,
     utm_campaign: utm.utm_campaign || null,
-    data: data && Object.keys(data).length ? data : null,
+    data: enrichedData && Object.keys(enrichedData).length ? enrichedData : null,
   });
-  // Auto-upsert into CRM contacts (preserves pipeline status on repeat visits)
-  if (phone) {
+  // Skip CRM upsert for test environments to avoid polluting contacts
+  if (phone && !IS_TEST_ENV) {
     window.SLDb.rpc('upsert_contact', {
       p_phone:        phone,
       p_name:         name  || null,

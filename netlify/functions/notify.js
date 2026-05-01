@@ -93,6 +93,7 @@ exports.handler = async (event) => {
   const createSessionOffer = async () => {
     const { SUPABASE_SERVICE_KEY } = process.env;
     if (!SUPABASE_SERVICE_KEY) return;
+    if (row.data?.is_test) return;
     const sbHeaders = {
       'apikey': SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
       'Content-Type': 'application/json', 'Prefer': 'return=minimal',
