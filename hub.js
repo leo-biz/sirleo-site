@@ -20,11 +20,11 @@ const PROD_HOSTS = ['sirleo-site.netlify.app', 'sirleo.com', 'www.sirleo.com'];
 const IS_TEST_ENV = !PROD_HOSTS.some(h => window.location.hostname === h);
 
 function saveToSupabase(panelType, name, phone, email, data) {
-  if (!window.SLDb) return;
+  if (!window.SLDb) { console.warn('[SL] SLDb not ready'); return; }
   const utm = window.SL_UTM || {};
   const source = window.SL_SOURCE || utm.utm_source || null;
   const enrichedData = IS_TEST_ENV ? { ...(data || {}), is_test: true } : data;
-  window.SLDb.from('submissions').insert({
+  const row = {
     session_id:   window.SL_SESSION || null,
     panel_type:   panelType,
     name:         name  || null,
@@ -34,6 +34,11 @@ function saveToSupabase(panelType, name, phone, email, data) {
     utm_medium:   utm.utm_medium   || null,
     utm_campaign: utm.utm_campaign || null,
     data: enrichedData && Object.keys(enrichedData).length ? enrichedData : null,
+  };
+  console.log('[SL] saveToSupabase', panelType, row);
+  window.SLDb.from('submissions').insert(row).then(({ error }) => {
+    if (error) console.error('[SL] submissions insert error:', error);
+    else console.log('[SL] submission saved ok');
   });
   if (phone) {
     window.SLDb.rpc('upsert_contact', {
@@ -45,6 +50,8 @@ function saveToSupabase(panelType, name, phone, email, data) {
       p_utm_source:   source,
       p_utm_medium:   utm.utm_medium   || null,
       p_utm_campaign: utm.utm_campaign || null,
+    }).then(({ error }) => {
+      if (error) console.error('[SL] upsert_contact error:', error);
     });
   }
 }
