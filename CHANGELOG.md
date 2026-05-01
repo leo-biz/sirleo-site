@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.6 — 2026-05-01
+**Test data isolation improvements**
+- `notify.js` — skip Resend audience sync for test submissions (`is_test: true`) so dev contacts never land in production audiences
+- `hub.js` — added error logging to `saveToSupabase` for debugging
+
 ## v2.5 — 2026-04-30
 **Fix Netlify CI build failure**
 - `netlify.toml` — build command now runs `npm --prefix netlify/functions install` before version script so esbuild can resolve the `stripe` module
