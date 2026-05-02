@@ -44,21 +44,6 @@
     .track-item-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; margin-bottom: 8px; }
     .track-item-text { font-size: 12px; line-height: 1.7; opacity: 0.6; }
 
-    /* ── Form ── */
-    .lp-form-section { padding: 80px 24px; background: rgba(107,26,26,0.05); }
-    .lp-form-inner { max-width: 560px; margin: 0 auto; text-align: center; }
-    .lp-form-sub { font-size: 15px; opacity: 0.65; line-height: 1.8; margin-bottom: 40px; }
-    .lp-form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
-    .lp-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary, #f0e6d0); padding: 14px 18px; font-size: 14px; font-family: 'Montserrat', sans-serif; width: 100%; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
-    .lp-input:focus { border-color: rgba(107,26,26,0.6); }
-    .lp-input::placeholder { color: rgba(240,230,208,0.35); }
-    textarea.lp-input { resize: vertical; min-height: 120px; }
-    select.lp-input { appearance: none; }
-    .lp-submit { background: var(--accent, #6B1A1A); color: #f0e6d0; border: none; padding: 16px 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; width: 100%; }
-    .lp-submit:hover { background: #8B2020; }
-    .lp-thanks { display: none; text-align: center; padding: 32px; }
-    .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
-
     .apply-btn { display: inline-block; background: var(--accent, #6B1A1A); color: #f0e6d0; padding: 14px 32px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: background 0.2s; }
     .apply-btn:hover { background: #8B2020; }
 
@@ -79,7 +64,7 @@
     <li><a href="/events">Events</a></li>
     <li><a href="/#connect">Contact</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Apply Now</button>
+  <button class="nav-cta" id="nav-apply-btn">Apply Now</button>
 </nav>
 
 <section class="lp-hero">
@@ -119,7 +104,7 @@
         <div class="track-item-text">Pricing strategy, client vetting, contracts, and growth. A real operation on your own terms.</div>
       </div>
     </div>
-    <button class="apply-btn" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'});document.getElementById('track-select').value='women'">Apply — Women's Track</button>
+    <button class="apply-btn" onclick="openHub()">Apply — Women's Track</button>
   </div>
 
   <!-- Men track -->
@@ -152,51 +137,32 @@
         <div class="track-item-text">Listed as a certified provider in the Sir Leo network — referrals, mentorship, and community access.</div>
       </div>
     </div>
-    <button class="apply-btn" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'});document.getElementById('track-select').value='men'">Apply — Certification Track</button>
+    <button class="apply-btn" onclick="openHub()">Apply — Certification Track</button>
   </div>
 </div>
 
-<!-- ── Application Form ── -->
-<section class="lp-form-section" id="apply">
-  <div class="lp-form-inner">
-    <p class="lp-eyebrow">Applications Open</p>
-    <h2 class="lp-section-title">Apply to the Program</h2>
-    <p class="lp-form-sub">This isn't open to everyone. Fill this out and we'll have a conversation to see if it's the right fit — for both of us.</p>
-
-    <form class="lp-form" id="training-form">
-      <input class="lp-input" type="text" name="name" placeholder="Your name" required>
-      <input class="lp-input" type="email" name="email" placeholder="Email address" required>
-      <input class="lp-input" type="tel" name="phone" placeholder="Phone (optional)">
-      <select class="lp-input" name="track" id="track-select" required>
-        <option value="" disabled selected>Which track are you applying for?</option>
-        <option value="women">Women's Track — Monetize Dominance</option>
-        <option value="men">Men's Track — Provider Certification</option>
-      </select>
-      <select class="lp-input" name="experience">
-        <option value="" disabled selected>Your current experience level</option>
-        <option value="none">No experience yet</option>
-        <option value="some">Some self-taught experience</option>
-        <option value="active">Already active, want structure</option>
-      </select>
-      <textarea class="lp-input" name="message" placeholder="Tell me about yourself and what you're trying to build. Be direct — that's what gets you in." required></textarea>
-      <button type="submit" class="lp-submit">Submit Application</button>
-    </form>
-    <div class="lp-thanks" id="training-thanks">
-      <p>Application received.</p>
-      <p style="font-size:14px;opacity:0.6;margin-top:12px;font-family:'Montserrat',sans-serif;">I review personally. Expect a response within 48 hours.</p>
-    </div>
-  </div>
+<!-- ── Apply CTA ── -->
+<section style="padding:80px 24px;text-align:center;background:rgba(107,26,26,0.05);" id="apply">
+  <p class="lp-eyebrow">Applications Open</p>
+  <h2 class="lp-section-title">Apply to the Program</h2>
+  <p style="font-size:15px;opacity:0.65;max-width:480px;margin:0 auto 36px;line-height:1.8;">This isn't open to everyone. Tell me what you're trying to build — I'll reach out within 48 hours.</p>
+  <button class="apply-btn" id="cta-apply-btn">Apply Now</button>
 </section>
 
 <footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
   <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
 </footer>
 
+<div id="hub-root"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="version.js"></script>
 <script src="db.js"></script>
 <script src="analytics.js"></script>
 <script src="main.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
 function switchTrack(track) {
   document.querySelectorAll('.track-tab').forEach(t => t.classList.remove('active'));
@@ -206,26 +172,23 @@ function switchTrack(track) {
   if (window.SLAnalytics) window.SLAnalytics.track('click', 'training-tab-' + track);
 }
 
-document.getElementById('training-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const fd = new FormData(this);
-  const data = Object.fromEntries(fd.entries());
-  const audience = data.track === 'women' ? 'women-monetize' : 'men-certification';
-
-  if (window.SLDb) {
-    await window.SLDb.from('submissions').insert({
-      name: data.name,
-      email: data.email || null,
-      phone: data.phone || null,
-      panel_type: 'serve-learners',
-      message: data.message || null,
-      data: { track: data.track, experience: data.experience, source_page: 'training', audience },
-    });
+function openHub() {
+  if (window.SLHub) {
+    window.SLHub.open('serve-learners');
+  } else {
+    const t = setInterval(() => {
+      if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
+    }, 50);
   }
+}
 
-  this.style.display = 'none';
-  document.getElementById('training-thanks').style.display = 'block';
-  if (window.SLAnalytics) window.SLAnalytics.track('form_submit', 'training-application-' + data.track);
+document.getElementById('nav-apply-btn').addEventListener('click', openHub);
+document.getElementById('cta-apply-btn').addEventListener('click', openHub);
+
+window.addEventListener('load', () => {
+  const t = setInterval(() => {
+    if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
+  }, 50);
 });
 </script>
 </body>

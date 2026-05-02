@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.12 — 2026-05-02
+**Wire hub modal into all landing pages; fix index.html Events nav**
+- `training.html` — replaced standalone application form with hub CTA section; apply buttons now open `serve-learners` panel; added React/ReactDOM/Babel + hub.js dependencies; auto-opens hub on load
+- `index.html` — Events nav link changed from `#afterdark` anchor to `/events` page
+
 ## v2.11 — 2026-05-02
 **events.html — add birthday celebrations to SEO and page content**
 - Title, meta description, OG tags — added "birthday celebrations" alongside bachelorette
