@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sir Leo — Site Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f0ea;
+      color: #1a0e06;
+      font-family: 'Montserrat', sans-serif;
+      padding: 48px 24px 80px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8B2020;
+      margin-bottom: 60px;
+    }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #8B2020;
+      margin-bottom: 16px;
+      padding-left: 2px;
+    }
+
+    /* ── Grid layouts ── */
+    .row {
+      max-width: 1100px;
+      margin: 0 auto 48px;
+    }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .grid-1 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+    @media (max-width: 900px) {
+      .grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .grid-5, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ── Cards ── */
+    .card {
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 24px 22px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { border-color: rgba(107,26,26,0.4); box-shadow: 0 2px 12px rgba(107,26,26,0.08); }
+
+    .card.primary { border-color: rgba(107,26,26,0.35); background: #fff8f5; }
+    .card.tool { border-color: rgba(0,0,0,0.06); background: #fafafa; }
+
+    .card-url {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #8B2020;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      font-weight: 400;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      color: #1a0e06;
+    }
+
+    .card-purpose {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #5a4030;
+      margin-bottom: 14px;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    .tag-audience { background: rgba(107,26,26,0.12); color: #8B2020; }
+    .tag-action   { background: rgba(0,0,0,0.06); color: #5a4030; }
+    .tag-internal { background: rgba(180,140,20,0.15); color: #7a5800; }
+    .tag-seo      { background: rgba(20,120,60,0.12); color: #1a6030; }
+
+    /* ── Connector lines ── */
+    .connector {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 20px;
+      opacity: 0.2;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* ── Flow arrows ── */
+    .flow {
+      max-width: 1100px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .flow-box {
+      padding: 8px 16px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #fff;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: #3a2010;
+    }
+    .flow-arrow {
+      font-size: 14px;
+      opacity: 0.4;
+      color: #8B2020;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Sir Leo — Site Map</h1>
+<p class="subtitle">All pages · Purpose · Audience · Actions</p>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:rgba(107,26,26,0.2);border:1px solid rgba(107,26,26,0.3);"></div>
+    <span>Audience tag</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.15);"></div>
+    <span>Action / CTA</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:rgba(180,140,20,0.2);border:1px solid rgba(180,140,20,0.3);"></div>
+    <span>Internal / Admin</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:rgba(20,120,60,0.18);border:1px solid rgba(20,120,60,0.3);"></div>
+    <span>SEO-optimized</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── HOME ── -->
+<div class="row">
+  <div class="section-label">Home Base</div>
+  <div class="grid-1">
+    <div class="card primary">
+      <div class="card-url">/ · sirblackleo.com</div>
+      <div class="card-title">Homepage</div>
+      <div class="card-purpose">The main brand page. Hero, offerings overview, "Who I Serve" section, events section, FAQ, and contact. This is where almost all traffic lands first — from IG, link-in-bio, direct search.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">All Audiences</span>
+        <span class="tag tag-action">Hub → Book · Connect · Explore</span>
+        <span class="tag tag-seo">SEO · LocalBusiness Schema</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOOKING FLOW ── -->
+<div class="row">
+  <div class="section-label">Booking Flow</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-url">/book</div>
+      <div class="card-title">Book a Session</div>
+      <div class="card-purpose">Multi-step wizard. Client picks session type, add-ons, fills intake info. Triggers Stripe deposit, Supabase submission, email auto-reply, and SMS to you.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">All Clients</span>
+        <span class="tag tag-action">Stripe Deposit · DB Insert</span>
+        <span class="tag tag-seo">SEO</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-url">/build</div>
+      <div class="card-title">Session Builder</div>
+      <div class="card-purpose">Visual package builder — choose tier + add-ons, see live price. Currently accessible but not front-facing. Used to preview/test the booking flow.</div>
+      <div class="card-tags">
+        <span class="tag tag-action">Price Calculator</span>
+        <span class="tag tag-internal">Not public-facing yet</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-url">/pay-success</div>
+      <div class="card-title">Payment Confirmed</div>
+      <div class="card-purpose">Landing page after Stripe checkout completes. Confirms deposit received and tells the client what happens next.</div>
+      <div class="card-tags">
+        <span class="tag tag-action">Post-Stripe Redirect</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LANDING PAGES ── -->
+<div class="row">
+  <div class="section-label">Audience Landing Pages — each targets a specific person with specific SEO keywords</div>
+  <div class="grid-3">
+
+    <div class="card">
+      <div class="card-url">/events</div>
+      <div class="card-title">Group Experiences</div>
+      <div class="card-purpose">For bachelorette parties, private group events, venue partners, event organizers. Inquiry form → serve-organizers.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">Organizers</span>
+        <span class="tag tag-seo">SEO: bachelorette kink Chicago</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-url">/sessions</div>
+      <div class="card-title">Private Sessions</div>
+      <div class="card-purpose">Anyone wanting a private 1-on-1 session. Gender-neutral. Shows all three packages ($200–$400). Inquiry form → serve-individuals.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">All Session Clients</span>
+        <span class="tag tag-seo">SEO: private BDSM session Chicago</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-url">/training</div>
+      <div class="card-title">Training Program</div>
+      <div class="card-purpose">Two-track page with a tab selector. Women's track: monetize dominance (findom, sessions, content). Men's track: provider certification (6-module, supervised sessions, network listing). Single application form → serve-learners, audience tag set per track.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">Women — Monetize</span>
+        <span class="tag tag-audience">Men — Certification</span>
+        <span class="tag tag-seo">SEO: kink training Chicago</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PRICING ── -->
+<div class="row">
+  <div class="section-label">Pricing</div>
+  <div class="grid-1">
+    <div class="card">
+      <div class="card-url">/pricing</div>
+      <div class="card-title">Pricing & Membership</div>
+      <div class="card-purpose">Full breakdown of session packages ($200/$300/$400), multi-pack credits (3-pack 10% off, 5-pack 15% off), and membership (application-based, 3-month minimum, 1-month-free incentive for upfront). Not directly linked from main nav yet — reachable via direct URL.</div>
+      <div class="card-tags">
+        <span class="tag tag-audience">All Clients</span>
+        <span class="tag tag-seo">SEO</span>
+        <span class="tag tag-action">Waitlist / Apply CTA</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── INTERNAL / ADMIN ── -->
+<div class="row">
+  <div class="section-label">Internal Tools (not public-facing)</div>
+  <div class="grid-2">
+    <div class="card tool">
+      <div class="card-url">/admin</div>
+      <div class="card-title">Admin Dashboard</div>
+      <div class="card-purpose">View all form submissions, filter by panel type, see analytics data. Requires knowing the URL — no auth currently.</div>
+      <div class="card-tags">
+        <span class="tag tag-internal">Internal Only</span>
+        <span class="tag tag-action">Read Supabase submissions</span>
+      </div>
+    </div>
+    <div class="card tool">
+      <div class="card-url">sitemap-visual.html</div>
+      <div class="card-title">This File</div>
+      <div class="card-purpose">Visual site map. Not deployed — open locally. Not in sitemap.xml or robots.txt.</div>
+      <div class="card-tags">
+        <span class="tag tag-internal">Local Reference Only</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── BACKEND FLOW ── -->
+<div class="row">
+  <div class="section-label">What happens when someone submits a form</div>
+  <div style="overflow-x:auto;">
+    <div class="flow">
+      <div class="flow-box">Form Submit</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Supabase<br>submissions table</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Supabase Webhook<br>→ notify.js</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Resend auto-reply<br>to client</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">SMS to you<br>(773) 234-8238</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-box">Resend Audience<br>contact added</div>
+    </div>
+    <div style="height:16px;"></div>
+    <div class="flow">
+      <div class="flow-box">Every day at 5pm</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">followup.js runs</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Checks sequence_step<br>+ created_at window</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Sends audience-specific<br>email (step 1–4)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Increments<br>sequence_step</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── AUDIENCE MAP ── -->
+<div class="row">
+  <div class="section-label">Who goes where</div>
+  <div class="grid-3">
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">Group organizers</div>
+      <div class="card-purpose">Bachelorette planners, private party hosts, venue/salon owners who want to host events → <strong>/events</strong></div>
+    </div>
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">Women — session clients</div>
+      <div class="card-purpose">Women wanting private 1-on-1 kink/BDSM experience → <strong>/sessions</strong> or main <strong>/book</strong></div>
+    </div>
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">Men — session clients</div>
+      <div class="card-purpose">Men wanting to explore or learn → <strong>/men</strong> or main <strong>/book</strong></div>
+    </div>
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">Women — build income</div>
+      <div class="card-purpose">Women interested in findom, running sessions, or building kink-based content → <strong>/training</strong> (Women's Track tab)</div>
+    </div>
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">Men — become a provider</div>
+      <div class="card-purpose">Men who want professional BDSM provider training and certification → <strong>/training</strong> (Men's Track tab)</div>
+    </div>
+    <div class="card" style="border-color:rgba(107,26,26,0.2);">
+      <div class="card-title" style="font-size:16px;">General / returning</div>
+      <div class="card-purpose">Anyone coming from IG, link-in-bio, word of mouth → <strong>/</strong> (homepage), then self-select</div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:10px;color:#b0a090;letter-spacing:0.2em;text-transform:uppercase;margin-top:40px;">Sir Leo · sirblackleo.com · Internal reference</p>
+
+</body>
+</html>

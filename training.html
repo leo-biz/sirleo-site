@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kink Training & Provider Certification Chicago — Sir Leo</title>
+  <meta name="description" content="Learn to build a kink-based practice. Sir Leo trains women to monetize dominance and certifies men as professional BDSM providers. Chicago-based. Apply now.">
+  <link rel="canonical" href="https://sirblackleo.com/training">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://sirblackleo.com/training">
+  <meta property="og:title"       content="Kink Training & Provider Certification — Sir Leo Chicago">
+  <meta property="og:description" content="Two tracks: women monetizing dominance, men becoming certified providers. Training by Sir Leo in Chicago.">
+  <meta property="og:image"       content="https://sirblackleo.com/assets/photo-hero.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Kink Training — Sir Leo Chicago">
+  <meta name="twitter:description" content="Women monetizing dominance. Men becoming certified providers. Training by Sir Leo.">
+  <meta name="twitter:image"      content="https://sirblackleo.com/assets/photo-hero.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lp-hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; }
+    .lp-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .lp-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(40px, 7vw, 80px); font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 24px; }
+    .lp-sub { font-size: 16px; line-height: 1.9; max-width: 520px; margin: 0 auto 40px; opacity: 0.7; }
+    .lp-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 300; font-style: italic; margin-bottom: 20px; }
+
+    /* ── Track selector ── */
+    .track-selector { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+    .track-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 0; }
+    .track-tab { padding: 20px 24px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; background: transparent; border: none; color: rgba(240,230,208,0.45); transition: all 0.2s; text-align: center; border-bottom: 2px solid transparent; }
+    .track-tab.active { color: var(--text-primary, #f0e6d0); border-bottom-color: var(--accent, #6B1A1A); background: rgba(107,26,26,0.06); }
+    .track-tab:hover:not(.active) { color: rgba(240,230,208,0.7); }
+    .track-content { display: none; border: 1px solid rgba(255,255,255,0.08); border-top: none; padding: 48px 40px; background: rgba(255,255,255,0.02); }
+    .track-content.active { display: block; }
+
+    .track-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; font-weight: 300; margin-bottom: 16px; }
+    .track-desc { font-size: 15px; line-height: 1.9; opacity: 0.65; margin-bottom: 36px; max-width: 540px; }
+
+    .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .track-item { padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
+    .track-item-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; margin-bottom: 8px; }
+    .track-item-text { font-size: 12px; line-height: 1.7; opacity: 0.6; }
+
+    /* ── Form ── */
+    .lp-form-section { padding: 80px 24px; background: rgba(107,26,26,0.05); }
+    .lp-form-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+    .lp-form-sub { font-size: 15px; opacity: 0.65; line-height: 1.8; margin-bottom: 40px; }
+    .lp-form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+    .lp-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary, #f0e6d0); padding: 14px 18px; font-size: 14px; font-family: 'Montserrat', sans-serif; width: 100%; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
+    .lp-input:focus { border-color: rgba(107,26,26,0.6); }
+    .lp-input::placeholder { color: rgba(240,230,208,0.35); }
+    textarea.lp-input { resize: vertical; min-height: 120px; }
+    select.lp-input { appearance: none; }
+    .lp-submit { background: var(--accent, #6B1A1A); color: #f0e6d0; border: none; padding: 16px 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; width: 100%; }
+    .lp-submit:hover { background: #8B2020; }
+    .lp-thanks { display: none; text-align: center; padding: 32px; }
+    .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
+
+    .apply-btn { display: inline-block; background: var(--accent, #6B1A1A); color: #f0e6d0; padding: 14px 32px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: background 0.2s; }
+    .apply-btn:hover { background: #8B2020; }
+
+    @media (max-width: 600px) {
+      .track-content { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Sir Leo" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="/sessions">Sessions</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/#connect">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Apply Now</button>
+</nav>
+
+<section class="lp-hero">
+  <div>
+    <p class="lp-eyebrow">Training · Chicago</p>
+    <h1 class="lp-title">Build Something<br>Real From This.</h1>
+    <p class="lp-sub">Two tracks. One for women who want to monetize their dominance. One for men who want to become certified professional providers. Both taught by someone who's already built it.</p>
+  </div>
+</section>
+
+<!-- ── Track Selector ── -->
+<div class="track-selector">
+  <div class="track-tabs">
+    <button class="track-tab active" onclick="switchTrack('women')">For Women — Monetize</button>
+    <button class="track-tab" onclick="switchTrack('men')">For Men — Get Certified</button>
+  </div>
+
+  <!-- Women track -->
+  <div class="track-content active" id="track-women">
+    <div class="track-title">Your Power Is a Business.</div>
+    <div class="track-desc">Women who can dominate men hold something rare. The demand is real. The supply is not. Sir Leo teaches you how to structure it, price it, and build something sustainable — findom, 1-on-1 sessions, content, or all three.</div>
+    <div class="track-grid">
+      <div class="track-item">
+        <div class="track-item-title">Findom Foundations</div>
+        <div class="track-item-text">Tributes, tasks, ongoing control relationships. How to attract the right clients and build consistent income.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Session Structure</div>
+        <div class="track-item-text">How to design and deliver 1-on-1 domination sessions. Safety, consent, flow, and pricing.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Content & Presence</div>
+        <div class="track-item-text">What to post, how to price content, and how to stay protected while building an audience.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Business Architecture</div>
+        <div class="track-item-text">Pricing strategy, client vetting, contracts, and growth. A real operation on your own terms.</div>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'});document.getElementById('track-select').value='women'">Apply — Women's Track</button>
+  </div>
+
+  <!-- Men track -->
+  <div class="track-content" id="track-men">
+    <div class="track-title">Build the Skills. Build the Business.</div>
+    <div class="track-desc">Becoming a professional kink provider isn't about watching videos. It's hands-on training — technique, safety, client management, and the business side most people skip. Upon completion you're listed in the Sir Leo provider network.</div>
+    <div class="track-grid">
+      <div class="track-item">
+        <div class="track-item-title">Technique & Safety</div>
+        <div class="track-item-text">Impact, restraint, sensation, edge play. How to execute cleanly and handle anything that comes up.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Consent & Ethics</div>
+        <div class="track-item-text">Modern frameworks for professional practice. Intake, negotiation, safe words, and aftercare as non-negotiables.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Client Management</div>
+        <div class="track-item-text">Screening, communication, setting expectations, and maintaining professional distance.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Business Setup</div>
+        <div class="track-item-text">Pricing, booking, marketing without oversharing, and infrastructure that makes a practice sustainable.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Supervised Sessions</div>
+        <div class="track-item-text">Real practice with real people. Supervised and debriefed — you get reps before you work alone.</div>
+      </div>
+      <div class="track-item">
+        <div class="track-item-title">Certification + Network</div>
+        <div class="track-item-text">Listed as a certified provider in the Sir Leo network — referrals, mentorship, and community access.</div>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'});document.getElementById('track-select').value='men'">Apply — Certification Track</button>
+  </div>
+</div>
+
+<!-- ── Application Form ── -->
+<section class="lp-form-section" id="apply">
+  <div class="lp-form-inner">
+    <p class="lp-eyebrow">Applications Open</p>
+    <h2 class="lp-section-title">Apply to the Program</h2>
+    <p class="lp-form-sub">This isn't open to everyone. Fill this out and we'll have a conversation to see if it's the right fit — for both of us.</p>
+
+    <form class="lp-form" id="training-form">
+      <input class="lp-input" type="text" name="name" placeholder="Your name" required>
+      <input class="lp-input" type="email" name="email" placeholder="Email address" required>
+      <input class="lp-input" type="tel" name="phone" placeholder="Phone (optional)">
+      <select class="lp-input" name="track" id="track-select" required>
+        <option value="" disabled selected>Which track are you applying for?</option>
+        <option value="women">Women's Track — Monetize Dominance</option>
+        <option value="men">Men's Track — Provider Certification</option>
+      </select>
+      <select class="lp-input" name="experience">
+        <option value="" disabled selected>Your current experience level</option>
+        <option value="none">No experience yet</option>
+        <option value="some">Some self-taught experience</option>
+        <option value="active">Already active, want structure</option>
+      </select>
+      <textarea class="lp-input" name="message" placeholder="Tell me about yourself and what you're trying to build. Be direct — that's what gets you in." required></textarea>
+      <button type="submit" class="lp-submit">Submit Application</button>
+    </form>
+    <div class="lp-thanks" id="training-thanks">
+      <p>Application received.</p>
+      <p style="font-size:14px;opacity:0.6;margin-top:12px;font-family:'Montserrat',sans-serif;">I review personally. Expect a response within 48 hours.</p>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
+  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="version.js"></script>
+<script src="db.js"></script>
+<script src="analytics.js"></script>
+<script src="main.js"></script>
+<script>
+function switchTrack(track) {
+  document.querySelectorAll('.track-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.track-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.track-tab:${track === 'women' ? 'first-child' : 'last-child'}`).classList.add('active');
+  document.getElementById('track-' + track).classList.add('active');
+  if (window.SLAnalytics) window.SLAnalytics.track('click', 'training-tab-' + track);
+}
+
+document.getElementById('training-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  const data = Object.fromEntries(fd.entries());
+  const audience = data.track === 'women' ? 'women-monetize' : 'men-certification';
+
+  if (window.SLDb) {
+    await window.SLDb.from('submissions').insert({
+      name: data.name,
+      email: data.email || null,
+      phone: data.phone || null,
+      panel_type: 'serve-learners',
+      message: data.message || null,
+      data: { track: data.track, experience: data.experience, source_page: 'training', audience },
+    });
+  }
+
+  this.style.display = 'none';
+  document.getElementById('training-thanks').style.display = 'block';
+  if (window.SLAnalytics) window.SLAnalytics.track('form_submit', 'training-application-' + data.track);
+});
+</script>
+</body>
+</html>

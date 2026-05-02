@@ -4,6 +4,16 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.9 — 2026-05-02
+**Consolidate landing pages: sessions + training**
+- `sessions.html` — rewritten gender-neutral, speaks to anyone booking a private session
+- `training.html` — new two-track page (Women monetize / Men certify) with tab selector and single application form
+- `men.html`, `for-women.html`, `certify.html` — deleted
+- `netlify.toml` — /training redirect added; /men, /for-women, /certify → 301 to /training
+- `sitemap.xml` — removed old pages, added /training
+- `followup.js` — updated audience routing to handle training page source_page
+- `sitemap-visual.html` — updated to reflect new 3-page structure
+
 ## v2.8 — 2026-05-02
 **SEO, 5 landing pages, multi-step email sequences**
 - `index.html` — updated title, canonical tag, OG URLs to sirblackleo.com, LocalBusiness schema markup

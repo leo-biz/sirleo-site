@@ -22,7 +22,7 @@ function emailStep1(lead) {
     };
   }
 
-  if (src === 'for-women' || lead.data?.audience === 'women-monetize') {
+  if (src === 'training' && lead.data?.audience === 'women-monetize' || src === 'for-women' || lead.data?.audience === 'women-monetize') {
     return {
       subject: 'Your application',
       html: buildEmail(first, `
@@ -34,7 +34,7 @@ function emailStep1(lead) {
     };
   }
 
-  if (src === 'certify' || lead.data?.audience === 'men-certification') {
+  if (src === 'training' && lead.data?.audience === 'men-certification' || src === 'certify' || lead.data?.audience === 'men-certification') {
     return {
       subject: 'Your certification application',
       html: buildEmail(first, `
@@ -86,7 +86,7 @@ function emailStep2(lead) {
     };
   }
 
-  if (src === 'for-women' || lead.data?.audience === 'women-monetize') {
+  if (src === 'training' && lead.data?.audience === 'women-monetize' || src === 'for-women' || lead.data?.audience === 'women-monetize') {
     return {
       subject: 'The part nobody talks about',
       html: buildEmail(first, `
@@ -98,7 +98,7 @@ function emailStep2(lead) {
     };
   }
 
-  if (src === 'certify' || lead.data?.audience === 'men-certification') {
+  if (src === 'training' && lead.data?.audience === 'men-certification' || src === 'certify' || lead.data?.audience === 'men-certification') {
     return {
       subject: 'What separates providers who last',
       html: buildEmail(first, `
@@ -136,7 +136,7 @@ function emailStep3(lead) {
     };
   }
 
-  if (src === 'for-women' || lead.data?.audience === 'women-monetize') {
+  if (src === 'training' && lead.data?.audience === 'women-monetize' || src === 'for-women' || lead.data?.audience === 'women-monetize') {
     return {
       subject: 'The next cohort',
       html: buildEmail(first, `
@@ -147,7 +147,7 @@ function emailStep3(lead) {
     };
   }
 
-  if (src === 'certify' || lead.data?.audience === 'men-certification') {
+  if (src === 'training' && lead.data?.audience === 'men-certification' || src === 'certify' || lead.data?.audience === 'men-certification') {
     return {
       subject: 'Certification cohort update',
       html: buildEmail(first, `
