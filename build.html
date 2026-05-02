@@ -146,11 +146,11 @@
   <div class="summary-left">
     <div class="summary-items" id="summary-items">Sensual Surrender</div>
     <div class="summary-total" id="summary-total">$200</div>
-    <div class="summary-note" id="summary-note">Deposit: $100 due today</div>
+    <div class="summary-note" id="summary-note">Full payment due today</div>
   </div>
   <div class="summary-right">
     <label class="deposit-toggle">
-      <input type="checkbox" id="full-payment">
+      <input type="checkbox" id="full-payment" checked>
       Pay in full
     </label>
     <button class="pay-btn" id="pay-btn">Secure Session →</button>
@@ -172,7 +172,7 @@ const DEPOSIT_PCT = 0.5; // 50% deposit
 // ── State ──
 let baseCost = 200;
 let selectedAddons = new Set();
-let payFull = false;
+let payFull = true;
 
 // ── Render add-ons ──
 const addonList = document.getElementById('addon-list');

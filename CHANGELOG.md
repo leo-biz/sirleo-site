@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.14 — 2026-05-02
+**Revamp events, sessions, training, pricing, build pages**
+- `events.html` — removed type icons from celebration grid; cleaned alignment; renamed page framing to "Group Experiences"; added Venue & Partner section (salons, shops, studios, private clubs)
+- `sessions.html` — updated hero copy to mention couples + 1-on-1; replaced hidden add-ons footnote with a full visible add-ons section; time-extension add-ons labeled with +30 min tags
+- `training.html` — full rewrite: removed gender-split tabs; replaced with 3 depth levels (Awareness & Education, Craft & Practice, Professional Practice); no gender requirements; pricing notes per level
+- `pricing.html` — full rewrite: restructured around session packages ($200/$300/$400) + add-ons; membership moved to a secondary callout; training pricing referenced via link; removed confusing tier toggle
+- `build.html` — pay in full is now the default state (checked); deposit is opt-out
+
 ## v2.13 — 2026-05-02
 **Fix modal auto-open, standardize nav, Who I Serve navigates to pages**
 - `main.js` — Who I Serve cards now navigate to `/sessions?open`, `/events?open`, `/training?open` instead of opening the hub modal on the homepage

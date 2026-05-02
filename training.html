@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kink Training & Provider Certification Chicago — Sir Leo</title>
-  <meta name="description" content="Learn to build a kink-based practice. Sir Leo trains women to monetize dominance and certifies men as professional BDSM providers. Chicago-based. Apply now.">
+  <title>Kink Training — Education, Practice & Professional Tracks · Sir Leo Chicago</title>
+  <meta name="description" content="Training by Sir Leo at three levels of depth — from corporate kink and wellness education to cohorted practice and full professional certification. Chicago-based. Application required.">
   <link rel="canonical" href="https://sirblackleo.com/training">
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://sirblackleo.com/training">
-  <meta property="og:title"       content="Kink Training & Provider Certification — Sir Leo Chicago">
-  <meta property="og:description" content="Two tracks: women monetizing dominance, men becoming certified providers. Training by Sir Leo in Chicago.">
+  <meta property="og:title"       content="Kink Training — Education, Practice & Professional Tracks · Sir Leo">
+  <meta property="og:description" content="Three levels of depth. Corporate education, cohorted practice, or full professional certification. Training by Sir Leo in Chicago.">
   <meta property="og:image"       content="https://sirblackleo.com/assets/photo-hero.jpg">
   <meta name="twitter:card"       content="summary_large_image">
   <meta name="twitter:title"      content="Kink Training — Sir Leo Chicago">
-  <meta name="twitter:description" content="Women monetizing dominance. Men becoming certified providers. Training by Sir Leo.">
+  <meta name="twitter:description" content="Awareness, practice, and professional tracks. Training by Sir Leo.">
   <meta name="twitter:image"      content="https://sirblackleo.com/assets/photo-hero.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,28 +27,25 @@
     .lp-sub { font-size: 16px; line-height: 1.9; max-width: 520px; margin: 0 auto 40px; opacity: 0.7; }
     .lp-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 300; font-style: italic; margin-bottom: 20px; }
 
-    /* ── Track selector ── */
-    .track-selector { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
-    .track-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 0; }
-    .track-tab { padding: 20px 24px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; background: transparent; border: none; color: rgba(240,230,208,0.45); transition: all 0.2s; text-align: center; border-bottom: 2px solid transparent; }
-    .track-tab.active { color: var(--text-primary, #f0e6d0); border-bottom-color: var(--accent, #6B1A1A); background: rgba(107,26,26,0.06); }
-    .track-tab:hover:not(.active) { color: rgba(240,230,208,0.7); }
-    .track-content { display: none; border: 1px solid rgba(255,255,255,0.08); border-top: none; padding: 48px 40px; background: rgba(255,255,255,0.02); }
-    .track-content.active { display: block; }
-
-    .track-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; font-weight: 300; margin-bottom: 16px; }
-    .track-desc { font-size: 15px; line-height: 1.9; opacity: 0.65; margin-bottom: 36px; max-width: 540px; }
-
-    .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .track-item { padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
-    .track-item-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; margin-bottom: 8px; }
-    .track-item-text { font-size: 12px; line-height: 1.7; opacity: 0.6; }
+    /* ── Level stack ── */
+    .level-stack { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; display: flex; flex-direction: column; gap: 2px; }
+    .level-block { border: 1px solid rgba(255,255,255,0.08); padding: 48px 40px; background: rgba(255,255,255,0.01); }
+    .level-number { font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 300; color: rgba(107,26,26,0.2); line-height: 1; margin-bottom: 4px; }
+    .level-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .level-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-style: italic; font-weight: 300; margin-bottom: 10px; }
+    .level-who { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.4; margin-bottom: 20px; line-height: 1.8; }
+    .level-desc { font-size: 15px; line-height: 1.9; opacity: 0.65; margin-bottom: 32px; max-width: 580px; }
+    .level-topics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .level-topic { font-size: 11px; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.1); opacity: 0.7; letter-spacing: 0.05em; }
+    .level-pricing { font-size: 12px; opacity: 0.4; margin-bottom: 28px; font-style: italic; }
 
     .apply-btn { display: inline-block; background: var(--accent, #6B1A1A); color: #f0e6d0; padding: 14px 32px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: background 0.2s; }
     .apply-btn:hover { background: #8B2020; }
+    .apply-btn-ghost { background: transparent; border: 1px solid rgba(107,26,26,0.5); color: var(--text-primary, #f0e6d0); }
+    .apply-btn-ghost:hover { background: rgba(107,26,26,0.1); }
 
     @media (max-width: 600px) {
-      .track-content { padding: 32px 20px; }
+      .level-block { padding: 32px 20px; }
     }
   </style>
 </head>
@@ -72,82 +69,85 @@
 <section class="lp-hero">
   <div>
     <p class="lp-eyebrow">Training · Chicago</p>
-    <h1 class="lp-title">Build Something<br>Real From This.</h1>
-    <p class="lp-sub">Two tracks. One for women who want to monetize their dominance. One for men who want to become certified professional providers. Both taught by someone who's already built it.</p>
+    <h1 class="lp-title">Go As Deep<br>As You Want.</h1>
+    <p class="lp-sub">Three levels of depth. From education and awareness to hands-on practice to a full professional operation — training built around what you're actually trying to build.</p>
   </div>
 </section>
 
-<!-- ── Track Selector ── -->
-<div class="track-selector">
-  <div class="track-tabs">
-    <button class="track-tab active" onclick="switchTrack('women')">For Women — Monetize</button>
-    <button class="track-tab" onclick="switchTrack('men')">For Men — Get Certified</button>
+<!-- ── Levels ── -->
+<div class="level-stack">
+
+  <!-- Level I -->
+  <div class="level-block">
+    <div class="level-number">I</div>
+    <div class="level-label">Awareness & Education</div>
+    <h2 class="level-title">Understand the Landscape</h2>
+    <div class="level-who">Corporate teams · Wellness venues · Salons & lifestyle shops · Event organizers · Curious groups</div>
+    <div class="level-desc">An educational experience for groups and organizations that want to understand kink, consent, and alternative intimacy without shame or confusion. Workshops, private group sessions, or keynotes — designed to inform, open minds, and shift culture. No experience required.</div>
+    <div class="level-topics">
+      <span class="level-topic">Consent Frameworks</span>
+      <span class="level-topic">Kink Basics</span>
+      <span class="level-topic">Power Dynamics</span>
+      <span class="level-topic">Safety Culture</span>
+      <span class="level-topic">Aftercare</span>
+      <span class="level-topic">Communication & Boundaries</span>
+      <span class="level-topic">Wellness Integration</span>
+    </div>
+    <div class="level-pricing">Pricing based on group size and format. Inquire for a custom quote.</div>
+    <button class="apply-btn apply-btn-ghost" onclick="openHub()">Inquire — Level I</button>
   </div>
 
-  <!-- Women track -->
-  <div class="track-content active" id="track-women">
-    <div class="track-title">Your Power Is a Business.</div>
-    <div class="track-desc">Women who can dominate men hold something rare. The demand is real. The supply is not. Sir Leo teaches you how to structure it, price it, and build something sustainable — findom, 1-on-1 sessions, content, or all three.</div>
-    <div class="track-grid">
-      <div class="track-item">
-        <div class="track-item-title">Findom Foundations</div>
-        <div class="track-item-text">Tributes, tasks, ongoing control relationships. How to attract the right clients and build consistent income.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Session Structure</div>
-        <div class="track-item-text">How to design and deliver 1-on-1 domination sessions. Safety, consent, flow, and pricing.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Content & Presence</div>
-        <div class="track-item-text">What to post, how to price content, and how to stay protected while building an audience.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Business Architecture</div>
-        <div class="track-item-text">Pricing strategy, client vetting, contracts, and growth. A real operation on your own terms.</div>
-      </div>
+  <!-- Level II -->
+  <div class="level-block">
+    <div class="level-number">II</div>
+    <div class="level-label">Craft & Practice</div>
+    <h2 class="level-title">Learn to Actually Do It</h2>
+    <div class="level-who">Individuals · Couples · Small cohorts · Aspiring dominants · Aspiring submissives · Switch practitioners</div>
+    <div class="level-desc">Hands-on training in a small cohort setting. Whether you want to dominate, submit, or explore both sides of the dynamic — you learn by doing. Structured curriculum, real practice, and ongoing feedback. No gender requirements. No prior experience required.</div>
+    <div class="level-topics">
+      <span class="level-topic">Technique & Safety</span>
+      <span class="level-topic">Consent in Practice</span>
+      <span class="level-topic">Session Structure</span>
+      <span class="level-topic">Dominant Skills</span>
+      <span class="level-topic">Submissive Skills</span>
+      <span class="level-topic">Switch Dynamics</span>
+      <span class="level-topic">Emotional Dynamics</span>
+      <span class="level-topic">Aftercare & Debriefs</span>
     </div>
-    <button class="apply-btn" onclick="openHub()">Apply — Women's Track</button>
+    <div class="level-pricing">Cohort pricing. Format and length vary by group. Apply to discuss options.</div>
+    <button class="apply-btn" onclick="openHub()">Apply — Level II</button>
   </div>
 
-  <!-- Men track -->
-  <div class="track-content" id="track-men">
-    <div class="track-title">Build the Skills. Build the Business.</div>
-    <div class="track-desc">Becoming a professional kink provider isn't about watching videos. It's hands-on training — technique, safety, client management, and the business side most people skip. Upon completion you're listed in the Sir Leo provider network.</div>
-    <div class="track-grid">
-      <div class="track-item">
-        <div class="track-item-title">Technique & Safety</div>
-        <div class="track-item-text">Impact, restraint, sensation, edge play. How to execute cleanly and handle anything that comes up.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Consent & Ethics</div>
-        <div class="track-item-text">Modern frameworks for professional practice. Intake, negotiation, safe words, and aftercare as non-negotiables.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Client Management</div>
-        <div class="track-item-text">Screening, communication, setting expectations, and maintaining professional distance.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Business Setup</div>
-        <div class="track-item-text">Pricing, booking, marketing without oversharing, and infrastructure that makes a practice sustainable.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Supervised Sessions</div>
-        <div class="track-item-text">Real practice with real people. Supervised and debriefed — you get reps before you work alone.</div>
-      </div>
-      <div class="track-item">
-        <div class="track-item-title">Certification + Network</div>
-        <div class="track-item-text">Listed as a certified provider in the Sir Leo network — referrals, mentorship, and community access.</div>
-      </div>
+  <!-- Level III -->
+  <div class="level-block">
+    <div class="level-number">III</div>
+    <div class="level-label">Professional Practice</div>
+    <h2 class="level-title">Turn It Into a Business</h2>
+    <div class="level-who">Aspiring providers · Content creators · Findoms · Those ready to build a real practice</div>
+    <div class="level-desc">Application-based. Not open to everyone. This track is for those who are ready to build a sustainable, professional practice — findom, private sessions, content creation, or a full operation. You leave with structure, skills, certification, and a network that refers and supports you.</div>
+    <div class="level-topics">
+      <span class="level-topic">Business Architecture</span>
+      <span class="level-topic">Client Vetting & Management</span>
+      <span class="level-topic">Pricing Strategy</span>
+      <span class="level-topic">Findom Foundations</span>
+      <span class="level-topic">Session Design</span>
+      <span class="level-topic">Content & Presence</span>
+      <span class="level-topic">Contracts & Safety</span>
+      <span class="level-topic">Supervised Practice</span>
+      <span class="level-topic">Certification</span>
+      <span class="level-topic">Network Listing</span>
     </div>
-    <button class="apply-btn" onclick="openHub()">Apply — Certification Track</button>
+    <div class="level-pricing">Program fee discussed during application. Limited spots.</div>
+    <button class="apply-btn" onclick="openHub()">Apply — Level III</button>
   </div>
+
 </div>
 
-<!-- ── Apply CTA ── -->
+<!-- ── CTA ── -->
 <section style="padding:80px 24px;text-align:center;background:rgba(107,26,26,0.05);" id="apply">
   <p class="lp-eyebrow">Applications Open</p>
-  <h2 class="lp-section-title">Apply to the Program</h2>
-  <p style="font-size:15px;opacity:0.65;max-width:480px;margin:0 auto 36px;line-height:1.8;">This isn't open to everyone. Tell me what you're trying to build — I'll reach out within 48 hours.</p>
+  <h2 class="lp-section-title">Not Sure Which Level?</h2>
+  <p style="font-size:15px;opacity:0.65;max-width:480px;margin:0 auto 36px;line-height:1.8;">Tell me where you are and what you're trying to build. I'll point you in the right direction and reach out within 48 hours.</p>
   <button class="apply-btn" id="cta-apply-btn">Apply Now</button>
 </section>
 
@@ -166,14 +166,6 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
-function switchTrack(track) {
-  document.querySelectorAll('.track-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.track-content').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.track-tab:${track === 'women' ? 'first-child' : 'last-child'}`).classList.add('active');
-  document.getElementById('track-' + track).classList.add('active');
-  if (window.SLAnalytics) window.SLAnalytics.track('click', 'training-tab-' + track);
-}
-
 function openHub() {
   if (window.SLHub) {
     window.SLHub.open('serve-learners');

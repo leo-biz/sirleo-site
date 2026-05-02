@@ -57,6 +57,14 @@
     .lp-submit:hover { background: #8B2020; }
     .lp-thanks { display: none; text-align: center; padding: 32px; }
     .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
+    .addon-grid { display: flex; flex-direction: column; gap: 2px; margin-top: 32px; }
+    .addon-row { display: flex; align-items: baseline; gap: 20px; padding: 16px 20px; border: 1px solid rgba(255,255,255,0.06); }
+    .addon-row:hover { background: rgba(255,255,255,0.02); }
+    .addon-row-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; min-width: 200px; }
+    .addon-row-desc { font-size: 12px; opacity: 0.5; line-height: 1.5; flex: 1; }
+    .addon-row-price { font-size: 16px; font-weight: 300; white-space: nowrap; opacity: 0.8; }
+    .addon-time-tag { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-left: 8px; vertical-align: middle; }
+    @media (max-width: 600px) { .addon-row { flex-wrap: wrap; } .addon-row-desc { min-width: 100%; order: 3; } }
   </style>
 </head>
 <body>
@@ -80,7 +88,7 @@
   <div>
     <p class="lp-eyebrow">Private Sessions · Chicago</p>
     <h1 class="lp-title">Built Around<br>What You Need</h1>
-    <p class="lp-sub">A 1-on-1 experience designed from the ground up for you. Whether you want soft and sensual or fully sadistic — Sir Leo creates the container, holds the space, and delivers.</p>
+    <p class="lp-sub">A private experience for individuals and couples — 1-on-1 or together. Whether you want soft and sensual or fully sadistic, Sir Leo creates the container, holds the space, and delivers.</p>
     <div class="lp-cta-group">
       <a href="#packages" class="lp-btn lp-btn-primary" onclick="event.preventDefault();document.getElementById('packages').scrollIntoView({behavior:'smooth'})">See Sessions</a>
       <button class="lp-btn lp-btn-ghost" id="hero-book-btn">Request a Session</button>
@@ -91,7 +99,7 @@
 <section class="lp-section" id="packages">
   <p class="lp-eyebrow">Session Packages</p>
   <h2 class="lp-section-title">Choose Your Experience</h2>
-  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Every session is 1 hour, private, and ends with full aftercare. These are starting points — we customize around you before every session.</p>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Every session is 1 hour, private, and ends with full aftercare. Individuals and couples both welcome. These are starting points — we customize around you before every session.</p>
   <div class="pkg-grid">
     <div class="pkg-card">
       <div class="pkg-name">Sensual Surrender</div>
@@ -128,7 +136,49 @@
       </ul>
     </div>
   </div>
-  <p style="font-size:12px;opacity:0.4;margin-top:24px;text-align:center;">Add-ons: Fire Play, Rope Bondage, Sensory Deprivation, Session Photography, Extended Aftercare, Time Extension, Orgasmic Edition.</p>
+</section>
+
+<section class="lp-section" id="addons" style="padding-top:0;">
+  <p class="lp-eyebrow">Enhance Your Experience</p>
+  <h2 class="lp-section-title">Add-Ons</h2>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Layer in exactly what you want. Some add-ons extend your time — noted below. All are discussed and confirmed before you arrive.</p>
+  <div class="addon-grid">
+    <div class="addon-row">
+      <div class="addon-row-name">Fire Play</div>
+      <div class="addon-row-desc">Cupping, waving, and controlled flame work. Thrilling to watch, even more to feel.</div>
+      <div class="addon-row-price">+$100</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Rope Bondage</div>
+      <div class="addon-row-desc">Single column, full body, or suspension elements depending on experience and comfort level.</div>
+      <div class="addon-row-price">+$75</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Sensory Deprivation</div>
+      <div class="addon-row-desc">Blindfold, earplugs, full sensory override. Amplifies every other element of the session.</div>
+      <div class="addon-row-price">+$40</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Session Photography</div>
+      <div class="addon-row-desc">Private photos taken during your session — yours to keep. Discreet and intentional.</div>
+      <div class="addon-row-price">+$100</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Extended Aftercare<span class="addon-time-tag">+30 min</span></div>
+      <div class="addon-row-desc">Extra time for grounding, care, and presence after the session ends. Never rushed out.</div>
+      <div class="addon-row-price">+$60</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Time Extension<span class="addon-time-tag">+30 min</span></div>
+      <div class="addon-row-desc">Add more time to the session itself — more depth, more intensity, more of what you came for.</div>
+      <div class="addon-row-price">+$75</div>
+    </div>
+    <div class="addon-row">
+      <div class="addon-row-name">Orgasmic Edition</div>
+      <div class="addon-row-desc">Controlled release — on his terms, not yours. Discussed and consented before the session begins.</div>
+      <div class="addon-row-price">+$150</div>
+    </div>
+  </div>
 </section>
 
 <section style="padding:80px 24px;text-align:center;max-width:640px;margin:0 auto;">

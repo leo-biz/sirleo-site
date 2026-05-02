@@ -56,11 +56,15 @@
 
     /* Types grid */
     .types-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2px; margin-top: 40px; }
-    .type-item { padding: 28px 20px; border: 1px solid rgba(255,255,255,0.06); text-align: center; background: rgba(255,255,255,0.01); transition: background 0.2s, border-color 0.2s; cursor: pointer; }
+    .type-item { padding: 20px 20px 22px; border: 1px solid rgba(255,255,255,0.06); text-align: center; background: rgba(255,255,255,0.01); transition: background 0.2s, border-color 0.2s; cursor: pointer; }
     .type-item:hover { background: rgba(107,26,26,0.08); border-color: rgba(107,26,26,0.3); }
-    .type-icon { font-size: 26px; margin-bottom: 12px; }
     .type-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; margin-bottom: 6px; }
     .type-desc { font-size: 11px; opacity: 0.5; letter-spacing: 0.05em; line-height: 1.6; }
+    /* Partner section */
+    .partner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; margin-top: 32px; }
+    .partner-card { padding: 28px 24px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.01); }
+    .partner-card-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 10px; }
+    .partner-card-text { font-size: 13px; line-height: 1.8; opacity: 0.6; }
 
     .lp-cta-section { padding: 80px 24px; text-align: center; background: rgba(107,26,26,0.05); }
     .lp-cta-section .lp-section-title { margin-bottom: 12px; }
@@ -103,32 +107,26 @@
   <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Standard group celebrations are forgettable. Whatever you're celebrating, Sir Leo builds an experience around it — immersive, curated, and unlike anything your group has done before.</p>
   <div class="types-grid">
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">💍</div>
       <div class="type-name">Bachelorette</div>
       <div class="type-desc">Send her off right</div>
     </div>
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">🎂</div>
       <div class="type-name">Birthday</div>
       <div class="type-desc">A celebration worth remembering</div>
     </div>
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">🥂</div>
       <div class="type-name">Girls' Night</div>
       <div class="type-desc">No occasion needed</div>
     </div>
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">🎭</div>
       <div class="type-name">Private Party</div>
       <div class="type-desc">Your people, your energy</div>
     </div>
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">💫</div>
       <div class="type-name">Anniversary</div>
       <div class="type-desc">For couples who want more</div>
     </div>
     <div class="type-item" onclick="openHub()">
-      <div class="type-icon">🔮</div>
       <div class="type-name">Something Else</div>
       <div class="type-desc">Tell me what you're envisioning</div>
     </div>
@@ -182,6 +180,30 @@
   </div>
 </section>
 
+<!-- ── Venue & Partner ── -->
+<section class="lp-section" id="venues">
+  <p class="lp-eyebrow">Venues & Partners</p>
+  <h2 class="lp-section-title">Bring the Experience to Your Space</h2>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Salons, lifestyle shops, studios, and private clubs — Sir Leo can curate a full experience inside your space, or partner with your brand on something bigger. If your clientele is open-minded, there's probably something worth building together.</p>
+  <div class="partner-grid">
+    <div class="partner-card">
+      <div class="partner-card-title">Venue Hosting</div>
+      <div class="partner-card-text">You provide the space — Sir Leo brings the experience to your clients or guests. Ideal for salons, spas, studios, and lifestyle shops looking to offer something unforgettable.</div>
+    </div>
+    <div class="partner-card">
+      <div class="partner-card-title">Brand Partnership</div>
+      <div class="partner-card-text">Co-promoted events, exclusive client activations, or referral arrangements. Align your brand with an elevated, consent-forward experience your audience won't forget.</div>
+    </div>
+    <div class="partner-card">
+      <div class="partner-card-title">Private Club Access</div>
+      <div class="partner-card-text">For lifestyle clubs and private membership spaces looking to bring structured, high-end curated experiences to their members on a recurring basis.</div>
+    </div>
+  </div>
+  <div style="margin-top:36px;">
+    <button class="lp-btn lp-btn-ghost" id="venue-partner-btn">Inquire About Partnering</button>
+  </div>
+</section>
+
 <!-- ── CTA ── -->
 <section class="lp-cta-section">
   <p class="lp-eyebrow">Ready to Plan</p>
@@ -220,6 +242,7 @@
   document.getElementById('hero-plan-btn').addEventListener('click', openHub);
   document.getElementById('cta-plan-btn').addEventListener('click', openHub);
   document.getElementById('nav-inquire-btn').addEventListener('click', openHub);
+  document.getElementById('venue-partner-btn').addEventListener('click', openHub);
 
   if (new URLSearchParams(window.location.search).has('open')) {
     window.addEventListener('load', () => {
