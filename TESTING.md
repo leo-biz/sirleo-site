@@ -6,6 +6,34 @@ Resend audience: **https://resend.com/audiences**
 
 ---
 
+## 0. Landing Pages
+
+### 5 New Landing Pages
+Visit each on dev and verify form submits and analytics fire:
+
+| Page | URL | panel_type | data.source_page |
+|---|---|---|---|
+| Group Events | /events | serve-organizers | events |
+| Women Sessions | /sessions | serve-individuals | sessions |
+| Men Sessions | /men | serve-individuals | men |
+| For Women (monetize) | /for-women | serve-learners | for-women |
+| Certification | /certify | serve-learners | certify |
+
+**Verify for each:**
+- Form submits → row in Supabase `submissions` with correct `panel_type` and `data.source_page`
+- Thank-you state appears after submit (form hides, thanks message shows)
+- Nav links render correctly
+- Page is mobile-responsive
+
+### Email Sequences (followup.js)
+The sequence is now 4-step per audience. To manually test a step:
+1. Insert a test submission in Supabase with the desired `panel_type`/`data.source_page`, set `created_at` to a time that falls in the target window
+2. Temporarily trigger the function via Netlify CLI: `netlify functions:invoke followup`
+3. Verify email arrives with the correct audience-specific content
+4. Verify `sequence_step` increments in the submissions row
+
+---
+
 ## 1. Form Submissions
 
 ### Book a Session

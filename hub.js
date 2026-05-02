@@ -16,7 +16,7 @@ function collectFields(el) {
   return out;
 }
 
-const PROD_HOSTS = ['sirleo-site.netlify.app', 'sirleo.com', 'www.sirleo.com'];
+const PROD_HOSTS = ['sirleo-site.netlify.app', 'sirblackleo.com', 'www.sirblackleo.com', 'sirleo.com', 'www.sirleo.com'];
 const IS_TEST_ENV = !PROD_HOSTS.some(h => window.location.hostname === h);
 
 function saveToSupabase(panelType, name, phone, email, data) {

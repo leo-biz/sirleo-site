@@ -4,6 +4,21 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.8 — 2026-05-02
+**SEO, 5 landing pages, multi-step email sequences**
+- `index.html` — updated title, canonical tag, OG URLs to sirblackleo.com, LocalBusiness schema markup
+- `book.html`, `pricing.html` — added full SEO meta tags (title, description, canonical, OG, Twitter Card)
+- `robots.txt` — updated sitemap URL to sirblackleo.com
+- `sitemap.xml` — updated domain, added all 8 pages including 5 new landing pages
+- `netlify.toml` — added redirects for /events, /sessions, /men, /for-women, /certify
+- `events.html` — group experiences / bachelorette landing page with inquiry form
+- `sessions.html` — women's private sessions landing page with session selector
+- `men.html` — men's sessions landing page with goal selector
+- `for-women.html` — women monetize/findom training application page
+- `certify.html` — men's BDSM provider certification application page
+- `netlify/functions/followup.js` — full rewrite: 4-step sequences (Day 2/5/10/21), audience-specific emails per source_page/panel_type
+- Supabase `submissions` table: added `sequence_step` integer column (default 0)
+
 ## v2.7 — 2026-05-01
 **Real session packages + Stripe wired**
 - `build.html` — updated packages: Sensual Surrender ($200), Mr. Naughty & Nasty ($300), The Sadistic Devil ($400), all 1 hour

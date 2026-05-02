@@ -34,5 +34,30 @@
   to   = "/pay-success.html"
   status = 200
 
+[[redirects]]
+  from = "/events"
+  to   = "/events.html"
+  status = 200
+
+[[redirects]]
+  from = "/sessions"
+  to   = "/sessions.html"
+  status = 200
+
+[[redirects]]
+  from = "/men"
+  to   = "/men.html"
+  status = 200
+
+[[redirects]]
+  from = "/for-women"
+  to   = "/for-women.html"
+  status = 200
+
+[[redirects]]
+  from = "/certify"
+  to   = "/certify.html"
+  status = 200
+
 [functions."followup"]
   schedule = "0 17 * * *"

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Sessions for Women — Sir Leo | Chicago BDSM</title>
+  <meta name="description" content="Private 1-on-1 BDSM sessions for women in Chicago. From sensual and soft to fully sadistic — Sir Leo creates a safe, curated experience designed around you. Sessions from $200.">
+  <link rel="canonical" href="https://sirblackleo.com/sessions">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://sirblackleo.com/sessions">
+  <meta property="og:title"       content="Private Sessions for Women — Sir Leo | Chicago BDSM">
+  <meta property="og:description" content="Private 1-on-1 BDSM sessions in Chicago. Sensual to sadistic. Safe, curated, and designed around you.">
+  <meta property="og:image"       content="https://sirblackleo.com/assets/photo-hero.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Private Sessions for Women — Sir Leo Chicago">
+  <meta name="twitter:description" content="Private BDSM sessions in Chicago. Sensual to sadistic. Designed for women.">
+  <meta name="twitter:image"      content="https://sirblackleo.com/assets/photo-hero.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lp-hero { min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; }
+    .lp-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .lp-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(40px, 7vw, 80px); font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 24px; }
+    .lp-sub { font-size: 16px; line-height: 1.9; max-width: 520px; margin: 0 auto 40px; opacity: 0.7; }
+    .lp-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .lp-btn { padding: 14px 32px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; border: none; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .lp-btn-primary { background: var(--accent, #6B1A1A); color: #f0e6d0; }
+    .lp-btn-primary:hover { background: #8B2020; }
+    .lp-btn-ghost { background: transparent; border: 1px solid rgba(240,230,208,0.3); color: var(--text-primary, #f0e6d0); }
+    .lp-btn-ghost:hover { border-color: rgba(240,230,208,0.6); }
+
+    .lp-section { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+    .lp-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 300; font-style: italic; margin-bottom: 20px; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 40px; }
+    .pkg-card { padding: 32px 28px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); position: relative; }
+    .pkg-card.featured { border-color: rgba(107,26,26,0.5); }
+    .pkg-badge { position: absolute; top: -1px; right: 20px; background: var(--accent, #6B1A1A); color: #f0e6d0; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+    .pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; font-weight: 400; margin-bottom: 8px; }
+    .pkg-price { font-size: 28px; font-weight: 300; margin-bottom: 16px; }
+    .pkg-price span { font-size: 14px; opacity: 0.5; }
+    .pkg-desc { font-size: 13px; line-height: 1.8; opacity: 0.65; margin-bottom: 20px; }
+    .pkg-features { list-style: none; padding: 0; margin: 0; }
+    .pkg-features li { font-size: 12px; opacity: 0.7; padding: 5px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    .pkg-features li:before { content: '·  '; color: var(--accent, #6B1A1A); }
+
+    .lp-form-section { padding: 80px 24px; background: rgba(107,26,26,0.05); }
+    .lp-form-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+    .lp-form-sub { font-size: 15px; opacity: 0.65; line-height: 1.8; margin-bottom: 40px; }
+    .lp-form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+    .lp-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary, #f0e6d0); padding: 14px 18px; font-size: 14px; font-family: 'Montserrat', sans-serif; width: 100%; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
+    .lp-input:focus { border-color: rgba(107,26,26,0.6); }
+    .lp-input::placeholder { color: rgba(240,230,208,0.35); }
+    textarea.lp-input { resize: vertical; min-height: 100px; }
+    select.lp-input { appearance: none; }
+    .lp-submit { background: var(--accent, #6B1A1A); color: #f0e6d0; border: none; padding: 16px 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; width: 100%; }
+    .lp-submit:hover { background: #8B2020; }
+    .lp-thanks { display: none; text-align: center; padding: 32px; }
+    .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Sir Leo" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/events">Group Events</a></li>
+    <li><a href="/#connect">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Book Now</button>
+</nav>
+
+<section class="lp-hero">
+  <div>
+    <p class="lp-eyebrow">Private Sessions · Chicago</p>
+    <h1 class="lp-title">Built Around<br>What You Need</h1>
+    <p class="lp-sub">A 1-on-1 experience designed from the ground up for you. Whether you want soft and sensual or fully sadistic — Sir Leo creates the container, holds the space, and delivers what you came for.</p>
+    <div class="lp-cta-group">
+      <a href="#sessions-packages" class="lp-btn lp-btn-primary" onclick="event.preventDefault();document.getElementById('sessions-packages').scrollIntoView({behavior:'smooth'})">See Sessions</a>
+      <a href="#inquiry" class="lp-btn lp-btn-ghost" onclick="event.preventDefault();document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Request a Session</a>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section" id="sessions-packages">
+  <p class="lp-eyebrow">Session Packages</p>
+  <h2 class="lp-section-title">Choose Your Experience</h2>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Every session is 1 hour. Every session is private. Every session ends with full aftercare. These aren't templates — they're starting points we customize to you.</p>
+  <div class="pkg-grid">
+    <div class="pkg-card">
+      <div class="pkg-name">Sensual Surrender</div>
+      <div class="pkg-price">$200 <span>/ session</span></div>
+      <div class="pkg-desc">Erotic massage, silk, feather work, and soft restraint. Sensation over intensity — designed for those exploring or craving something softer.</div>
+      <ul class="pkg-features">
+        <li>1 hour private session</li>
+        <li>Silk & feather sensation play</li>
+        <li>Light restraint options</li>
+        <li>Full aftercare included</li>
+      </ul>
+    </div>
+    <div class="pkg-card featured">
+      <div class="pkg-badge">Most Chosen</div>
+      <div class="pkg-name">Mr. Naughty & Nasty</div>
+      <div class="pkg-price">$300 <span>/ session</span></div>
+      <div class="pkg-desc">Choking, toys, kink, and escalating intensity. Erotic and edged — pleasure with teeth. This is the middle ground where most people find their edge.</div>
+      <ul class="pkg-features">
+        <li>1 hour private session</li>
+        <li>Choking & impact play</li>
+        <li>Toys & kink elements</li>
+        <li>Full aftercare included</li>
+      </ul>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-name">The Sadistic Devil</div>
+      <div class="pkg-price">$400 <span>/ session</span></div>
+      <div class="pkg-desc">Full sadistic expression. Designed for those who know exactly what they want and crave the dark end of the spectrum. Not for the uninitiated.</div>
+      <ul class="pkg-features">
+        <li>1 hour private session</li>
+        <li>Heavy impact & kink</li>
+        <li>Full sadistic experience</li>
+        <li>Full aftercare included</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:12px;opacity:0.4;margin-top:24px;text-align:center;">Add-ons available: Fire Play, Rope Bondage, Sensory Deprivation, Session Photography, Extended Aftercare, and more.</p>
+</section>
+
+<section style="padding:80px 24px;text-align:center;max-width:640px;margin:0 auto;">
+  <p class="lp-eyebrow">Before You Book</p>
+  <h2 class="lp-section-title">What to Expect</h2>
+  <div style="text-align:left;display:flex;flex-direction:column;gap:24px;margin-top:32px;">
+    <div style="display:flex;gap:20px;align-items:flex-start;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--accent,#6B1A1A);line-height:1;flex-shrink:0;">01</div>
+      <div>
+        <div style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;margin-bottom:6px;">We Talk First</div>
+        <div style="font-size:14px;opacity:0.65;line-height:1.8;">A brief intake conversation to understand your experience level, limits, and what you're looking for. This isn't optional — it's what makes the session actually work.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:20px;align-items:flex-start;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--accent,#6B1A1A);line-height:1;flex-shrink:0;">02</div>
+      <div>
+        <div style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;margin-bottom:6px;">You Book & Deposit</div>
+        <div style="font-size:14px;opacity:0.65;line-height:1.8;">$100 deposit secures your date. Balance due day-of. All payments are private and discreet.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:20px;align-items:flex-start;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--accent,#6B1A1A);line-height:1;flex-shrink:0;">03</div>
+      <div>
+        <div style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;margin-bottom:6px;">You Show Up</div>
+        <div style="font-size:14px;opacity:0.65;line-height:1.8;">Private, discreet location. You're in capable hands from the moment you arrive. Aftercare is built in — you won't be rushed out.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-form-section" id="inquiry">
+  <div class="lp-form-inner">
+    <p class="lp-eyebrow">Ready to Start</p>
+    <h2 class="lp-section-title">Request Your Session</h2>
+    <p class="lp-form-sub">This is the first step. No commitment required. Tell me a little about what you're looking for and I'll reach out within 24 hours.</p>
+
+    <form class="lp-form" id="sessions-form">
+      <input class="lp-input" type="text" name="name" placeholder="Your name" required>
+      <input class="lp-input" type="email" name="email" placeholder="Email address" required>
+      <input class="lp-input" type="tel" name="phone" placeholder="Phone (optional)">
+      <select class="lp-input" name="package">
+        <option value="" disabled selected>Which session interests you?</option>
+        <option value="sensual-surrender">Sensual Surrender — $200</option>
+        <option value="mr-naughty-nasty">Mr. Naughty & Nasty — $300</option>
+        <option value="the-sadistic-devil">The Sadistic Devil — $400</option>
+        <option value="not-sure">Not sure yet</option>
+      </select>
+      <input class="lp-input" type="text" name="availability" placeholder="Your general availability">
+      <textarea class="lp-input" name="message" placeholder="Anything you'd like me to know (experience level, questions, etc.)"></textarea>
+      <button type="submit" class="lp-submit">Send Request</button>
+    </form>
+    <div class="lp-thanks" id="sessions-thanks">
+      <p>Request received.</p>
+      <p style="font-size:14px;opacity:0.6;margin-top:12px;font-family:'Montserrat',sans-serif;">Expect a personal reply within 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
+  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="version.js"></script>
+<script src="db.js"></script>
+<script src="analytics.js"></script>
+<script src="main.js"></script>
+<script>
+document.getElementById('sessions-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  const data = Object.fromEntries(fd.entries());
+
+  if (window.SLDb) {
+    await window.SLDb.from('submissions').insert({
+      name: data.name,
+      email: data.email || null,
+      phone: data.phone || null,
+      panel_type: 'serve-individuals',
+      message: data.message || null,
+      data: {
+        package: data.package,
+        availability: data.availability,
+        source_page: 'sessions',
+      },
+    });
+  }
+
+  this.style.display = 'none';
+  document.getElementById('sessions-thanks').style.display = 'block';
+  if (window.SLAnalytics) window.SLAnalytics.track('form_submit', 'sessions-inquiry');
+});
+</script>
+</body>
+</html>

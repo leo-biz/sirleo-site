@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /.netlify/
 
-Sitemap: https://sirleo-site.netlify.app/sitemap.xml
+Sitemap: https://sirblackleo.com/sitemap.xml
