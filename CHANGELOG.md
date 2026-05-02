@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.13 — 2026-05-02
+**Fix modal auto-open, standardize nav, Who I Serve navigates to pages**
+- `main.js` — Who I Serve cards now navigate to `/sessions?open`, `/events?open`, `/training?open` instead of opening the hub modal on the homepage
+- `sessions.html`, `events.html`, `training.html` — removed unconditional hub auto-open on load; modal only auto-opens when `?open` param is present (i.e. arrived from homepage)
+- `sessions.html`, `events.html`, `training.html` — nav standardized to match homepage (Offerings · Who I Serve · Events · Questions · Contact)
+- `sessions.html`, `events.html`, `training.html` — added `.footer-version` span so version badge shows in all page footers
+
 ## v2.12 — 2026-05-02
 **Wire hub modal into all landing pages; fix index.html Events nav**
 - `training.html` — replaced standalone application form with hub CTA section; apply buttons now open `serve-learners` panel; added React/ReactDOM/Babel + hub.js dependencies; auto-opens hub on load

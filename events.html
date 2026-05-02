@@ -46,7 +46,6 @@
     .lp-btn-primary:hover { background: #8B2020; }
     .lp-btn-ghost { background: transparent; border: 1px solid rgba(240,230,208,0.3); color: var(--text-primary, #f0e6d0); }
     .lp-btn-ghost:hover { border-color: rgba(240,230,208,0.6); }
-
     .lp-section { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
     .lp-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 300; font-style: italic; margin-bottom: 20px; }
     .lp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 40px; }
@@ -55,18 +54,17 @@
     .lp-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 400; font-style: italic; margin-bottom: 12px; }
     .lp-card-text { font-size: 14px; line-height: 1.8; opacity: 0.65; }
 
-    .lp-form-section { padding: 80px 24px; background: rgba(107,26,26,0.05); }
-    .lp-form-inner { max-width: 560px; margin: 0 auto; text-align: center; }
-    .lp-form-sub { font-size: 15px; opacity: 0.65; line-height: 1.8; margin-bottom: 40px; }
-    .lp-form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
-    .lp-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary, #f0e6d0); padding: 14px 18px; font-size: 14px; font-family: 'Montserrat', sans-serif; width: 100%; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
-    .lp-input:focus { border-color: rgba(107,26,26,0.6); }
-    .lp-input::placeholder { color: rgba(240,230,208,0.35); }
-    textarea.lp-input { resize: vertical; min-height: 100px; }
-    .lp-submit { background: var(--accent, #6B1A1A); color: #f0e6d0; border: none; padding: 16px 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; width: 100%; }
-    .lp-submit:hover { background: #8B2020; }
-    .lp-thanks { display: none; text-align: center; padding: 32px; }
-    .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
+    /* Types grid */
+    .types-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2px; margin-top: 40px; }
+    .type-item { padding: 28px 20px; border: 1px solid rgba(255,255,255,0.06); text-align: center; background: rgba(255,255,255,0.01); transition: background 0.2s, border-color 0.2s; cursor: pointer; }
+    .type-item:hover { background: rgba(107,26,26,0.08); border-color: rgba(107,26,26,0.3); }
+    .type-icon { font-size: 26px; margin-bottom: 12px; }
+    .type-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; margin-bottom: 6px; }
+    .type-desc { font-size: 11px; opacity: 0.5; letter-spacing: 0.05em; line-height: 1.6; }
+
+    .lp-cta-section { padding: 80px 24px; text-align: center; background: rgba(107,26,26,0.05); }
+    .lp-cta-section .lp-section-title { margin-bottom: 12px; }
+    .lp-cta-sub { font-size: 15px; opacity: 0.6; max-width: 480px; margin: 0 auto 36px; line-height: 1.8; }
   </style>
 </head>
 <body>
@@ -77,11 +75,13 @@
 <nav id="nav">
   <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Sir Leo" class="nav-logo-img"></a>
   <ul class="nav-links">
-    <li><a href="/#offerings">Sessions</a></li>
-    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/#offerings">Offerings</a></li>
+    <li><a href="/#serve">Who I Serve</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/#faq">Questions</a></li>
     <li><a href="/#connect">Contact</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Inquire</button>
+  <button class="nav-cta" id="nav-inquire-btn">Book</button>
 </nav>
 
 <section class="lp-hero">
@@ -90,16 +90,56 @@
     <h1 class="lp-title">An Experience<br>They'll Never Forget</h1>
     <p class="lp-sub">Bachelorette parties. Birthday celebrations. Private group events. Curated kink experiences for open-minded gatherings in Chicago — consent-forward, unforgettable, and unlike anything else you've done.</p>
     <div class="lp-cta-group">
-      <a href="#inquiry" class="lp-btn lp-btn-primary" onclick="event.preventDefault();document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Plan Your Event</a>
-      <a href="#what-to-expect" class="lp-btn lp-btn-ghost" onclick="event.preventDefault();document.getElementById('what-to-expect').scrollIntoView({behavior:'smooth'})">See What's Included</a>
+      <button class="lp-btn lp-btn-primary" id="hero-plan-btn">Plan Your Event</button>
+      <button class="lp-btn lp-btn-ghost" onclick="document.getElementById('what-we-do').scrollIntoView({behavior:'smooth'})">See What's Included</button>
     </div>
   </div>
 </section>
 
-<section class="lp-section" id="what-to-expect">
+<!-- ── Event Types ── -->
+<section class="lp-section" id="event-types">
+  <p class="lp-eyebrow">Who This Is For</p>
+  <h2 class="lp-section-title">Every Kind of Celebration</h2>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Standard group celebrations are forgettable. Whatever you're celebrating, Sir Leo builds an experience around it — immersive, curated, and unlike anything your group has done before.</p>
+  <div class="types-grid">
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">💍</div>
+      <div class="type-name">Bachelorette</div>
+      <div class="type-desc">Send her off right</div>
+    </div>
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">🎂</div>
+      <div class="type-name">Birthday</div>
+      <div class="type-desc">A celebration worth remembering</div>
+    </div>
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">🥂</div>
+      <div class="type-name">Girls' Night</div>
+      <div class="type-desc">No occasion needed</div>
+    </div>
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">🎭</div>
+      <div class="type-name">Private Party</div>
+      <div class="type-desc">Your people, your energy</div>
+    </div>
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">💫</div>
+      <div class="type-name">Anniversary</div>
+      <div class="type-desc">For couples who want more</div>
+    </div>
+    <div class="type-item" onclick="openHub()">
+      <div class="type-icon">🔮</div>
+      <div class="type-name">Something Else</div>
+      <div class="type-desc">Tell me what you're envisioning</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What We Do ── -->
+<section class="lp-section" id="what-we-do">
   <p class="lp-eyebrow">What We Do</p>
   <h2 class="lp-section-title">Curated for Groups Who Want More</h2>
-  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Standard group celebrations are forgettable. Sir Leo creates immersive experiences — fire artistry, sensation play, kink demonstrations, and interactive moments your group controls. Everything is consensual, educational if you want it to be, and deeply entertaining.</p>
+  <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Sir Leo creates immersive experiences — fire artistry, sensation play, kink demonstrations, and interactive moments your group controls. Everything is consensual, educational if you want it to be, and deeply entertaining.</p>
   <div class="lp-grid">
     <div class="lp-card">
       <div class="lp-card-icon">🔥</div>
@@ -113,17 +153,13 @@
     </div>
     <div class="lp-card">
       <div class="lp-card-icon">✨</div>
-      <div class="lp-card-title">Bachelorette & Birthday Takeover</div>
-      <div class="lp-card-text">A full evening built around the guest of honor — bride-to-be, birthday queen, or whoever deserves the spotlight. Private venue, custom energy, stories they'll tell for years.</div>
-    </div>
-    <div class="lp-card">
-      <div class="lp-card-icon">🏛️</div>
-      <div class="lp-card-title">Venue Partnership</div>
-      <div class="lp-card-text">Already have a space? Sir Leo comes to you. Or tap into the private venue network for a fully curated location experience.</div>
+      <div class="lp-card-title">Guest of Honor Treatment</div>
+      <div class="lp-card-text">A full evening built around whoever deserves the spotlight — bride-to-be, birthday queen, or the one who makes everything happen. Private venue, custom energy, stories they'll tell for years.</div>
     </div>
   </div>
 </section>
 
+<!-- ── How It Works ── -->
 <section style="padding:60px 24px;text-align:center;max-width:700px;margin:0 auto;">
   <p class="lp-eyebrow">The Details</p>
   <h2 class="lp-section-title">How It Works</h2>
@@ -146,70 +182,52 @@
   </div>
 </section>
 
-<section class="lp-form-section" id="inquiry">
-  <div class="lp-form-inner">
-    <p class="lp-eyebrow">Ready to Plan</p>
-    <h2 class="lp-section-title">Tell Me About Your Group</h2>
-    <p class="lp-form-sub">Fill this out and I'll reach out within 24 hours to talk details. No pressure, just a conversation.</p>
-
-    <form class="lp-form" id="events-form">
-      <input class="lp-input" type="text" name="name" placeholder="Your name" required>
-      <input class="lp-input" type="email" name="email" placeholder="Email address" required>
-      <input class="lp-input" type="tel" name="phone" placeholder="Phone (optional)">
-      <select class="lp-input" name="event_type" style="appearance:none;">
-        <option value="" disabled selected>Type of event</option>
-        <option value="bachelorette">Bachelorette party</option>
-        <option value="birthday">Birthday celebration</option>
-        <option value="private-party">Private group party</option>
-        <option value="other">Other</option>
-      </select>
-      <input class="lp-input" type="text" name="group_size" placeholder="Approximate group size">
-      <input class="lp-input" type="text" name="date" placeholder="Preferred date or timeframe">
-      <textarea class="lp-input" name="message" placeholder="Anything else you want me to know?"></textarea>
-      <button type="submit" class="lp-submit">Send Inquiry</button>
-    </form>
-    <div class="lp-thanks" id="events-thanks">
-      <p>Received. I'll be in touch soon.</p>
-      <p style="font-size:14px;opacity:0.6;margin-top:12px;font-family:'Montserrat',sans-serif;">Check your email in the next 24 hours.</p>
-    </div>
-  </div>
+<!-- ── CTA ── -->
+<section class="lp-cta-section">
+  <p class="lp-eyebrow">Ready to Plan</p>
+  <h2 class="lp-section-title">Let's Talk About Your Event</h2>
+  <p class="lp-cta-sub">No commitment. Just tell me what you have in mind and I'll reach out within 24 hours.</p>
+  <button class="lp-btn lp-btn-primary" id="cta-plan-btn">Plan Your Event</button>
 </section>
 
 <footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
-  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
+  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a> · <span class="footer-version"></span></p>
 </footer>
+
+<!-- ── Hub ── -->
+<div id="hub-root"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="version.js"></script>
 <script src="db.js"></script>
 <script src="analytics.js"></script>
 <script src="main.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
-document.getElementById('events-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const fd = new FormData(this);
-  const data = Object.fromEntries(fd.entries());
-
-  if (window.SLDb) {
-    await window.SLDb.from('submissions').insert({
-      name: data.name,
-      email: data.email || null,
-      phone: data.phone || null,
-      panel_type: 'serve-organizers',
-      message: data.message || null,
-      data: {
-        event_type: data.event_type,
-        group_size: data.group_size,
-        date: data.date,
-        source_page: 'events',
-      },
-    });
+  function openHub() {
+    if (window.SLHub) {
+      window.SLHub.open('serve-organizers');
+    } else {
+      const t = setInterval(() => {
+        if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-organizers'); }
+      }, 50);
+    }
   }
 
-  this.style.display = 'none';
-  document.getElementById('events-thanks').style.display = 'block';
-  if (window.SLAnalytics) window.SLAnalytics.track('form_submit', 'events-inquiry');
-});
+  document.getElementById('hero-plan-btn').addEventListener('click', openHub);
+  document.getElementById('cta-plan-btn').addEventListener('click', openHub);
+  document.getElementById('nav-inquire-btn').addEventListener('click', openHub);
+
+  if (new URLSearchParams(window.location.search).has('open')) {
+    window.addEventListener('load', () => {
+      const t = setInterval(() => {
+        if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-organizers'); }
+      }, 50);
+    });
+  }
 </script>
 </body>
 </html>

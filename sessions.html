@@ -67,11 +67,13 @@
 <nav id="nav">
   <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Sir Leo" class="nav-logo-img"></a>
   <ul class="nav-links">
-    <li><a href="/pricing">Pricing</a></li>
-    <li><a href="/events">Group Events</a></li>
-    <li><a href="/training">Training</a></li>
+    <li><a href="/#offerings">Offerings</a></li>
+    <li><a href="/#serve">Who I Serve</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/#faq">Questions</a></li>
+    <li><a href="/#connect">Contact</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Request a Session</button>
+  <button class="nav-cta" id="nav-book-btn">Book</button>
 </nav>
 
 <section class="lp-hero">
@@ -81,7 +83,7 @@
     <p class="lp-sub">A 1-on-1 experience designed from the ground up for you. Whether you want soft and sensual or fully sadistic — Sir Leo creates the container, holds the space, and delivers.</p>
     <div class="lp-cta-group">
       <a href="#packages" class="lp-btn lp-btn-primary" onclick="event.preventDefault();document.getElementById('packages').scrollIntoView({behavior:'smooth'})">See Sessions</a>
-      <a href="#inquiry" class="lp-btn lp-btn-ghost" onclick="event.preventDefault();document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})">Request a Session</a>
+      <button class="lp-btn lp-btn-ghost" id="hero-book-btn">Request a Session</button>
     </div>
   </div>
 </section>
@@ -157,61 +159,47 @@
   </div>
 </section>
 
-<section class="lp-form-section" id="inquiry">
-  <div class="lp-form-inner">
-    <p class="lp-eyebrow">Get Started</p>
-    <h2 class="lp-section-title">Request a Session</h2>
-    <p class="lp-form-sub">No commitment yet — just tell me what you're looking for. I'll reach out within 24 hours.</p>
-    <form class="lp-form" id="sessions-form">
-      <input class="lp-input" type="text" name="name" placeholder="Your name" required>
-      <input class="lp-input" type="email" name="email" placeholder="Email address" required>
-      <input class="lp-input" type="tel" name="phone" placeholder="Phone (optional)">
-      <select class="lp-input" name="package">
-        <option value="" disabled selected>Which session interests you?</option>
-        <option value="sensual-surrender">Sensual Surrender — $200</option>
-        <option value="mr-naughty-nasty">Mr. Naughty & Nasty — $300</option>
-        <option value="the-sadistic-devil">The Sadistic Devil — $400</option>
-        <option value="not-sure">Not sure yet</option>
-      </select>
-      <input class="lp-input" type="text" name="availability" placeholder="General availability">
-      <textarea class="lp-input" name="message" placeholder="Experience level, questions, anything you'd like me to know..."></textarea>
-      <button type="submit" class="lp-submit">Send Request</button>
-    </form>
-    <div class="lp-thanks" id="sessions-thanks">
-      <p>Request received.</p>
-      <p style="font-size:14px;opacity:0.6;margin-top:12px;font-family:'Montserrat',sans-serif;">Expect a personal reply within 24 hours.</p>
-    </div>
-  </div>
+<section style="padding:80px 24px;text-align:center;background:rgba(107,26,26,0.05);">
+  <p class="lp-eyebrow">Get Started</p>
+  <h2 class="lp-section-title">Request a Session</h2>
+  <p style="font-size:15px;opacity:0.65;max-width:480px;margin:0 auto 36px;line-height:1.8;">No commitment yet. Tell me what you're looking for and I'll reach out within 24 hours.</p>
+  <button class="lp-btn lp-btn-primary" id="cta-book-btn">Request a Session</button>
 </section>
 
 <footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
-  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
+  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a> · <span class="footer-version"></span></p>
 </footer>
 
+<div id="hub-root"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="version.js"></script>
 <script src="db.js"></script>
 <script src="analytics.js"></script>
 <script src="main.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
-document.getElementById('sessions-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const fd = new FormData(this);
-  const data = Object.fromEntries(fd.entries());
-  if (window.SLDb) {
-    await window.SLDb.from('submissions').insert({
-      name: data.name,
-      email: data.email || null,
-      phone: data.phone || null,
-      panel_type: 'serve-individuals',
-      message: data.message || null,
-      data: { package: data.package, availability: data.availability, source_page: 'sessions' },
+  function openHub() {
+    if (window.SLHub) {
+      window.SLHub.open('serve-individuals');
+    } else {
+      const t = setInterval(() => {
+        if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-individuals'); }
+      }, 50);
+    }
+  }
+  document.getElementById('hero-book-btn').addEventListener('click', openHub);
+  document.getElementById('cta-book-btn').addEventListener('click', openHub);
+  document.getElementById('nav-book-btn').addEventListener('click', openHub);
+  if (new URLSearchParams(window.location.search).has('open')) {
+    window.addEventListener('load', () => {
+      const t = setInterval(() => {
+        if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-individuals'); }
+      }, 50);
     });
   }
-  this.style.display = 'none';
-  document.getElementById('sessions-thanks').style.display = 'block';
-  if (window.SLAnalytics) window.SLAnalytics.track('form_submit', 'sessions-inquiry');
-});
 </script>
 </body>
 </html>

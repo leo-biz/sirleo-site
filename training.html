@@ -60,11 +60,13 @@
 <nav id="nav">
   <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Sir Leo" class="nav-logo-img"></a>
   <ul class="nav-links">
-    <li><a href="/sessions">Sessions</a></li>
+    <li><a href="/#offerings">Offerings</a></li>
+    <li><a href="/#serve">Who I Serve</a></li>
     <li><a href="/events">Events</a></li>
+    <li><a href="/#faq">Questions</a></li>
     <li><a href="/#connect">Contact</a></li>
   </ul>
-  <button class="nav-cta" id="nav-apply-btn">Apply Now</button>
+  <button class="nav-cta" id="nav-apply-btn">Apply</button>
 </nav>
 
 <section class="lp-hero">
@@ -150,7 +152,7 @@
 </section>
 
 <footer style="text-align:center;padding:48px 24px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;">
-  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a></p>
+  <p>© 2025 Sir Leo · Chicago · <a href="/" style="color:inherit;">sirblackleo.com</a> · <span class="footer-version"></span></p>
 </footer>
 
 <div id="hub-root"></div>
@@ -185,11 +187,13 @@ function openHub() {
 document.getElementById('nav-apply-btn').addEventListener('click', openHub);
 document.getElementById('cta-apply-btn').addEventListener('click', openHub);
 
-window.addEventListener('load', () => {
-  const t = setInterval(() => {
-    if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
-  }, 50);
-});
+if (new URLSearchParams(window.location.search).has('open')) {
+  window.addEventListener('load', () => {
+    const t = setInterval(() => {
+      if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
+    }, 50);
+  });
+}
 </script>
 </body>
 </html>

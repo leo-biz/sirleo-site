@@ -65,10 +65,18 @@ document.querySelectorAll('.offering').forEach(card => {
   });
 });
 
-// ── Who I Serve — each card opens its own tailored panel ──
+// ── Who I Serve — navigate to dedicated page; modal auto-opens there ──
+const servePageMap = {
+  'serve-individuals': '/sessions?open',
+  'serve-organizers':  '/events?open',
+  'serve-artists':     '/events?open',
+  'serve-learners':    '/training?open',
+};
 document.querySelectorAll('.serve-item[data-book]').forEach(item => {
+  item.style.cursor = 'pointer';
   item.addEventListener('click', () => {
-    window.SLHub?.open(item.dataset.book);
+    const dest = servePageMap[item.dataset.book];
+    if (dest) window.location.href = dest;
   });
 });
 
