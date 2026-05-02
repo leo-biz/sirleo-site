@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.10 — 2026-05-02
+**Simplify followup.js audience routing**
+- Replaced source_page/audience data field checks with panel_type as single source of truth
+- Added `audience()` helper: serve-organizers → events, serve-learners + data.track=men → certify, serve-learners default → women, everything else → sessions
+- Removed all dead fallback conditions for deleted pages (for-women, certify, men)
+
 ## v2.9 — 2026-05-02
 **Consolidate landing pages: sessions + training**
 - `sessions.html` — rewritten gender-neutral, speaks to anyone booking a private session
