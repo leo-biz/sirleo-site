@@ -71,7 +71,9 @@
       position: relative;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .card:hover { border-color: rgba(107,26,26,0.4); box-shadow: 0 2px 12px rgba(107,26,26,0.08); }
+    .card[data-href] { cursor: pointer; }
+    .card[data-href]:hover { border-color: rgba(107,26,26,0.4); box-shadow: 0 2px 12px rgba(107,26,26,0.08); }
+    .card[data-href] .card-url::after { content: ' ↗'; opacity: 0.4; font-size: 9px; }
 
     .card.primary { border-color: rgba(107,26,26,0.35); background: #fff8f5; }
     .card.tool { border-color: rgba(0,0,0,0.06); background: #fafafa; }
@@ -215,7 +217,7 @@
 <div class="row">
   <div class="section-label">Home Base</div>
   <div class="grid-1">
-    <div class="card primary">
+    <div class="card primary" data-href="index.html">
       <div class="card-url">/ · sirblackleo.com</div>
       <div class="card-title">Homepage</div>
       <div class="card-purpose">The main brand page. Hero, offerings overview, "Who I Serve" section, events section, FAQ, and contact. This is where almost all traffic lands first — from IG, link-in-bio, direct search.</div>
@@ -232,7 +234,7 @@
 <div class="row">
   <div class="section-label">Booking Flow</div>
   <div class="grid-3">
-    <div class="card">
+    <div class="card" data-href="book.html">
       <div class="card-url">/book</div>
       <div class="card-title">Book a Session</div>
       <div class="card-purpose">Multi-step wizard. Client picks session type, add-ons, fills intake info. Triggers Stripe deposit, Supabase submission, email auto-reply, and SMS to you.</div>
@@ -242,7 +244,7 @@
         <span class="tag tag-seo">SEO</span>
       </div>
     </div>
-    <div class="card">
+    <div class="card" data-href="build.html">
       <div class="card-url">/build</div>
       <div class="card-title">Session Builder</div>
       <div class="card-purpose">Visual package builder — choose tier + add-ons, see live price. Currently accessible but not front-facing. Used to preview/test the booking flow.</div>
@@ -251,7 +253,7 @@
         <span class="tag tag-internal">Not public-facing yet</span>
       </div>
     </div>
-    <div class="card">
+    <div class="card" data-href="pay-success.html">
       <div class="card-url">/pay-success</div>
       <div class="card-title">Payment Confirmed</div>
       <div class="card-purpose">Landing page after Stripe checkout completes. Confirms deposit received and tells the client what happens next.</div>
@@ -267,7 +269,7 @@
   <div class="section-label">Audience Landing Pages — each targets a specific person with specific SEO keywords</div>
   <div class="grid-3">
 
-    <div class="card">
+    <div class="card" data-href="events.html">
       <div class="card-url">/events</div>
       <div class="card-title">Group Experiences</div>
       <div class="card-purpose">For bachelorette parties, private group events, venue partners, event organizers. Inquiry form → serve-organizers.</div>
@@ -277,7 +279,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-href="sessions.html">
       <div class="card-url">/sessions</div>
       <div class="card-title">Private Sessions</div>
       <div class="card-purpose">Anyone wanting a private 1-on-1 session. Gender-neutral. Shows all three packages ($200–$400). Inquiry form → serve-individuals.</div>
@@ -287,7 +289,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-href="training.html">
       <div class="card-url">/training</div>
       <div class="card-title">Training Program</div>
       <div class="card-purpose">Two-track page with a tab selector. Women's track: monetize dominance (findom, sessions, content). Men's track: provider certification (6-module, supervised sessions, network listing). Single application form → serve-learners, audience tag set per track.</div>
@@ -305,7 +307,7 @@
 <div class="row">
   <div class="section-label">Pricing</div>
   <div class="grid-1">
-    <div class="card">
+    <div class="card" data-href="pricing.html">
       <div class="card-url">/pricing</div>
       <div class="card-title">Pricing & Membership</div>
       <div class="card-purpose">Full breakdown of session packages ($200/$300/$400), multi-pack credits (3-pack 10% off, 5-pack 15% off), and membership (application-based, 3-month minimum, 1-month-free incentive for upfront). Not directly linked from main nav yet — reachable via direct URL.</div>
@@ -324,7 +326,7 @@
 <div class="row">
   <div class="section-label">Internal Tools (not public-facing)</div>
   <div class="grid-2">
-    <div class="card tool">
+    <div class="card tool" data-href="admin.html">
       <div class="card-url">/admin</div>
       <div class="card-title">Admin Dashboard</div>
       <div class="card-purpose">View all form submissions, filter by panel type, see analytics data. Requires knowing the URL — no auth currently.</div>
@@ -394,7 +396,7 @@
     </div>
     <div class="card" style="border-color:rgba(107,26,26,0.2);">
       <div class="card-title" style="font-size:16px;">Men — session clients</div>
-      <div class="card-purpose">Men wanting to explore or learn → <strong>/men</strong> or main <strong>/book</strong></div>
+      <div class="card-purpose">Men wanting to explore or learn → <strong>/sessions</strong> or main <strong>/book</strong></div>
     </div>
     <div class="card" style="border-color:rgba(107,26,26,0.2);">
       <div class="card-title" style="font-size:16px;">Women — build income</div>
@@ -412,6 +414,12 @@
 </div>
 
 <p style="text-align:center;font-size:10px;color:#b0a090;letter-spacing:0.2em;text-transform:uppercase;margin-top:40px;">Sir Leo · sirblackleo.com · Internal reference</p>
+
+<script>
+  document.querySelectorAll('.card[data-href]').forEach(card => {
+    card.addEventListener('click', () => window.open(card.dataset.href, '_blank'));
+  });
+</script>
 
 </body>
 </html>
