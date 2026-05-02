@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.11 — 2026-05-02
+**events.html — add birthday celebrations to SEO and page content**
+- Title, meta description, OG tags — added "birthday celebrations" alongside bachelorette
+- Hero subtitle — includes birthday alongside bachelorette and group events
+- "Bachelorette Takeover" card — renamed to "Bachelorette & Birthday Takeover" with updated copy
+- Intro paragraph — removed bachelorette-specific framing, now speaks to all group celebrations
+- Inquiry form event_type field — changed from freetext to dropdown (bachelorette, birthday, private party, other)
+
 ## v2.10 — 2026-05-02
 **Simplify followup.js audience routing**
 - Replaced source_page/audience data field checks with panel_type as single source of truth
