@@ -56,10 +56,10 @@ function wireHeroButtons() {
 document.addEventListener('DOMContentLoaded', wireHeroButtons);
 
 // ── Offerings — click to open relevant wizard step ──
-document.querySelectorAll('.offering').forEach(card => {
+document.querySelectorAll('.offering[data-step]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
-    const step = card.dataset.step || 'type';
+    const step = card.dataset.step;
     const sels = card.dataset.sels ? [card.dataset.sels] : [];
     window.SLHub?.open('book', { step, sels });
   });
