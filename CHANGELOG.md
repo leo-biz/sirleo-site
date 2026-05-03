@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.48 — 2026-05-03
+**Add next-session handoff doc**
+- `docs/HANDOFF.md` — adds concise repo state, recent funnel decisions, key files, workflow expectations, validation commands, and next cleanup notes
+
 ## v2.47 — 2026-05-03
 **Centralize nav rendering**
 - `src/js/site-nav.js` — adds a shared navigation renderer with consistent links, logo, theme toggle, and configurable CTA
