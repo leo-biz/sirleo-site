@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.19 — 2026-05-02
+**Unified nav and footer across all pages**
+- Nav updated on all pages: Sessions · Events · Education · Contact (logo = home link)
+- `style.css` — new `.site-footer` component: 3-column grid (brand / navigate / connect), bottom bar with copyright + version badge, responsive collapse to 2-col then 1-col
+- `index.html`, `sessions.html`, `events.html`, `training.html`, `pricing.html` — all use new nav + `.site-footer`
+- `pricing.html` — added missing footer; wired `version.js` + `main.js` so version badge populates
+
 ## v2.18 — 2026-05-02
 **Move operating docs into docs folder**
 - `docs/TESTING.md` — moved testing guide out of the project root
