@@ -57,14 +57,14 @@
     .lp-submit:hover { background: #8B2020; }
     .lp-thanks { display: none; text-align: center; padding: 32px; }
     .lp-thanks p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
-    .addon-grid { display: flex; flex-direction: column; gap: 2px; margin-top: 32px; }
-    .addon-row { display: flex; align-items: baseline; gap: 20px; padding: 16px 20px; border: 1px solid rgba(255,255,255,0.06); }
-    .addon-row:hover { background: rgba(255,255,255,0.02); }
-    .addon-row-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; min-width: 200px; }
-    .addon-row-desc { font-size: 12px; opacity: 0.5; line-height: 1.5; flex: 1; }
-    .addon-row-price { font-size: 16px; font-weight: 300; white-space: nowrap; opacity: 0.8; }
+    .addon-grid { display: flex; flex-direction: column; gap: 6px; margin-top: 32px; }
+    .addon-row { display: grid; grid-template-columns: minmax(160px, 220px) 1fr auto; align-items: start; gap: 10px 20px; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.018); }
+    .addon-row:hover { background: rgba(255,255,255,0.035); }
+    .addon-row-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; line-height: 1.15; }
+    .addon-row-desc { font-size: 13px; opacity: 0.68; line-height: 1.65; }
+    .addon-row-price { font-size: 17px; font-weight: 300; white-space: nowrap; opacity: 0.9; }
     .addon-time-tag { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-left: 8px; vertical-align: middle; }
-    @media (max-width: 600px) { .addon-row { flex-wrap: wrap; } .addon-row-desc { min-width: 100%; order: 3; } }
+    @media (max-width: 700px) { .addon-row { grid-template-columns: 1fr auto; } .addon-row-desc { grid-column: 1 / -1; } }
   </style>
 </head>
 <body>
@@ -141,43 +141,7 @@
   <p class="lp-eyebrow">Enhance Your Experience</p>
   <h2 class="lp-section-title">Add-Ons</h2>
   <p style="font-size:15px;line-height:1.9;opacity:0.65;max-width:600px;">Layer in exactly what you want. Some add-ons extend your time — noted below. All are discussed and confirmed before you arrive.</p>
-  <div class="addon-grid">
-    <div class="addon-row">
-      <div class="addon-row-name">Fire Play</div>
-      <div class="addon-row-desc">Cupping, waving, and controlled flame work. Thrilling to watch, even more to feel.</div>
-      <div class="addon-row-price">+$100</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Rope Bondage</div>
-      <div class="addon-row-desc">Single column, full body, or suspension elements depending on experience and comfort level.</div>
-      <div class="addon-row-price">+$75</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Sensory Deprivation</div>
-      <div class="addon-row-desc">Blindfold, earplugs, full sensory override. Amplifies every other element of the session.</div>
-      <div class="addon-row-price">+$40</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Session Photography</div>
-      <div class="addon-row-desc">Private photos taken during your session — yours to keep. Discreet and intentional.</div>
-      <div class="addon-row-price">+$100</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Extended Aftercare<span class="addon-time-tag">+30 min</span></div>
-      <div class="addon-row-desc">Extra time for grounding, care, and presence after the session ends. Never rushed out.</div>
-      <div class="addon-row-price">+$60</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Time Extension<span class="addon-time-tag">+30 min</span></div>
-      <div class="addon-row-desc">Add more time to the session itself — more depth, more intensity, more of what you came for.</div>
-      <div class="addon-row-price">+$75</div>
-    </div>
-    <div class="addon-row">
-      <div class="addon-row-name">Orgasmic Edition</div>
-      <div class="addon-row-desc">Controlled release — on his terms, not yours. Discussed and consented before the session begins.</div>
-      <div class="addon-row-price">+$150</div>
-    </div>
-  </div>
+  <div class="addon-grid" id="session-addon-grid"></div>
 </section>
 
 <section style="padding:80px 24px;text-align:center;max-width:640px;margin:0 auto;">
@@ -246,6 +210,7 @@
 <script src="version.js"></script>
 <script src="db.js"></script>
 <script src="analytics.js"></script>
+<script src="src/data/session-catalog.js"></script>
 <script src="src/js/config.js"></script>
 <script src="src/js/submissions.js"></script>
 <script src="main.js"></script>
@@ -254,6 +219,18 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
+  const addonTimeTags = { aftercare: '+30 min', time: '+30 min' };
+  const addonGrid = document.getElementById('session-addon-grid');
+  if (addonGrid && window.SL_SESSION_CATALOG) {
+    addonGrid.innerHTML = window.SL_SESSION_CATALOG.addons.map(addon => `
+      <div class="addon-row">
+        <div class="addon-row-name">${addon.name}${addonTimeTags[addon.id] ? `<span class="addon-time-tag">${addonTimeTags[addon.id]}</span>` : ''}</div>
+        <div class="addon-row-desc">${addon.desc}</div>
+        <div class="addon-row-price">+$${addon.price}</div>
+      </div>
+    `).join('');
+  }
+
   function openHub() {
     if (window.SLHub) {
       window.SLHub.open('serve-individuals');

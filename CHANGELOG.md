@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.24 — 2026-05-02
+**Render session add-ons from catalog**
+- `src/data/session-catalog.js` — moves Orgasmic Edition to the first add-on position
+- `sessions.html` — renders the add-on list from the shared catalog and improves row readability
+
 ## v2.23 — 2026-05-02
 **Centralize session pricing catalog**
 - `src/data/session-catalog.js` — adds a shared package, add-on, and deposit catalog usable by browser pages and Netlify functions

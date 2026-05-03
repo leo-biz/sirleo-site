@@ -1,1 +1,1 @@
-window.SL_VERSION='v2.23';
+window.SL_VERSION='v2.24';
