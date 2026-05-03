@@ -54,20 +54,6 @@
   to   = "/education.html"
   status = 301
 
-[[redirects]]
-  from = "/men"
-  to   = "/education.html"
-  status = 301
-
-[[redirects]]
-  from = "/for-women"
-  to   = "/education.html"
-  status = 301
-
-[[redirects]]
-  from = "/certify"
-  to   = "/education.html"
-  status = 301
 
 [functions."followup"]
   schedule = "0 17 * * *"

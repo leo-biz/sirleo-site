@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.28 — 2026-05-02
+**Remove legacy slug redirects**
+- `netlify.toml` — removed /men, /for-women, /certify redirects
+
 ## v2.27 — 2026-05-02
 **Introduce education.html; redesign to three paths; checkbox form fields; events single button**
 - `education.html` — new page with three offering blocks (Individual, Couple, Group); each shows format badges (Online Course, In-Person, Cohort / Workshop, Keynote, Custom); replaces training.html
