@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.26 — 2026-05-02
+**Fill empty event cards with targeted copy**
+- `events.html` — adds "Sensual Dominance" card to group experiences grid (erotic/seductive angle); adds "Drive Revenue" card to venue/partner grid (business ROI angle)
+
 ## v2.25 — 2026-05-02
 **Redesign education and events pages; add Home to nav**
 - `training.html` — complete redesign: replaced Level I/II/III structure with two clear paths (Individuals & Couples, Groups), using homepage design language (principles-grid, serve-grid, label-tag, section-title); topics rewritten to reflect actual offerings
