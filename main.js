@@ -85,12 +85,12 @@ document.querySelectorAll('[data-hub-panel]').forEach(item => {
   });
 });
 
-// ── Auto-popup: first visit, after 8s AND 20% scroll ──
+// ── Auto-popup: first visit, after 20% scroll ──
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('sl_submitted')) return;
-  let ready = false, scrolled = false, fired = false;
+  let scrolled = false, fired = false;
   function tryOpen() {
-    if (fired || !ready || !scrolled) return;
+    if (fired || !scrolled) return;
     if (!window.SLHub) {
       setTimeout(tryOpen, 100);
       return;
@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fired = true;
     window.SLHub.open('contact');
   }
-  setTimeout(() => { ready = true; tryOpen(); }, 8000);
   window.addEventListener('scroll', () => {
     if (scrolled) return;
     const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;

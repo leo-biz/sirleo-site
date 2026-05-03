@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.44 — 2026-05-03
+**Open popup on scroll only**
+- `main.js` — removes the 8-second delay; first-visit popup now opens after 20% scroll once the hub is ready
+
 ## v2.43 — 2026-05-02
 **Align individual/couple exploration choices**
 - `hub.js` — simplifies Individuals & Couples exploration checkboxes to Just curious, Session, Education
