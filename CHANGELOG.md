@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.31 — 2026-05-02
+**Consolidate education modals to two forms**
+- `hub.js` — replaces edu-individual and edu-couple with single edu-person form: Single/Couple selector, role checkboxes (Dominate/Submit/Both), intention selector (Recreational/Professional/Both), topic checkboxes, notes field; updates routing
+- `education.html` — Individual and Couple blocks both open edu-person modal
+
 ## v2.30 — 2026-05-02
 **Rename Group block title**
 - `education.html` — "Your People" → "Your Audience"

@@ -583,55 +583,41 @@ function ServePanel({ onClose, type }) {
         </>
       )
     },
-    'edu-individual': {
-      eyebrow: 'Individual · Education',
+    'edu-person': {
+      eyebrow: 'Education',
       title: <>Let's build<br />your path.</>,
       fields: (
         <>
+          <div className="hub-field"><label className="hub-label">Who is this for?</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Just me','Me and my partner'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field">
+            <label className="hub-label">Role I want to learn</label>
+            <div className="hub-checks">
+              {['How to Dominate','How to Submit','Both / Still exploring'].map(r => (
+                <label key={r} className="hub-check-item"><input type="checkbox" value={r} /><span>{r}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">What's the intention?</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Recreational / Pleasure','Professional (building a practice)','Both'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
           <div className="hub-field">
             <label className="hub-label">Topics I'm interested in</label>
             <div className="hub-checks">
-              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','How to Be a Professional'].map(t => (
+              {['General Kink','Alternative Lifestyle','Power Dynamics','Sensation Play','Consent & Communication','Bedroom Kink & Dynamics'].map(t => (
                 <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
               ))}
             </div>
           </div>
-          <div className="hub-field">
-            <label className="hub-label">How I want to learn</label>
-            <div className="hub-checks">
-              {['Online Course','In-Person Training','Multi-Week Cohort'].map(s => (
-                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
-              ))}
-            </div>
-          </div>
-          <div className="hub-field"><label className="hub-label">Where are you starting from?</label>
-            <textarea className="hub-textarea" placeholder="Experience level, what you're hoping to build, any context that helps." /></div>
-        </>
-      )
-    },
-    'edu-couple': {
-      eyebrow: 'Couple · Education',
-      title: <>Let's build<br />your path together.</>,
-      fields: (
-        <>
-          <div className="hub-field">
-            <label className="hub-label">Topics we're interested in</label>
-            <div className="hub-checks">
-              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','Bedroom Kink & Dynamics'].map(t => (
-                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
-              ))}
-            </div>
-          </div>
-          <div className="hub-field">
-            <label className="hub-label">How we want to learn</label>
-            <div className="hub-checks">
-              {['Online Course','In-Person Training','Multi-Week Cohort'].map(s => (
-                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
-              ))}
-            </div>
-          </div>
-          <div className="hub-field"><label className="hub-label">Where are you starting from?</label>
-            <textarea className="hub-textarea" placeholder="Where are you both at, what you want to explore, anything helpful to know." /></div>
+          <div className="hub-field"><label className="hub-label">Notes</label>
+            <textarea className="hub-textarea" placeholder="Anything else — experience level, questions, what you're hoping to build." /></div>
         </>
       )
     },
@@ -866,7 +852,7 @@ function Hub() {
             {activePanel === 'book'    && <BookPanel    onClose={closePanel} initialStep={panelContext.step || 'type'} initialSels={panelContext.sels || []} />}
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
-            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-individual','edu-couple','edu-group'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
+            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-person','edu-group'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
             {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>
