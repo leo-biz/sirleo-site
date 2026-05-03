@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.23 — 2026-05-02
+**Centralize session pricing catalog**
+- `src/data/session-catalog.js` — adds a shared package, add-on, and deposit catalog usable by browser pages and Netlify functions
+- `create-checkout.js` — reads checkout pricing from the shared catalog instead of local constants
+- `build.html` — renders packages and add-ons from the shared catalog
+- `admin.html` — builds session offer packages, add-ons, and deposits from the shared catalog
+
 ## v2.22 — 2026-05-02
 **Harden checkout pricing and sync session catalogs**
 - `create-checkout.js` — calculates packages, add-ons, totals, and deposits from a server-side catalog instead of trusting browser-submitted prices

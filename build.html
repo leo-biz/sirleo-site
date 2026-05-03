@@ -99,26 +99,7 @@
     <!-- Duration -->
     <div class="build-section">
       <div class="build-section-label">Duration</div>
-      <div class="duration-grid" id="duration-grid">
-        <label class="duration-card selected">
-          <input type="radio" name="duration" value="60" data-id="sensual" data-price="200" checked>
-          <div class="duration-name">Sensual Surrender</div>
-          <div class="duration-time">1 hour · soft &amp; sensory</div>
-          <div class="duration-price">$<span>200</span></div>
-        </label>
-        <label class="duration-card">
-          <input type="radio" name="duration" value="60" data-id="naughty" data-price="300">
-          <div class="duration-name">Mr. Naughty &amp; Nasty</div>
-          <div class="duration-time">1 hour · medium kink</div>
-          <div class="duration-price">$<span>300</span></div>
-        </label>
-        <label class="duration-card">
-          <input type="radio" name="duration" value="60" data-id="sadistic" data-price="400">
-          <div class="duration-name">The Sadistic Devil</div>
-          <div class="duration-time">1 hour · heavy &amp; sadistic</div>
-          <div class="duration-price">$<span>400</span></div>
-        </label>
-      </div>
+      <div class="duration-grid" id="duration-grid"></div>
     </div>
 
     <!-- Add-ons -->
@@ -157,23 +138,31 @@
   </div>
 </div>
 
+<script src="src/data/session-catalog.js"></script>
 <script>
-const ADDONS = [
-  { id: 'fire',      name: 'Fire Play',             desc: 'Cupping, waving, and controlled flame work', price: 100 },
-  { id: 'rope',      name: 'Rope Bondage',           desc: 'Single column, full body, suspension elements', price: 75 },
-  { id: 'sensory',   name: 'Sensory Deprivation',    desc: 'Blindfold, earplugs, full sensory override', price: 40 },
-  { id: 'photo',     name: 'Session Photography',    desc: 'Private photos, yours to keep', price: 100 },
-  { id: 'aftercare', name: 'Extended Aftercare',     desc: 'Extra 30 min of grounding, care, and presence', price: 60 },
-  { id: 'time',      name: 'Time Extension',         desc: 'Add 30 minutes to your session', price: 75 },
-  { id: 'orgasmic',  name: 'Orgasmic Edition',       desc: 'Controlled release, negotiated during intake', price: 150 },
-];
-
-const DEPOSIT_PCT = 0.5; // 50% deposit
+const SESSION_CATALOG = window.SL_SESSION_CATALOG;
+const PACKAGES = SESSION_CATALOG.packages;
+const ADDONS = SESSION_CATALOG.addons;
+const DEPOSIT_PCT = SESSION_CATALOG.depositPct;
 
 // ── State ──
-let baseCost = 200;
+let baseCost = PACKAGES[0].price;
 let selectedAddons = new Set();
 let payFull = true;
+
+// ── Render durations ──
+const durationGrid = document.getElementById('duration-grid');
+PACKAGES.forEach((pkg, index) => {
+  const item = document.createElement('label');
+  item.className = `duration-card${index === 0 ? ' selected' : ''}`;
+  item.innerHTML = `
+    <input type="radio" name="duration" value="${pkg.minutes}" data-id="${pkg.id}" data-price="${pkg.price}" ${index === 0 ? 'checked' : ''}>
+    <div class="duration-name">${pkg.name}</div>
+    <div class="duration-time">${pkg.shortDescription}</div>
+    <div class="duration-price">$<span>${pkg.price}</span></div>
+  `;
+  durationGrid.appendChild(item);
+});
 
 // ── Render add-ons ──
 const addonList = document.getElementById('addon-list');
@@ -300,7 +289,7 @@ async function loadOffer(id) {
       const expectedName = (offer.duration_name || '').trim().toLowerCase();
       const radio = [...document.querySelectorAll('[name="duration"]')].find(input => {
         const name = input.closest('.duration-card')?.querySelector('.duration-name')?.textContent.trim().toLowerCase();
-        return expectedName ? name === expectedName : input.value === String(offer.duration_value);
+        return expectedName ? name === expectedName : input.dataset.price === String(offer.duration_value);
       });
       if (radio) {
         radio.checked = true;

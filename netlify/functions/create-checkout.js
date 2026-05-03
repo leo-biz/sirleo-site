@@ -1,23 +1,10 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const SESSION_CATALOG = require('../../src/data/session-catalog');
 
 const SITE_URL = process.env.URL || 'https://sirleo-site.netlify.app';
-const DEPOSIT_PCT = 0.5;
-
-const PACKAGES = {
-  sensual: { name: 'Sensual Surrender', minutes: 60, price: 200 },
-  naughty: { name: 'Mr. Naughty & Nasty', minutes: 60, price: 300 },
-  sadistic: { name: 'The Sadistic Devil', minutes: 60, price: 400 },
-};
-
-const ADDONS = {
-  fire: { name: 'Fire Play', desc: 'Cupping, waving, and controlled flame work', price: 100 },
-  rope: { name: 'Rope Bondage', desc: 'Single column, full body, suspension elements', price: 75 },
-  sensory: { name: 'Sensory Deprivation', desc: 'Blindfold, earplugs, full sensory override', price: 40 },
-  photo: { name: 'Session Photography', desc: 'Private photos, yours to keep', price: 100 },
-  aftercare: { name: 'Extended Aftercare', desc: 'Extra 30 min of grounding, care, and presence', price: 60 },
-  time: { name: 'Time Extension', desc: 'Add 30 minutes to your session', price: 75 },
-  orgasmic: { name: 'Orgasmic Edition', desc: 'Controlled release, negotiated during intake', price: 150 },
-};
+const DEPOSIT_PCT = SESSION_CATALOG.depositPct;
+const PACKAGES = Object.fromEntries(SESSION_CATALOG.packages.map(pkg => [pkg.id, pkg]));
+const ADDONS = Object.fromEntries(SESSION_CATALOG.addons.map(addon => [addon.id, addon]));
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method not allowed' };

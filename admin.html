@@ -210,6 +210,7 @@
 <body>
 <div id="root"></div>
 
+<script src="src/data/session-catalog.js"></script>
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
 
@@ -259,20 +260,10 @@ const api = {
 };
 
 // ── Constants ──
-const DURATIONS = [
-  { value: 200, name: 'Sensual Surrender',    price: 200 },
-  { value: 300, name: 'Mr. Naughty & Nasty',  price: 300 },
-  { value: 400, name: 'The Sadistic Devil',   price: 400 },
-];
-const ADDONS = [
-  { id: 'fire',      name: 'Fire Play',           price: 100 },
-  { id: 'rope',      name: 'Rope Bondage',         price: 75 },
-  { id: 'sensory',   name: 'Sensory Deprivation',  price: 40 },
-  { id: 'photo',     name: 'Session Photography',  price: 100 },
-  { id: 'aftercare', name: 'Extended Aftercare',   price: 60 },
-  { id: 'time',      name: 'Time Extension',       price: 75 },
-  { id: 'orgasmic',  name: 'Orgasmic Edition',     price: 150 },
-];
+const SESSION_CATALOG = window.SL_SESSION_CATALOG;
+const DURATIONS = SESSION_CATALOG.packages.map(pkg => ({ ...pkg, value: pkg.price }));
+const ADDONS = SESSION_CATALOG.addons;
+const DEPOSIT_PCT = SESSION_CATALOG.depositPct;
 const SESSION_STATUS_COLORS = {
   draft: 'tag-ga', sent: 'tag-contact', viewed: 'tag-collab',
   paid: 'tag-converted', completed: 'tag-waitlist', cancelled: 'tag-closed',
@@ -304,7 +295,7 @@ function SessionOfferEditor({ lead, sessions, onSessionUpdate }) {
   const dur = DURATIONS.find(d => d.value === form.duration_value) || DURATIONS[0];
   const addonTotal = ADDONS.filter(a => form.addon_ids.includes(a.id)).reduce((s, a) => s + a.price, 0);
   const total = dur.price + addonTotal;
-  const deposit = Math.round(total * 0.5);
+  const deposit = Math.round(total * DEPOSIT_PCT);
 
   const toggleAddon = (id) => setForm(prev => ({
     ...prev,
