@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.30 — 2026-05-02
+**Rename Group block title**
+- `education.html` — "Your People" → "Your Audience"
+
 ## v2.29 — 2026-05-02
 **Education page — per-path modals**
 - `hub.js` — adds edu-individual, edu-couple, edu-group panel configs with path-specific topics, formats, and prompts; adds all three to modal routing
