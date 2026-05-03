@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.18 — 2026-05-02
+**Move operating docs into docs folder**
+- `docs/TESTING.md` — moved testing guide out of the project root
+- `docs/EMPIRE.md` — moved operating overview out of the project root
+- `CHANGELOG.md` — kept at root so the version script can continue reading the latest release
+
 ## v2.17 — 2026-05-02
 **Extract shared Supabase helpers for Netlify functions**
 - `netlify/functions/lib/supabase.js` — added shared Supabase URL, REST URL builder, and service-role header helper
