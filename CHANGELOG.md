@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.49 — 2026-05-03
+**Rename admin Sessions area to Bookings**
+- `admin.html` — changes visible admin navigation, page title, empty state, and booking offer labels from session-focused wording to broader booking language
+
 ## v2.48 — 2026-05-03
 **Add next-session handoff doc**
 - `docs/HANDOFF.md` — adds concise repo state, recent funnel decisions, key files, workflow expectations, validation commands, and next cleanup notes
