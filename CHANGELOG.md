@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.43 — 2026-05-02
+**Align individual/couple exploration choices**
+- `hub.js` — simplifies Individuals & Couples exploration checkboxes to Just curious, Session, Education
+- `index.html` — lightly aligns Who I Serve copy with the new modal choices
+
 ## v2.42 — 2026-05-02
 **Allow multiple exploration interests**
 - `hub.js` — changes Individuals & Couples "What are you hoping to explore?" from a dropdown to checkboxes

@@ -501,7 +501,7 @@ function ServePanel({ onClose, type, who }) {
           </div>
           <div className="hub-field"><label className="hub-label">What are you hoping to explore?</label>
             <div className="hub-checks">
-              {['Session','Education','Just curious','Learning'].map(o => (
+              {['Just curious','Session','Education'].map(o => (
                 <label key={o} className="hub-check-item"><input type="checkbox" value={o} /><span>{o}</span></label>
               ))}
             </div>
