@@ -101,19 +101,19 @@
       <div class="build-section-label">Duration</div>
       <div class="duration-grid" id="duration-grid">
         <label class="duration-card selected">
-          <input type="radio" name="duration" value="60" data-price="200" checked>
+          <input type="radio" name="duration" value="60" data-id="sensual" data-price="200" checked>
           <div class="duration-name">Sensual Surrender</div>
           <div class="duration-time">1 hour · soft &amp; sensory</div>
           <div class="duration-price">$<span>200</span></div>
         </label>
         <label class="duration-card">
-          <input type="radio" name="duration" value="60" data-price="300">
+          <input type="radio" name="duration" value="60" data-id="naughty" data-price="300">
           <div class="duration-name">Mr. Naughty &amp; Nasty</div>
           <div class="duration-time">1 hour · medium kink</div>
           <div class="duration-price">$<span>300</span></div>
         </label>
         <label class="duration-card">
-          <input type="radio" name="duration" value="60" data-price="400">
+          <input type="radio" name="duration" value="60" data-id="sadistic" data-price="400">
           <div class="duration-name">The Sadistic Devil</div>
           <div class="duration-time">1 hour · heavy &amp; sadistic</div>
           <div class="duration-price">$<span>400</span></div>
@@ -165,6 +165,7 @@ const ADDONS = [
   { id: 'photo',     name: 'Session Photography',    desc: 'Private photos, yours to keep', price: 100 },
   { id: 'aftercare', name: 'Extended Aftercare',     desc: 'Extra 30 min of grounding, care, and presence', price: 60 },
   { id: 'time',      name: 'Time Extension',         desc: 'Add 30 minutes to your session', price: 75 },
+  { id: 'orgasmic',  name: 'Orgasmic Edition',       desc: 'Controlled release, negotiated during intake', price: 150 },
 ];
 
 const DEPOSIT_PCT = 0.5; // 50% deposit
@@ -240,10 +241,12 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
   const selectedDuration = document.querySelector('[name="duration"]:checked');
   const durationName = selectedDuration?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
   const durationMinutes = parseInt(selectedDuration?.value || '90');
+  const durationId = selectedDuration?.dataset.id || '';
   const addonCost = ADDONS.filter(a => selectedAddons.has(a.id)).reduce((s, a) => s + a.price, 0);
   const total = baseCost + addonCost;
   const due = payFull ? total : Math.round(total * DEPOSIT_PCT);
   const addonsSelected = ADDONS.filter(a => selectedAddons.has(a.id));
+  const addonIds = addonsSelected.map(addon => addon.id);
   const notes = document.getElementById('session-notes').value;
   const params = new URLSearchParams(window.location.search);
   const clientName = params.get('client') || '';
@@ -252,7 +255,7 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
     const res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ durationName, durationMinutes, basePrice: baseCost, addons: addonsSelected, total, due, payFull, notes, clientName, offerId: loadedOfferId }),
+      body: JSON.stringify({ durationId, addonIds, durationName, durationMinutes, basePrice: baseCost, addons: addonsSelected, total, due, payFull, notes, clientName, offerId: loadedOfferId }),
     });
     const data = await res.json();
     if (data.url) {
@@ -293,13 +296,17 @@ async function loadOffer(id) {
     }
 
     // Pre-select duration
-    if (offer.duration_value) {
-      const radio = document.querySelector(`[name="duration"][value="${offer.duration_value}"]`);
+    if (offer.duration_name || offer.duration_value) {
+      const expectedName = (offer.duration_name || '').trim().toLowerCase();
+      const radio = [...document.querySelectorAll('[name="duration"]')].find(input => {
+        const name = input.closest('.duration-card')?.querySelector('.duration-name')?.textContent.trim().toLowerCase();
+        return expectedName ? name === expectedName : input.value === String(offer.duration_value);
+      });
       if (radio) {
         radio.checked = true;
         document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
         radio.closest('.duration-card').classList.add('selected');
-        baseCost = offer.base_price || parseInt(radio.dataset.price);
+        baseCost = parseInt(radio.dataset.price);
       }
     }
 

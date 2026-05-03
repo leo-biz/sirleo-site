@@ -260,10 +260,10 @@
 <script src="main.js"></script>
 <script>
 // Scroll reveal
-const observer = new IntersectionObserver(entries => {
+const pricingObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => pricingObserver.observe(el));
 
 // Theme
 (function() {

@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.22 — 2026-05-02
+**Harden checkout pricing and sync session catalogs**
+- `create-checkout.js` — calculates packages, add-ons, totals, and deposits from a server-side catalog instead of trusting browser-submitted prices
+- `build.html` — submits package/add-on IDs to checkout, adds the missing Orgasmic Edition add-on, and preselects offers by package name
+- `admin.html` — updates session offer packages and add-ons to match public pricing
+- `pricing.html` — renames the inline reveal observer to avoid a top-level collision with `main.js`
+
 ## v2.21 — 2026-05-02
 **Remove duplicate React FAQ render**
 - `hub.js` — removed the old React FAQ section now that the homepage has a static FAQ

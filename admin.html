@@ -260,17 +260,18 @@ const api = {
 
 // ── Constants ──
 const DURATIONS = [
-  { value: 90,  name: 'Initiation',    price: 150 },
-  { value: 120, name: 'Immersion',     price: 250 },
-  { value: 180, name: 'Extended Rite', price: 400 },
+  { value: 200, name: 'Sensual Surrender',    price: 200 },
+  { value: 300, name: 'Mr. Naughty & Nasty',  price: 300 },
+  { value: 400, name: 'The Sadistic Devil',   price: 400 },
 ];
 const ADDONS = [
-  { id: 'fire',      name: 'Fire Play',           price: 75 },
+  { id: 'fire',      name: 'Fire Play',           price: 100 },
   { id: 'rope',      name: 'Rope Bondage',         price: 75 },
-  { id: 'impact',    name: 'Impact Artistry',      price: 50 },
   { id: 'sensory',   name: 'Sensory Deprivation',  price: 40 },
-  { id: 'photo',     name: 'Documentation',        price: 100 },
+  { id: 'photo',     name: 'Session Photography',  price: 100 },
   { id: 'aftercare', name: 'Extended Aftercare',   price: 60 },
+  { id: 'time',      name: 'Time Extension',       price: 75 },
+  { id: 'orgasmic',  name: 'Orgasmic Edition',     price: 150 },
 ];
 const SESSION_STATUS_COLORS = {
   draft: 'tag-ga', sent: 'tag-contact', viewed: 'tag-collab',
@@ -287,7 +288,7 @@ function SessionOfferEditor({ lead, sessions, onSessionUpdate }) {
 
   const [offer, setOffer] = useState(existing || null);
   const [form, setForm] = useState({
-    duration_value: existing?.duration_value || 90,
+    duration_value: existing?.duration_value || 200,
     addon_ids: existing?.addon_ids || [],
     notes: existing?.notes || '',
     private_notes: existing?.private_notes || '',
