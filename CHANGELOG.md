@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.29 — 2026-05-02
+**Education page — per-path modals**
+- `hub.js` — adds edu-individual, edu-couple, edu-group panel configs with path-specific topics, formats, and prompts; adds all three to modal routing
+- `education.html` — each offering block opens its own modal on click
+
 ## v2.28 — 2026-05-02
 **Remove legacy slug redirects**
 - `netlify.toml` — removed /men, /for-women, /certify redirects

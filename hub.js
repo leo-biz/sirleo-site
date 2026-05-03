@@ -583,6 +583,84 @@ function ServePanel({ onClose, type }) {
         </>
       )
     },
+    'edu-individual': {
+      eyebrow: 'Individual · Education',
+      title: <>Let's build<br />your path.</>,
+      fields: (
+        <>
+          <div className="hub-field">
+            <label className="hub-label">Topics I'm interested in</label>
+            <div className="hub-checks">
+              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','How to Be a Professional'].map(t => (
+                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field">
+            <label className="hub-label">How I want to learn</label>
+            <div className="hub-checks">
+              {['Online Course','In-Person Training','Multi-Week Cohort'].map(s => (
+                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">Where are you starting from?</label>
+            <textarea className="hub-textarea" placeholder="Experience level, what you're hoping to build, any context that helps." /></div>
+        </>
+      )
+    },
+    'edu-couple': {
+      eyebrow: 'Couple · Education',
+      title: <>Let's build<br />your path together.</>,
+      fields: (
+        <>
+          <div className="hub-field">
+            <label className="hub-label">Topics we're interested in</label>
+            <div className="hub-checks">
+              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','Bedroom Kink & Dynamics'].map(t => (
+                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field">
+            <label className="hub-label">How we want to learn</label>
+            <div className="hub-checks">
+              {['Online Course','In-Person Training','Multi-Week Cohort'].map(s => (
+                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">Where are you starting from?</label>
+            <textarea className="hub-textarea" placeholder="Where are you both at, what you want to explore, anything helpful to know." /></div>
+        </>
+      )
+    },
+    'edu-group': {
+      eyebrow: 'Group · Education',
+      title: <>Let's build<br />your group experience.</>,
+      fields: (
+        <>
+          <div className="hub-field">
+            <label className="hub-label">Topics we're interested in</label>
+            <div className="hub-checks">
+              {['General Kink','Alternative Lifestyle','Bedroom Kink & Dynamics','Consent & Communication'].map(t => (
+                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field">
+            <label className="hub-label">Format</label>
+            <div className="hub-checks">
+              {['Private Workshop','Keynote','Custom Event'].map(s => (
+                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">Group size & context</label>
+            <textarea className="hub-textarea" placeholder="Who's in the group, rough size, and what you're hoping they walk away with." /></div>
+        </>
+      )
+    },
   };
 
   const config = configs[type] || configs['serve-individuals'];
@@ -788,7 +866,7 @@ function Hub() {
             {activePanel === 'book'    && <BookPanel    onClose={closePanel} initialStep={panelContext.step || 'type'} initialSels={panelContext.sels || []} />}
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
-            {['serve-individuals','serve-organizers','serve-artists','serve-learners'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
+            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-individual','edu-couple','edu-group'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
             {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>

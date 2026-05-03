@@ -68,7 +68,7 @@
     <div class="offerings-grid">
 
       <!-- Individual -->
-      <div class="offering reveal">
+      <div class="offering reveal" style="cursor:pointer" onclick="openEduHub('edu-individual')">
         <div class="offering-num">01</div>
         <div class="offering-sub">Individual</div>
         <div class="offering-title">Just You</div>
@@ -78,11 +78,11 @@
           <span class="ed-format">In-Person Training</span>
           <span class="ed-format">Multi-Week Cohort</span>
         </div>
-        <div class="offering-detail" onclick="openHub()">Inquire <span>→</span></div>
+        <div class="offering-detail">Inquire <span>→</span></div>
       </div>
 
       <!-- Couple -->
-      <div class="offering reveal" style="transition-delay:.1s">
+      <div class="offering reveal" style="cursor:pointer;transition-delay:.1s" onclick="openEduHub('edu-couple')">
         <div class="offering-num">02</div>
         <div class="offering-sub">Couple</div>
         <div class="offering-title">You & Your Partner</div>
@@ -92,11 +92,11 @@
           <span class="ed-format">In-Person Training</span>
           <span class="ed-format">Multi-Week Cohort</span>
         </div>
-        <div class="offering-detail" onclick="openHub()">Inquire <span>→</span></div>
+        <div class="offering-detail">Inquire <span>→</span></div>
       </div>
 
       <!-- Group -->
-      <div class="offering reveal" style="transition-delay:.2s">
+      <div class="offering reveal" style="cursor:pointer;transition-delay:.2s" onclick="openEduHub('edu-group')">
         <div class="offering-num">03</div>
         <div class="offering-sub">Group</div>
         <div class="offering-title">Your People</div>
@@ -106,7 +106,7 @@
           <span class="ed-format">Keynote</span>
           <span class="ed-format">Custom Event</span>
         </div>
-        <div class="offering-detail" onclick="openHub()">Inquire <span>→</span></div>
+        <div class="offering-detail">Inquire <span>→</span></div>
       </div>
 
     </div>
@@ -161,18 +161,18 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
-function openHub() {
+function openEduHub(panel) {
   if (window.SLHub) {
-    window.SLHub.open('serve-learners');
+    window.SLHub.open(panel);
   } else {
     const t = setInterval(() => {
-      if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
+      if (window.SLHub) { clearInterval(t); window.SLHub.open(panel); }
     }, 50);
   }
 }
 
-document.getElementById('nav-apply-btn').addEventListener('click', openHub);
-document.getElementById('cta-apply-btn').addEventListener('click', openHub);
+document.getElementById('nav-apply-btn').addEventListener('click', () => openEduHub('serve-learners'));
+document.getElementById('cta-apply-btn').addEventListener('click', () => openEduHub('serve-learners'));
 
 if (new URLSearchParams(window.location.search).has('open')) {
   window.addEventListener('load', () => {
