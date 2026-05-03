@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build Your Session — Sir Leo</title>
+  <title>Build Your Experience — Sir Leo</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
@@ -19,6 +19,12 @@
     .build-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 12px; }
     .build-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(32px, 5vw, 48px); font-weight: 300; font-style: italic; line-height: 1.15; margin-bottom: 12px; }
     .build-sub { font-size: 14px; opacity: 0.5; line-height: 1.8; }
+    .build-switch { display: inline-flex; gap: 2px; margin-top: 24px; border: 1px solid rgba(255,255,255,0.08); padding: 3px; }
+    .build-switch a { color: inherit; text-decoration: none; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 10px 14px; opacity: 0.45; transition: all 0.15s; }
+    .build-switch a:hover { opacity: 0.8; }
+    .build-switch a.active { background: rgba(107,26,26,0.18); color: #f0e6d0; opacity: 1; }
+    [data-theme="light"] .build-switch { border-color: rgba(26,14,6,0.1); }
+    [data-theme="light"] .build-switch a.active { color: #1a0e06; }
 
     /* ── Sections ── */
     .build-section { margin-bottom: 48px; }
@@ -70,6 +76,7 @@
     .pay-btn { background: #6B1A1A; color: #f0e6d0; border: none; padding: 14px 36px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; transition: background 0.15s; white-space: nowrap; }
     .pay-btn:hover { background: #8B2020; }
     .pay-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .summary-bar.quote-mode .deposit-toggle { display: none; }
     @media (max-width: 600px) {
       .summary-bar { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
       .summary-right { width: 100%; justify-content: space-between; }
@@ -88,20 +95,24 @@
   <div class="build-inner">
 
     <div class="build-header">
-      <div class="build-eyebrow">Session Builder</div>
+      <div class="build-eyebrow" id="build-eyebrow">Session Builder</div>
       <h1 class="build-title" id="build-title">Build your<br><em>session.</em></h1>
-      <p class="build-sub">Select your duration and any additions. Pay a deposit to secure your date.</p>
+      <p class="build-sub" id="build-sub">Select your duration and any additions. Pay a deposit to secure your date.</p>
+      <div class="build-switch" aria-label="Choose builder type">
+        <a href="/build?e=session" id="session-build-link">Session</a>
+        <a href="/build?e=group" id="group-build-link">Group</a>
+      </div>
     </div>
 
     <!-- Duration -->
     <div class="build-section">
-      <div class="build-section-label">Duration</div>
+      <div class="build-section-label" id="primary-label">Duration</div>
       <div class="duration-grid" id="duration-grid"></div>
     </div>
 
     <!-- Add-ons -->
     <div class="build-section">
-      <div class="build-section-label">Add-ons</div>
+      <div class="build-section-label" id="addons-label">Add-ons</div>
       <div class="addon-list" id="addon-list">
         <!-- Populated by JS -->
       </div>
@@ -109,7 +120,7 @@
 
     <!-- Notes -->
     <div class="build-section">
-      <div class="build-section-label">Anything to note</div>
+      <div class="build-section-label" id="notes-label">Anything to note</div>
       <textarea class="build-textarea" id="session-notes" placeholder="Hard limits, intentions, questions — anything Sir Leo should know before your session."></textarea>
     </div>
 
@@ -141,56 +152,86 @@ const SESSION_CATALOG = window.SL_SESSION_CATALOG;
 const PACKAGES = SESSION_CATALOG.packages;
 const ADDONS = SESSION_CATALOG.addons;
 const DEPOSIT_PCT = SESSION_CATALOG.depositPct;
+const GROUP_PACKAGES = [
+  { id: 'performance', name: 'Performance', shortDescription: 'watch-only · fire + kink showcase' },
+  { id: 'interactive', name: 'Interactive', shortDescription: 'watch + guided participation' },
+  { id: 'immersion', name: 'Full Immersion', shortDescription: 'deeper private group experience' },
+];
+const GROUP_ADDONS = [
+  { id: 'guest-of-honor', name: 'Guest of Honor Treatment', desc: 'A focused centerpiece moment for the person being celebrated' },
+  { id: 'fire-artistry', name: 'Fire Artistry', desc: 'Live flame work, cupping, and theatrical heat for the room' },
+  { id: 'kink-showcase', name: 'Kink Showcase', desc: 'Bondage, sensation, and power dynamics demonstrated with care' },
+  { id: 'education-layer', name: 'Education Layer', desc: 'Consent, language, and safety woven into the experience' },
+  { id: 'venue-program', name: 'Venue / Partner Program', desc: 'Structured for a business, studio, salon, club, or recurring event' },
+];
+const params = new URLSearchParams(window.location.search);
+const offerId = params.get('id');
+const requestedExperience = params.get('e');
+const buildMode = offerId || requestedExperience !== 'group' ? 'session' : 'group';
 
 // ── State ──
 let baseCost = PACKAGES[0].price;
 let selectedAddons = new Set();
 let payFull = true;
+let currentPackages = PACKAGES;
+let currentAddons = ADDONS;
 
 // ── Render durations ──
 const durationGrid = document.getElementById('duration-grid');
-PACKAGES.forEach((pkg, index) => {
-  const item = document.createElement('label');
-  item.className = `duration-card${index === 0 ? ' selected' : ''}`;
-  item.innerHTML = `
-    <input type="radio" name="duration" value="${pkg.minutes}" data-id="${pkg.id}" data-price="${pkg.price}" ${index === 0 ? 'checked' : ''}>
-    <div class="duration-name">${pkg.name}</div>
-    <div class="duration-time">${pkg.shortDescription}</div>
-    <div class="duration-price">$<span>${pkg.price}</span></div>
-  `;
-  durationGrid.appendChild(item);
-});
-
-// ── Render add-ons ──
 const addonList = document.getElementById('addon-list');
-ADDONS.forEach(addon => {
+
+function renderPrimaryOptions() {
+  durationGrid.innerHTML = '';
+  currentPackages.forEach((pkg, index) => {
+    const item = document.createElement('label');
+    item.className = `duration-card${index === 0 ? ' selected' : ''}`;
+    item.innerHTML = `
+      <input type="radio" name="duration" value="${pkg.minutes || pkg.id}" data-id="${pkg.id}" data-price="${pkg.price || 0}" ${index === 0 ? 'checked' : ''}>
+      <div class="duration-name">${pkg.name}</div>
+      <div class="duration-time">${pkg.shortDescription}</div>
+      <div class="duration-price">${buildMode === 'session' ? `$<span>${pkg.price}</span>` : '<span>Custom</span>'}</div>
+    `;
+    durationGrid.appendChild(item);
+  });
+}
+
+function renderAddons() {
+  addonList.innerHTML = '';
+  currentAddons.forEach(addon => {
   const item = document.createElement('label');
   item.className = 'addon-item';
   item.innerHTML = `
-    <input type="checkbox" id="addon-${addon.id}" value="${addon.id}" data-price="${addon.price}">
+    <input type="checkbox" id="addon-${addon.id}" value="${addon.id}" data-price="${addon.price || 0}">
     <div class="addon-info">
       <div class="addon-name">${addon.name}</div>
       <div class="addon-desc">${addon.desc}</div>
     </div>
-    <div class="addon-price">+$${addon.price}</div>
+    <div class="addon-price">${buildMode === 'session' ? `+$${addon.price}` : 'Add'}</div>
   `;
-  item.querySelector('input').addEventListener('change', e => {
-    if (e.target.checked) { selectedAddons.add(addon.id); item.classList.add('checked'); }
-    else { selectedAddons.delete(addon.id); item.classList.remove('checked'); }
-    updateSummary();
+    item.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) { selectedAddons.add(addon.id); item.classList.add('checked'); }
+      else { selectedAddons.delete(addon.id); item.classList.remove('checked'); }
+      updateSummary();
+    });
+    addonList.appendChild(item);
   });
-  addonList.appendChild(item);
-});
+}
+
+function wireDurationSelection() {
+  document.querySelectorAll('[name="duration"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+      radio.closest('.duration-card').classList.add('selected');
+      baseCost = parseInt(radio.dataset.price || '0');
+      updateSummary();
+    });
+  });
+}
 
 // ── Duration selection ──
-document.querySelectorAll('[name="duration"]').forEach(radio => {
-  radio.addEventListener('change', e => {
-    document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
-    radio.closest('.duration-card').classList.add('selected');
-    baseCost = parseInt(radio.dataset.price);
-    updateSummary();
-  });
-});
+renderPrimaryOptions();
+renderAddons();
+wireDurationSelection();
 
 // ── Full payment toggle ──
 document.getElementById('full-payment').addEventListener('change', e => {
@@ -200,6 +241,16 @@ document.getElementById('full-payment').addEventListener('change', e => {
 
 // ── Summary ──
 function updateSummary() {
+  if (buildMode === 'group') {
+    const formatLabel = document.querySelector('[name="duration"]:checked')?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
+    const addonNames = GROUP_ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
+    const itemsText = [formatLabel, ...addonNames].filter(Boolean).join(' · ');
+    document.getElementById('summary-items').textContent = itemsText;
+    document.getElementById('summary-total').textContent = 'Custom quote';
+    document.getElementById('summary-note').textContent = 'No payment due today — Sir Leo will shape the quote after inquiry.';
+    return;
+  }
+
   const addonCost = ADDONS.filter(a => selectedAddons.has(a.id)).reduce((s, a) => s + a.price, 0);
   const total = baseCost + addonCost;
   const due = payFull ? total : Math.round(total * DEPOSIT_PCT);
@@ -219,6 +270,17 @@ function updateSummary() {
 const stripe = window.SL_STRIPE_PK ? Stripe(window.SL_STRIPE_PK) : null;
 
 document.getElementById('pay-btn').addEventListener('click', async () => {
+  if (buildMode === 'group') {
+    const selectedFormat = document.querySelector('[name="duration"]:checked')?.dataset.id || '';
+    const selectedExtras = GROUP_ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
+    const notes = document.getElementById('session-notes').value;
+    try {
+      sessionStorage.setItem('sl_group_build', JSON.stringify({ selectedFormat, selectedExtras, notes }));
+    } catch {}
+    window.location.href = '/events?open';
+    return;
+  }
+
   if (!stripe) { alert('Payment not configured. Contact Sir Leo directly.'); return; }
   const btn = document.getElementById('pay-btn');
   btn.disabled = true;
@@ -257,8 +319,6 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
 });
 
 // ── Load session offer by ID or fall back to ?client param ──
-const params = new URLSearchParams(window.location.search);
-const offerId = params.get('id');
 const clientParam = params.get('client');
 let loadedOfferId = null;
 
@@ -325,6 +385,34 @@ if (offerId) {
 } else if (clientParam) {
   document.getElementById('build-title').innerHTML = `${clientParam}'s<br><em>session.</em>`;
 }
+
+function configureBuildMode() {
+  document.getElementById('session-build-link').classList.toggle('active', buildMode === 'session');
+  document.getElementById('group-build-link').classList.toggle('active', buildMode === 'group');
+
+  if (buildMode === 'group') {
+    document.querySelector('.summary-bar')?.classList.add('quote-mode');
+    currentPackages = GROUP_PACKAGES;
+    currentAddons = GROUP_ADDONS;
+    baseCost = 0;
+    selectedAddons = new Set();
+    payFull = false;
+    document.title = 'Build Your Group Experience — Sir Leo';
+    document.getElementById('build-eyebrow').textContent = 'Group Builder';
+    document.getElementById('build-title').innerHTML = 'Build your<br><em>group experience.</em>';
+    document.getElementById('build-sub').textContent = 'Choose the shape of the event, add the elements you want, and send Sir Leo a clear starting point.';
+    document.getElementById('primary-label').textContent = 'Event Format';
+    document.getElementById('addons-label').textContent = 'Experience Elements';
+    document.getElementById('notes-label').textContent = 'Event details';
+    document.getElementById('session-notes').placeholder = 'Date, city, venue, group size, occasion, comfort level, and anything you already know you want.';
+    document.getElementById('pay-btn').textContent = 'Plan Event →';
+    renderPrimaryOptions();
+    renderAddons();
+    wireDurationSelection();
+  }
+}
+
+configureBuildMode();
 
 // Init
 updateSummary();
