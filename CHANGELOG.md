@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.41 — 2026-05-02
+**Clarify group audience final prompt**
+- `hub.js` — changes the Organizers & Groups free-text prompt to "Tell me more about the event/group."
+
 ## v2.40 — 2026-05-02
 **Tune audience modal questions and popup timing**
 - `main.js` — restores first-visit popup behavior to 8 seconds plus 20% scroll, waits for the hub before opening, and passes selected audience context into hub panels

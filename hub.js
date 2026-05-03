@@ -537,7 +537,7 @@ function ServePanel({ onClose, type, who }) {
           </div>
           <div className="hub-field"><label className="hub-label">Date, city, and rough size</label>
             <input className="hub-input" type="text" placeholder="e.g. June 14, Chicago, 20 people" /></div>
-          <div className="hub-field"><label className="hub-label">What should people experience or learn?</label>
+          <div className="hub-field"><label className="hub-label">Tell me more about the event/group.</label>
             <textarea className="hub-textarea" placeholder="Tell me the tone, audience, goals, and any boundaries or logistics." /></div>
         </>
       )
