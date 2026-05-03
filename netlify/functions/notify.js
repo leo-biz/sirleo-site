@@ -79,7 +79,7 @@ exports.handler = async (event) => {
       <div style="margin-top:24px;padding:20px;background:#ede3cf;font-size:13px;line-height:1.8;">
         <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#8B2020;margin-bottom:12px;">Their Answers</p>
         ${Object.entries(data).filter(([k]) => k !== 'selections').map(([k,v]) => `<p><strong>${k}:</strong> ${Array.isArray(v) ? v.join(', ') : v}</p>`).join('')}
-        ${data.selections?.length ? `<p><strong>Path:</strong> ${data.selections.join(' → ')}</p>` : ''}
+        ${data.selections?.length ? `<p><strong>Selections:</strong> ${data.selections.join(' → ')}</p>` : ''}
       </div>` : ''}
       <p style="margin-top:32px;font-size:12px;color:#9a7850;">
         <a href="https://supabase.com/dashboard/project/mwpscytkzjtkqjjqytqu/editor" style="color:#6B1A1A;">View in Supabase →</a>

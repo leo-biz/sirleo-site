@@ -490,22 +490,25 @@ function ServePanel({ onClose, type, who }) {
       title: <>What are you<br />looking for?</>,
       fields: (
         <>
-          <div className="hub-field"><label className="hub-label">Path</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['Private session','Couples experience','Education / coaching','Both session and education','Not sure yet'].map(o => <option key={o}>{o}</option>)}
-            </select>
-          </div>
           <div className="hub-field"><label className="hub-label">Who is this for?</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['Just me','Me and my partner'].map(o => <option key={o}>{o}</option>)}
-            </select>
+            {who
+              ? <input className="hub-input" type="text" defaultValue={who} readOnly style={{opacity:0.55, cursor:'default'}} />
+              : <select className="hub-select" defaultValue="">
+                  <option value="" disabled>Select</option>
+                  {['Just me','Me and my partner'].map(o => <option key={o}>{o}</option>)}
+                </select>
+            }
           </div>
           <div className="hub-field"><label className="hub-label">What are you hoping to explore?</label>
-            <textarea className="hub-textarea" placeholder="Session, education, desire, questions, experience level — whatever helps Sir Leo guide you." /></div>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Session','Education','Just curious','Learning'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
           <div className="hub-field"><label className="hub-label">Best availability</label>
             <input className="hub-input" type="text" placeholder="e.g. Weekday evenings, Saturday mornings" /></div>
+          <div className="hub-field"><label className="hub-label">Tell me anything</label>
+            <textarea className="hub-textarea" placeholder="Desire, questions, experience level, limits, curiosity — whatever helps Sir Leo understand you." /></div>
         </>
       )
     },
@@ -514,7 +517,13 @@ function ServePanel({ onClose, type, who }) {
       title: <>What are you<br />bringing together?</>,
       fields: (
         <>
-          <div className="hub-field"><label className="hub-label">Path</label>
+          <div className="hub-field"><label className="hub-label">Who is this for?</label>
+            {who
+              ? <input className="hub-input" type="text" defaultValue={who} readOnly style={{opacity:0.55, cursor:'default'}} />
+              : <input className="hub-input" type="text" placeholder="Organization, group, venue, or event" />
+            }
+          </div>
+          <div className="hub-field"><label className="hub-label">What are you planning?</label>
             <select className="hub-select" defaultValue="">
               <option value="" disabled>Select</option>
               {['Group experience / private event','Workshop / education','Venue or partner program','Performance booking','Not sure yet'].map(o => <option key={o}>{o}</option>)}

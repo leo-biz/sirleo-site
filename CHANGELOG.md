@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.40 — 2026-05-02
+**Tune audience modal questions and popup timing**
+- `main.js` — restores first-visit popup behavior to 8 seconds plus 20% scroll, waits for the hub before opening, and passes selected audience context into hub panels
+- `index.html` — tags audience cards with their audience name and removes "Path" CTA language
+- `hub.js`, `notify.js` — removes Path wording, pre-fills Who is this for, updates audience question options, and adds a final open-ended prompt
+
 ## v2.39 — 2026-05-02
 **Restructure homepage funnel around two true audiences**
 - `index.html` — changes Who I Serve to Individuals & Couples and Organizers & Groups

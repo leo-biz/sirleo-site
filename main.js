@@ -80,24 +80,29 @@ document.querySelectorAll('.serve-item[data-book]').forEach(item => {
 
 document.querySelectorAll('[data-hub-panel]').forEach(item => {
   item.addEventListener('click', () => {
-    window.SLHub?.open(item.dataset.hubPanel);
+    const context = item.dataset.hubWho ? { who: item.dataset.hubWho } : {};
+    window.SLHub?.open(item.dataset.hubPanel, context);
   });
 });
 
-// ── Auto-popup: first visit, after 15s AND 50% scroll ──
+// ── Auto-popup: first visit, after 8s AND 20% scroll ──
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('sl_submitted')) return;
   let ready = false, scrolled = false, fired = false;
   function tryOpen() {
     if (fired || !ready || !scrolled) return;
+    if (!window.SLHub) {
+      setTimeout(tryOpen, 100);
+      return;
+    }
     fired = true;
-    window.SLHub?.open('contact');
+    window.SLHub.open('contact');
   }
-  setTimeout(() => { ready = true; tryOpen(); }, 15000);
+  setTimeout(() => { ready = true; tryOpen(); }, 8000);
   window.addEventListener('scroll', () => {
     if (scrolled) return;
     const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
-    if (pct >= 50) { scrolled = true; tryOpen(); }
+    if (pct >= 20) { scrolled = true; tryOpen(); }
   }, { passive: true });
 });
 
