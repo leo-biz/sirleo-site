@@ -373,6 +373,8 @@ async function saveBooking() {
   const utm = window.SL_UTM || {};
   const source = window.SL_SOURCE || utm.utm_source || null;
   const panel_type = selections[0]?.toLowerCase().replace(/\s+/g, '-') || 'book';
+  const prodHosts = ['sirleo-site.netlify.app', 'sirblackleo.com', 'www.sirblackleo.com', 'sirleo.com', 'www.sirleo.com'];
+  const isTestEnv = !prodHosts.includes(window.location.hostname);
 
   await window.SLDb.from('submissions').insert({
     session_id:   window.SL_SESSION || null,
@@ -387,6 +389,8 @@ async function saveBooking() {
       ...formData.answers,
       selections,
       booking_type: panel_type,
+      source_page: 'book',
+      ...(isTestEnv ? { is_test: true } : {}),
     },
   });
 

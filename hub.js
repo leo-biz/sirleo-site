@@ -23,7 +23,8 @@ function saveToSupabase(panelType, name, phone, email, data) {
   if (!window.SLDb) { console.warn('[SL] SLDb not ready'); return; }
   const utm = window.SL_UTM || {};
   const source = window.SL_SOURCE || utm.utm_source || null;
-  const enrichedData = IS_TEST_ENV ? { ...(data || {}), is_test: true } : data;
+  const sourcePage = window.location.pathname.replace(/^\/+|\/+$|\.html$/g, '') || 'home';
+  const enrichedData = { ...(data || {}), source_page: sourcePage, ...(IS_TEST_ENV ? { is_test: true } : {}) };
   const row = {
     session_id:   window.SL_SESSION || null,
     panel_type:   panelType,
@@ -33,7 +34,7 @@ function saveToSupabase(panelType, name, phone, email, data) {
     utm_source:   source,
     utm_medium:   utm.utm_medium   || null,
     utm_campaign: utm.utm_campaign || null,
-    data: enrichedData && Object.keys(enrichedData).length ? enrichedData : null,
+    data: Object.keys(enrichedData).length ? enrichedData : null,
   };
   window.SLDb.from('submissions').insert(row).then(({ error }) => {
     if (error) console.error('[SL] submissions insert error:', error);

@@ -8,22 +8,21 @@ Resend audience: **https://resend.com/audiences**
 
 ## 0. Landing Pages
 
-### 5 New Landing Pages
+### Core Landing Pages
 Visit each on dev and verify form submits and analytics fire:
 
 | Page | URL | panel_type | data.source_page |
 |---|---|---|---|
 | Group Events | /events | serve-organizers | events |
-| Women Sessions | /sessions | serve-individuals | sessions |
-| Men Sessions | /men | serve-individuals | men |
-| For Women (monetize) | /for-women | serve-learners | for-women |
-| Certification | /certify | serve-learners | certify |
+| Private Sessions | /sessions | serve-individuals | sessions |
+| Training | /training | serve-learners | training |
 
 **Verify for each:**
 - Form submits → row in Supabase `submissions` with correct `panel_type` and `data.source_page`
 - Thank-you state appears after submit (form hides, thanks message shows)
 - Nav links render correctly
 - Page is mobile-responsive
+- Visiting `/men`, `/for-women`, or `/certify` 301 redirects to `/training`
 
 ### Email Sequences (followup.js)
 The sequence is now 4-step per audience. To manually test a step:
@@ -57,6 +56,7 @@ The sequence is now 4-step per audience. To manually test a step:
 1. Click each card in the "Who I Serve" section: Individuals, Organizers, Artists, Learners
 2. Submit each with a test email
 3. **Verify:** `panel_type = serve-individuals` (etc.), `serve_type` set correctly in Resend
+4. **Verify homepage routing:** Individuals → `/sessions?open`; Organizers/Artists → `/events?open`; Learners → `/training?open`
 
 ### Waitlist (AfterDark)
 1. Click **Join the Waitlist** on the AfterDark section or via nav
@@ -147,7 +147,8 @@ After test submissions:
 2. Verify contact exists with correct:
    - `first_name`, `last_name`, `email`
    - `panel_type`, `utm_source`, `tier`, `serve_type`
-3. Go to Segments → create a test segment filtering by `panel_type = book` → verify contact appears
+3. On local/dev submissions, verify the contact lands in the test audience configured by `RESEND_TEST_AUDIENCE_ID`
+4. On production submissions, verify the contact lands in the production audience configured by `RESEND_AUDIENCE_ID`
 
 ---
 
@@ -198,21 +199,25 @@ After test submissions:
 
 ---
 
-## 9. Day 2 Follow-up
+## 9. Multi-Step Follow-up
 
 ### Manual trigger test
 ```bash
 curl -X POST https://dev--sirleo-site.netlify.app/.netlify/functions/followup
 ```
-Should return `{ sent: N, total: N }`.
+Should return `{ sent: N, errors: N }`.
 
 ### End-to-end test
 1. Submit a form with a real email
-2. In Supabase editor, manually set `created_at` on that row to 48 hours ago
+2. In Supabase editor, manually set `created_at` on that row to a target window and set `sequence_step` to the previous step:
+   - Step 1: 44–52 hours old, `sequence_step = 0`
+   - Step 2: 116–124 hours old, `sequence_step = 1`
+   - Step 3: 236–244 hours old, `sequence_step = 2`
+   - Step 4: 500–516 hours old, `sequence_step = 3`
 3. Trigger the function manually (curl above)
 4. **Verify:**
    - Follow-up email arrives at the submitted address
-   - `follow_up_sent` flips to `true` on the row in Supabase
+   - `sequence_step` increments on the row in Supabase
    - Running the function again does NOT re-send (idempotent)
 
 ---
@@ -220,18 +225,15 @@ Should return `{ sent: N, total: N }`.
 ## 10. Pricing Page (`/pricing`)
 
 1. Go to **/pricing**
-2. **Default state (Single)**
-   - Initiate shows $150 / per session
-   - Devotee shows `—` (membership only, no single price)
-   - Consecrated shows `—`
-3. **Toggle Monthly**
-   - Initiate → $120, Devotee → $320 / "2 sessions included", Consecrated → $600 / "4 sessions included"
-4. **Toggle Annual**
-   - Initiate → $100, Devotee → $256 / "billed $3,072/yr", Consecrated → $480 / "billed $5,760/yr"
-5. **Featured card** — Devotee has "Most Popular" banner, filled CTA button
-6. **CTAs** — all three "Apply" buttons navigate to `/book.html`
-7. **Theme** — dark/light persists, text readable in both modes
-8. **Mobile** — cards stack to single column on < 768px
+2. Verify the three session packages show:
+   - Sensual Surrender — $200
+   - Mr. Naughty & Nasty — $300
+   - The Sadistic Devil — $400
+3. Verify add-ons match the session builder: Fire Play, Rope Bondage, Sensory Deprivation, Session Photography, Extended Aftercare, Time Extension, Orgasmic Edition
+4. Verify membership appears as a secondary returning-client callout, not the primary pricing model
+5. **CTAs** — session/package CTAs route to the current booking/session flow
+6. **Theme** — dark/light persists, text readable in both modes
+7. **Mobile** — cards stack cleanly on narrow screens
 
 ---
 
@@ -242,36 +244,37 @@ Should return `{ sent: N, total: N }`.
 2. Go to **/build?client=Jordan** — heading should read "Jordan's *session.*"
 
 ### Duration selection
-3. Default: Initiation (90min, $150) card is selected (crimson border, tinted background)
-4. Click Immersion → summary bar updates to $250
-5. Click Extended Rite → summary bar updates to $400
+3. Default: Sensual Surrender (1 hour, $200) card is selected (crimson border, tinted background)
+4. Click Mr. Naughty & Nasty → summary bar updates to $300
+5. Click The Sadistic Devil → summary bar updates to $400
 6. Only one card selected at a time
 
 ### Add-ons
-7. Check Fire Play (+$75) → total increases by $75
+7. Check Fire Play (+$100) → total increases by $100
 8. Check Rope Bondage (+$75) → total increases by another $75
-9. Uncheck Fire Play → total decreases by $75
+9. Uncheck Fire Play → total decreases by $100
 10. Check multiple add-ons → total = base + all checked add-ons
 11. Checked add-on row gets crimson border highlight
 
 ### Summary bar
 12. Items line (top) reflects selected duration name + checked add-on names separated by ` · `
 13. Total price updates instantly on any change
-14. Deposit note: "Deposit: $X due today — remainder at session" (50% of total)
+14. Pay in full is checked by default
+15. Deposit note appears when deposit mode is selected: "Deposit: $X due today — remainder at session" (50% of total)
 
 ### Pay in full toggle
-15. Check "Pay in full" → note changes to "Full payment due today", deposit note disappears
-16. Uncheck → reverts to deposit note
+16. Check "Pay in full" → note changes to "Full payment due today", deposit note disappears
+17. Uncheck → reverts to deposit note
 
-### Pay button (pre-Stripe)
-17. Click "Secure Session →" → alert fires explaining Stripe not yet connected
-18. No network request, no crash
+### Pay button
+18. Click "Secure Session →" with `STRIPE_PUBLISHABLE_KEY` configured → creates a Stripe Checkout session and redirects to Stripe
+19. With no Stripe publishable key configured → button alerts that payment is not configured and does not crash
 
 ### Notes textarea
-19. Type in the notes field — no JS errors, content persists while on page
+20. Type in the notes field — no JS errors, content persists while on page
 
 ### Theme
-20. Dark/light theme applies via localStorage (same as rest of site)
+21. Dark/light theme applies via localStorage (same as rest of site)
 
 ---
 

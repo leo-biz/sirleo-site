@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.15 — 2026-05-02
+**Fix test audience routing and update operating docs**
+- `hub.js` — submissions now include `data.source_page` for cleaner admin, testing, and follow-up attribution
+- `book.html` — direct booking submissions now include `data.source_page` and test-environment tagging
+- `notify.js` — fixed Resend sync to use `RESEND_TEST_AUDIENCE_ID` for test submissions instead of always posting to production audience
+- `TESTING.md` — updated stale landing-page, follow-up, pricing, and session-builder checks to match the current `/sessions`, `/events`, `/training`, `/pricing`, and `/build` flows
+- `EMPIRE.md` — updated training overview and site version from the old two-track model to the current three-level training structure
+
 ## v2.14 — 2026-05-02
 **Revamp events, sessions, training, pricing, build pages**
 - `events.html` — removed type icons from celebration grid; cleaned alignment; renamed page framing to "Group Experiences"; added Venue & Partner section (salons, shops, studios, private clubs)

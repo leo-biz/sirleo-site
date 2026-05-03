@@ -30,7 +30,7 @@ exports.handler = async (event) => {
     const { RESEND_AUDIENCE_KEY, RESEND_AUDIENCE_ID, RESEND_TEST_AUDIENCE_ID } = process.env;
     const audienceId = row.data?.is_test ? RESEND_TEST_AUDIENCE_ID : RESEND_AUDIENCE_ID;
     if (!RESEND_AUDIENCE_KEY || !audienceId || !email) return;
-    return fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
+    return fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${RESEND_AUDIENCE_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
