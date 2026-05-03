@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.25 — 2026-05-02
+**Redesign education and events pages; add Home to nav**
+- `training.html` — complete redesign: replaced Level I/II/III structure with two clear paths (Individuals & Couples, Groups), using homepage design language (principles-grid, serve-grid, label-tag, section-title); topics rewritten to reflect actual offerings
+- `events.html` — complete redesign: two clean segments (Private Group Experiences, Venue & Partner Programs); Sir Leo's performance role clarified; interactive add-on surfaced within group bookings
+- `index.html`, `sessions.html`, `events.html`, `training.html`, `pricing.html` — added Home link to nav and footer nav on inner pages
+
 ## v2.24 — 2026-05-02
 **Render session add-ons from catalog**
 - `src/data/session-catalog.js` — moves Orgasmic Edition to the first add-on position
