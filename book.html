@@ -24,6 +24,8 @@
   <script src="version.js"></script>
   <script src="db.js"></script>
   <script src="analytics.js"></script>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/submissions.js"></script>
   <!-- Cal.com embed -->
   <script type="text/javascript">
     (function(C,A,L){let p=function(a,ar){a.q.push(ar);};let d=C.document;C.Cal=C.Cal||function(){let cal=C.Cal;let ar=arguments;if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement("script")).src=A;cal.loaded=true;}if(ar[0]===L){const api=function(){p(api,arguments);};const namespace=ar[1];api.q=api.q||[];typeof namespace==="string"?(cal.ns[namespace]=api)&&p(api,ar):p(cal,ar);return;}p(cal,ar);};})(window,"https://app.cal.com/embed/embed.js","init");
@@ -369,43 +371,20 @@ function renderForm(step) {
 const formData = { name: '', phone: '', email: '', answers: {} };
 
 async function saveBooking() {
-  if (!window.SLDb) return;
-  const utm = window.SL_UTM || {};
-  const source = window.SL_SOURCE || utm.utm_source || null;
   const panel_type = selections[0]?.toLowerCase().replace(/\s+/g, '-') || 'book';
-  const prodHosts = ['sirleo-site.netlify.app', 'sirblackleo.com', 'www.sirblackleo.com', 'sirleo.com', 'www.sirleo.com'];
-  const isTestEnv = !prodHosts.includes(window.location.hostname);
-
-  await window.SLDb.from('submissions').insert({
-    session_id:   window.SL_SESSION || null,
-    panel_type:   'book',
-    name:         formData.name  || null,
-    phone:        formData.phone || null,
-    email:        formData.email || null,
-    utm_source:   source,
-    utm_medium:   utm.utm_medium   || null,
-    utm_campaign: utm.utm_campaign || null,
+  await window.SLSubmissions?.save({
+    panelType: 'book',
+    contactSource: 'book',
+    name: formData.name,
+    phone: formData.phone,
+    email: formData.email,
     data: {
       ...formData.answers,
       selections,
       booking_type: panel_type,
-      source_page: 'book',
-      ...(isTestEnv ? { is_test: true } : {}),
     },
+    sourcePage: 'book',
   });
-
-  if (formData.phone) {
-    window.SLDb.rpc('upsert_contact', {
-      p_phone:        formData.phone,
-      p_name:         formData.name  || null,
-      p_email:        formData.email || null,
-      p_source:       'book',
-      p_session_id:   window.SL_SESSION || null,
-      p_utm_source:   source,
-      p_utm_medium:   utm.utm_medium   || null,
-      p_utm_campaign: utm.utm_campaign || null,
-    });
-  }
 }
 
 // Init

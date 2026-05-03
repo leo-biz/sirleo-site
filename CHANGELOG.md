@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.16 — 2026-05-02
+**Add shared browser config and submission helpers**
+- `src/js/config.js` — added shared production-host and source-page helpers for browser code
+- `src/js/submissions.js` — added a single Supabase submission/contact helper used by booking flows
+- `hub.js`, `book.html` — replaced duplicated submission row construction with the shared helper
+- `index.html`, `events.html`, `sessions.html`, `training.html` — loaded shared browser helpers before hub panels
+
 ## v2.15 — 2026-05-02
 **Fix test audience routing and update operating docs**
 - `hub.js` — submissions now include `data.source_page` for cleaner admin, testing, and follow-up attribution

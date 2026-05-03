@@ -16,43 +16,8 @@ function collectFields(el) {
   return out;
 }
 
-const PROD_HOSTS = ['sirleo-site.netlify.app', 'sirblackleo.com', 'www.sirblackleo.com', 'sirleo.com', 'www.sirleo.com'];
-const IS_TEST_ENV = !PROD_HOSTS.some(h => window.location.hostname === h);
-
 function saveToSupabase(panelType, name, phone, email, data) {
-  if (!window.SLDb) { console.warn('[SL] SLDb not ready'); return; }
-  const utm = window.SL_UTM || {};
-  const source = window.SL_SOURCE || utm.utm_source || null;
-  const sourcePage = window.location.pathname.replace(/^\/+|\/+$|\.html$/g, '') || 'home';
-  const enrichedData = { ...(data || {}), source_page: sourcePage, ...(IS_TEST_ENV ? { is_test: true } : {}) };
-  const row = {
-    session_id:   window.SL_SESSION || null,
-    panel_type:   panelType,
-    name:         name  || null,
-    phone:        phone || null,
-    email:        email || null,
-    utm_source:   source,
-    utm_medium:   utm.utm_medium   || null,
-    utm_campaign: utm.utm_campaign || null,
-    data: Object.keys(enrichedData).length ? enrichedData : null,
-  };
-  window.SLDb.from('submissions').insert(row).then(({ error }) => {
-    if (error) console.error('[SL] submissions insert error:', error);
-  });
-  if (phone) {
-    window.SLDb.rpc('upsert_contact', {
-      p_phone:        phone,
-      p_name:         name  || null,
-      p_email:        email || null,
-      p_source:       panelType,
-      p_session_id:   window.SL_SESSION || null,
-      p_utm_source:   source,
-      p_utm_medium:   utm.utm_medium   || null,
-      p_utm_campaign: utm.utm_campaign || null,
-    }).then(({ error }) => {
-      if (error) console.error('[SL] upsert_contact error:', error);
-    });
-  }
+  window.SLSubmissions?.save({ panelType, name, phone, email, data });
 }
 
 // ── Wizard step transition style ──
