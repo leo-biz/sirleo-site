@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.20 — 2026-05-02
+**Restore homepage FAQ before Contact**
+- `index.html` — added a real static FAQ section before Contact/Footer and restored Questions links in homepage nav/footer
+- `style.css` — added FAQ accordion styling and responsive spacing
+
 ## v2.19 — 2026-05-02
 **Unified nav and footer across all pages**
 - Nav updated on all pages: Sessions · Events · Education · Contact (logo = home link)
