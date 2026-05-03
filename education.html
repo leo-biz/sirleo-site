@@ -172,13 +172,13 @@ function openEduHub(panel, who) {
   }
 }
 
-document.getElementById('nav-apply-btn').addEventListener('click', () => openEduHub('serve-learners'));
-document.getElementById('cta-apply-btn').addEventListener('click', () => openEduHub('serve-learners'));
+document.getElementById('nav-apply-btn').addEventListener('click', () => openEduHub('audience-individuals'));
+document.getElementById('cta-apply-btn').addEventListener('click', () => openEduHub('audience-individuals'));
 
 if (new URLSearchParams(window.location.search).has('open')) {
   window.addEventListener('load', () => {
     const t = setInterval(() => {
-      if (window.SLHub) { clearInterval(t); window.SLHub.open('serve-learners'); }
+      if (window.SLHub) { clearInterval(t); window.SLHub.open('audience-individuals'); }
     }, 50);
   });
 }

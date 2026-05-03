@@ -15,7 +15,7 @@ Visit each on dev and verify form submits and analytics fire:
 |---|---|---|---|
 | Group Events | /events | serve-organizers | events |
 | Private Sessions | /sessions | serve-individuals | sessions |
-| Education | /education | serve-learners | education |
+| Education | /education | audience-individuals / edu-person / edu-group | education |
 
 **Verify for each:**
 - Form submits → row in Supabase `submissions` with correct `panel_type` and `data.source_page`
@@ -52,11 +52,11 @@ The sequence is now 4-step per audience. To manually test a step:
 2. Fill out form → submit
 3. **Verify:** Same as above with `panel_type = collab`
 
-### Who I Serve Panels (4 types)
-1. Click each card in the "Who I Serve" section: Individuals, Organizers, Artists, Learners
+### Who I Serve Panels (2 audiences)
+1. Click each card in the "Who I Serve" section: Individuals & Couples, Organizers & Groups
 2. Submit each with a test email
-3. **Verify:** `panel_type = serve-individuals` (etc.), `serve_type` set correctly in Resend
-4. **Verify homepage routing:** Individuals → `/sessions?open`; Organizers/Artists → `/events?open`; Learners → `/education?open`
+3. **Verify:** `panel_type = audience-individuals` or `audience-organizers`; `serve_type` set correctly in Resend
+4. **Verify dedicated page routing:** `/sessions?open` opens `serve-individuals`; `/events?open` opens `serve-organizers`; `/education?open` opens `audience-individuals`
 
 ### Waitlist (AfterDark)
 1. Click **Join the Waitlist** on the AfterDark section or via nav
@@ -297,7 +297,7 @@ Should return `{ sent: N, errors: N }`.
 window.SLHub.open('book')
 window.SLHub.open('waitlist')
 window.SLHub.open('contact')
-window.SLHub.open('serve-individuals')
+window.SLHub.open('audience-individuals')
 
 // Check session data
 sessionStorage.getItem('sl_source')   // resolved traffic source

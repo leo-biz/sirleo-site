@@ -10,6 +10,19 @@ exports.handler = async (event) => {
   const row = payload.record || payload;
   const { name, phone, email, panel_type, utm_source, data } = row;
   const firstName = name?.split(' ')[0] || '';
+  const serveType = (() => {
+    if (!panel_type) return '';
+    if (panel_type.startsWith('audience-')) return panel_type.replace('audience-', '');
+    if (panel_type.startsWith('serve-')) return panel_type.replace('serve-', '');
+    if (panel_type.startsWith('edu-')) return 'education';
+    return '';
+  })();
+  const isSessionLead = (() => {
+    const answers = JSON.stringify(data || {}).toLowerCase();
+    if (panel_type === 'serve-individuals' || panel_type === 'book') return true;
+    if (panel_type !== 'audience-individuals') return false;
+    return !/education|coaching|workshop|keynote|learn/.test(answers);
+  })();
 
   // ── Email via Resend ──
   const sendEmail = (to, subject, html) =>
@@ -44,7 +57,7 @@ exports.handler = async (event) => {
           panel_type:  panel_type || 'unknown',
           utm_source:  utm_source || '',
           tier:        data?.tier || '',
-          serve_type:  panel_type?.startsWith('serve-') ? panel_type.replace('serve-', '') : '',
+          serve_type:  serveType,
           converted:   'false',
         },
       }),
@@ -118,7 +131,7 @@ exports.handler = async (event) => {
       email ? sendEmail(email, 'Sir Leo received your inquiry.', replyHtml) : null,
       sendSMS(smsBody),
       syncAudience(),
-      createSessionOffer(),
+      isSessionLead ? createSessionOffer() : null,
     ].filter(Boolean));
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };

@@ -5,12 +5,18 @@ const { sbHeaders, tableUrl } = require('./lib/supabase');
 const FROM = 'Sir Leo <onboarding@resend.dev>';
 
 // ── Audience helper ──────────────────────────────────────────────────────────
-// panel_type is the source of truth. data.track refines serve-learners only.
+// panel_type is the source of truth; selected path refines the audience.
 
 function audience(lead) {
-  if (lead.panel_type === 'serve-organizers') return 'events';
-  if (lead.panel_type === 'serve-learners')   return lead.data?.track === 'men' ? 'certify' : 'women';
-  return 'sessions'; // serve-individuals, book, anything else
+  const panelType = lead.panel_type || '';
+  const answers = JSON.stringify(lead.data || {}).toLowerCase();
+  const wantsEducation = /education|coaching|workshop|keynote|learn/.test(answers);
+
+  if (panelType === 'edu-person' || panelType === 'edu-group') return 'education';
+  if (panelType === 'audience-organizers') return wantsEducation ? 'education' : 'events';
+  if (panelType === 'serve-organizers') return 'events';
+  if (panelType === 'audience-individuals') return wantsEducation ? 'education' : 'sessions';
+  return 'sessions'; // serve-individuals, book, contact, anything else
 }
 
 // ── Step 1: Day 2 ────────────────────────────────────────────────────────────
@@ -28,21 +34,11 @@ function emailStep1(lead) {
     `),
   };
 
-  if (audience(lead) === 'women') return {
-    subject: 'Your application',
+  if (audience(lead) === 'education') return {
+    subject: 'About what you want to learn',
     html: buildEmail(first, `
-      <p>I got your application for the women's training program.</p>
-      <p>I review these personally. If I think there's a fit, I'll reach out to set up a conversation — no pressure, just a real talk to see if this makes sense for where you are.</p>
-      <p>In the meantime, if you have questions or want to tell me more about what you're building, just reply to this.</p>
-      ${contactBlock()}
-    `),
-  };
-
-  if (audience(lead) === 'certify') return {
-    subject: 'Your certification application',
-    html: buildEmail(first, `
-      <p>Application received. I read through it.</p>
-      <p>I'm selective about who gets into the program — not because I'm gatekeeping, but because the training only works if you're actually ready for it. I'll be in touch in the next day or two with next steps.</p>
+      <p>You reached out about education or coaching. I wanted to follow up personally.</p>
+      <p>The right format depends on what you're trying to understand, practice, or build — private coaching, couples work, a group workshop, or something custom.</p>
       <p>If you want to add anything or have questions in the meantime, just reply here.</p>
       ${contactBlock()}
     `),
@@ -74,21 +70,11 @@ function emailStep2(lead) {
     `),
   };
 
-  if (audience(lead) === 'women') return {
-    subject: 'The part nobody talks about',
+  if (audience(lead) === 'education') return {
+    subject: 'A clearer path',
     html: buildEmail(first, `
-      <p>Most women who want to do this stop before they start — not because they lack ability, but because they don't have a clear path. They're working it out alone.</p>
-      <p>That's the gap the training fills. Not just technique. A whole structure you can actually build on.</p>
-      <p>If you have questions about what the program involves, just ask. No pitch, just information.</p>
-      ${contactBlock()}
-    `),
-  };
-
-  if (audience(lead) === 'certify') return {
-    subject: 'What separates providers who last',
-    html: buildEmail(first, `
-      <p>One thing I've noticed: the providers who actually build something real aren't necessarily the most skilled at the start. They're the ones who take the business side as seriously as the craft.</p>
-      <p>That's what this program is built around — both. If you're still thinking through whether to move forward, I'm happy to answer specific questions.</p>
+      <p>Most people don't need more random information. They need a clearer container: what to learn first, what to practice, what to avoid, and how to communicate cleanly.</p>
+      <p>That's what I build education around. If you're still thinking through the right format, reply with where you're starting from.</p>
       ${contactBlock()}
     `),
   };
@@ -118,20 +104,11 @@ function emailStep3(lead) {
     `),
   };
 
-  if (audience(lead) === 'women') return {
-    subject: 'The next cohort',
+  if (audience(lead) === 'education') return {
+    subject: 'Still want to learn this properly?',
     html: buildEmail(first, `
-      <p>I'm taking the next round of training applications seriously. Spots are intentionally limited — this isn't a course you buy access to, it's a program you get accepted into.</p>
-      <p>If you're still interested, now's a good time to confirm. Just reply and I'll let you know where you stand.</p>
-      ${contactBlock()}
-    `),
-  };
-
-  if (audience(lead) === 'certify') return {
-    subject: 'Certification cohort update',
-    html: buildEmail(first, `
-      <p>Wanted to give you an update on the certification program. I'm finalizing the next cohort — small by design. The training works because of the 1-on-1 structure.</p>
-      <p>If you're still interested in being considered, confirm that here and I'll keep your application active.</p>
+      <p>If you're still interested in education or a workshop, now is a good time to clarify the format.</p>
+      <p>One-on-one, couples, and group work all need different containers. Reply with which direction feels closest and I'll help shape the next step.</p>
       ${contactBlock()}
     `),
   };

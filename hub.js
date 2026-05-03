@@ -485,6 +485,54 @@ function ServePanel({ onClose, type, who }) {
   const S = id => stepStyle(id, step);
 
   const configs = {
+    'audience-individuals': {
+      eyebrow: 'Individuals & Couples',
+      title: <>What are you<br />looking for?</>,
+      fields: (
+        <>
+          <div className="hub-field"><label className="hub-label">Path</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Private session','Couples experience','Education / coaching','Both session and education','Not sure yet'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Who is this for?</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Just me','Me and my partner'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">What are you hoping to explore?</label>
+            <textarea className="hub-textarea" placeholder="Session, education, desire, questions, experience level — whatever helps Sir Leo guide you." /></div>
+          <div className="hub-field"><label className="hub-label">Best availability</label>
+            <input className="hub-input" type="text" placeholder="e.g. Weekday evenings, Saturday mornings" /></div>
+        </>
+      )
+    },
+    'audience-organizers': {
+      eyebrow: 'Organizers & Groups',
+      title: <>What are you<br />bringing together?</>,
+      fields: (
+        <>
+          <div className="hub-field"><label className="hub-label">Path</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Group experience / private event','Workshop / education','Venue or partner program','Performance booking','Not sure yet'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Group or event type</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Private friend group','Bachelorette / birthday / celebration','Organization / company','Salon, spa, or wellness space','Club, venue, or producer','Other'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Date, city, and rough size</label>
+            <input className="hub-input" type="text" placeholder="e.g. June 14, Chicago, 20 people" /></div>
+          <div className="hub-field"><label className="hub-label">What should people experience or learn?</label>
+            <textarea className="hub-textarea" placeholder="Tell me the tone, audience, goals, and any boundaries or logistics." /></div>
+        </>
+      )
+    },
     'serve-individuals': {
       eyebrow: 'Private Session',
       title: <>Tell Sir Leo<br />about you.</>,
@@ -530,56 +578,6 @@ function ServePanel({ onClose, type, who }) {
           </div>
           <div className="hub-field"><label className="hub-label">What are you envisioning?</label>
             <textarea className="hub-textarea" placeholder="Tell me what you have in mind." /></div>
-        </>
-      )
-    },
-    'serve-artists': {
-      eyebrow: 'Collaboration',
-      title: <>Tell Sir Leo<br />about your vision.</>,
-      fields: (
-        <>
-          <div className="hub-field"><label className="hub-label">Type of collaboration</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['Visual art','Film / Video','Photography','Music','Theatrical / Performance','Other'].map(o => <option key={o}>{o}</option>)}
-            </select>
-          </div>
-          <div className="hub-field"><label className="hub-label">Tell me about your project</label>
-            <textarea className="hub-textarea" placeholder="What are you creating? What draws you to Sir Leo's world?" /></div>
-          <div className="hub-field"><label className="hub-label">Timeline</label>
-            <input className="hub-input" type="text" placeholder="e.g. Spring 2026, flexible, ASAP" /></div>
-        </>
-      )
-    },
-    'serve-learners': {
-      eyebrow: 'Education',
-      title: <>Let's build<br />the right experience.</>,
-      fields: (
-        <>
-          <div className="hub-field"><label className="hub-label">Who is this for?</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['Just me','Me and my partner','A small group / group event'].map(o => <option key={o}>{o}</option>)}
-            </select>
-          </div>
-          <div className="hub-field">
-            <label className="hub-label">Topics I'm interested in</label>
-            <div className="hub-checks">
-              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','How to Be a Professional','Bedroom Kink & Dynamics'].map(t => (
-                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
-              ))}
-            </div>
-          </div>
-          <div className="hub-field">
-            <label className="hub-label">Teaching style</label>
-            <div className="hub-checks">
-              {['Online Course','In-Person Training','Multi-Week Cohort','Private Workshop','Keynote'].map(s => (
-                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
-              ))}
-            </div>
-          </div>
-          <div className="hub-field"><label className="hub-label">Anything else?</label>
-            <textarea className="hub-textarea" placeholder="Where are you starting from? What are you trying to build?" /></div>
         </>
       )
     },
@@ -867,7 +865,7 @@ function Hub() {
             {activePanel === 'book'    && <BookPanel    onClose={closePanel} initialStep={panelContext.step || 'type'} initialSels={panelContext.sels || []} />}
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
-            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-person','edu-group'].includes(activePanel) && <ServePanel key={activePanel} onClose={closePanel} type={activePanel} who={panelContext.who} />}
+            {['audience-individuals','audience-organizers','serve-individuals','serve-organizers','edu-person','edu-group'].includes(activePanel) && <ServePanel key={activePanel} onClose={closePanel} type={activePanel} who={panelContext.who} />}
             {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>

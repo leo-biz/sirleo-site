@@ -109,10 +109,9 @@ Credits apply to any tier; pay the difference to upgrade.
 
 | Segment | Hub Panel | Landing Page | Description |
 |---|---|---|---|
-| Curious Individuals & Couples | `serve-individuals` | `/sessions` | Private sessions, power/sensation/surrender |
-| Event Organizers & Producers | `serve-organizers` | `/events` | Bachelorette, birthday, private group events |
-| Artists, Collaborators & Visionaries | `serve-artists` | `/events` | Creative collaboration, fire art, performance |
-| Learners & Practitioners | `serve-learners` | `/education` | Education, practice, professional training |
+| Individuals & Couples | `audience-individuals` | `/sessions`, `/education` | Private sessions, couples experiences, education, coaching |
+| Organizers & Groups | `audience-organizers` | `/events`, `/education` | Group experiences, events, workshops, education |
+| Collaborators | `collab` | Homepage collaboration section | Creative collaboration, talent, service, media |
 
 ---
 
@@ -137,16 +136,15 @@ Credits apply to any tier; pay the difference to upgrade.
 - `/pay-success` — Stripe payment confirmation
 - `/admin` — Password-protected CRM dashboard
 
-**Hub modal (hub.js):** React SPA mounted at `#hub-root` on every page. Opens context-aware panels per audience. Panels: `book`, `serve-individuals`, `serve-organizers`, `serve-learners`, `serve-artists`, `contact`, `waitlist`, `collab`.
+**Hub modal (hub.js):** React SPA mounted at `#hub-root` on every page. Opens context-aware panels per audience. Panels: `book`, `audience-individuals`, `audience-organizers`, `serve-individuals`, `serve-organizers`, `edu-person`, `edu-group`, `contact`, `waitlist`, `collab`.
 
 **Analytics tracked:** pageviews, clicks, scroll depth, time on page, panel open/abandon, UTM attribution, session ID ties analytics to submissions.
 
 **Email follow-up sequences (followup.js):** Audience-routed by `panel_type`. 4 steps: Day 2 (44–52h), Day 5 (116–124h), Day 10 (236–244h), Day 21 (500–516h).
 
 **Audience routing:**
-- `serve-organizers` → events sequence
-- `serve-learners` + `data.track = 'men'` → certify sequence
-- `serve-learners` default → women sequence
+- `audience-organizers` and `serve-organizers` → events sequence
+- `audience-individuals`, `edu-person`, and `edu-group` → education/session triage
 - everything else → sessions sequence
 
 ### Admin Dashboard (/admin)

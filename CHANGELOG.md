@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.39 — 2026-05-02
+**Restructure homepage funnel around two true audiences**
+- `index.html` — changes Who I Serve to Individuals & Couples and Organizers & Groups
+- `hub.js`, `main.js`, `education.html` — adds audience-level intake panels that let each audience choose sessions/events or education/workshops
+- `notify.js`, `followup.js` — update backend classification for new audience-level panel types
+- `docs/EMPIRE.md`, `docs/TESTING.md`, `sitemap-visual.html` — update audience and routing documentation
+
 ## v2.38 — 2026-05-02
 **Place collaboration after Signature Event**
 - `index.html` — moves the Collaboration callout to follow KINK AfterDark

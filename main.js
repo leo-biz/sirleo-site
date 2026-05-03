@@ -65,11 +65,10 @@ document.querySelectorAll('.offering[data-step]').forEach(card => {
   });
 });
 
-// ── Who I Serve — navigate to dedicated page; modal auto-opens there ──
+// ── Legacy Who I Serve links on dedicated pages ──
 const servePageMap = {
   'serve-individuals': '/sessions?open',
   'serve-organizers':  '/events?open',
-  'serve-learners':    '/education?open',
 };
 document.querySelectorAll('.serve-item[data-book]').forEach(item => {
   item.style.cursor = 'pointer';
