@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.38 — 2026-05-02
+**Place collaboration after Signature Event**
+- `index.html` — moves the Collaboration callout to follow KINK AfterDark
+- `style.css` — restyles the Collaboration callout to match the page's quieter editorial section rhythm
+
 ## v2.37 — 2026-05-02
 **Move collaboration out of homepage audience list**
 - `index.html` — removes Collaborators from Who I Serve and adds a dedicated Collaboration callout section
