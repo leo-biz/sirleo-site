@@ -1,4 +1,6 @@
 // New submission → notify Sir Leo (email + SMS) + auto-reply to lead + Resend audience sync
+const { sbHeaders, tableUrl } = require('./lib/supabase');
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
@@ -94,12 +96,9 @@ exports.handler = async (event) => {
   const createSessionOffer = async () => {
     const { SUPABASE_SERVICE_KEY } = process.env;
     if (!SUPABASE_SERVICE_KEY) return;
-    const sbHeaders = {
-      'apikey': SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-      'Content-Type': 'application/json', 'Prefer': 'return=minimal',
-    };
-    return fetch('https://mwpscytkzjtkqjjqytqu.supabase.co/rest/v1/session_offers', {
-      method: 'POST', headers: sbHeaders,
+    return fetch(tableUrl('session_offers'), {
+      method: 'POST',
+      headers: sbHeaders(SUPABASE_SERVICE_KEY, { prefer: 'return=minimal' }),
       body: JSON.stringify({
         submission_id: row.id || null,
         client_name: name || null,

@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const SUPABASE_URL = 'https://mwpscytkzjtkqjjqytqu.supabase.co';
+const { sbHeaders, tableUrl } = require('./lib/supabase');
 
 exports.handler = async (event) => {
   const { stripe_session_id, offer_id } = event.queryStringParameters || {};
@@ -13,13 +13,8 @@ exports.handler = async (event) => {
 
     // Update session offer if linked
     if (offer_id && process.env.SUPABASE_SERVICE_KEY) {
-      const headers = {
-        'apikey': process.env.SUPABASE_SERVICE_KEY,
-        'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal',
-      };
-      await fetch(`${SUPABASE_URL}/rest/v1/session_offers?id=eq.${offer_id}`, {
+      const headers = sbHeaders(process.env.SUPABASE_SERVICE_KEY, { prefer: 'return=minimal' });
+      await fetch(tableUrl('session_offers', `id=eq.${offer_id}`), {
         method: 'PATCH', headers,
         body: JSON.stringify({
           status: 'paid',

@@ -1,12 +1,5 @@
 // Admin API — password-gated, handles GET (all data) + PATCH (contact/submission updates)
-const SUPABASE_URL = 'https://mwpscytkzjtkqjjqytqu.supabase.co';
-
-const sbHeaders = (key) => ({
-  'apikey': key,
-  'Authorization': `Bearer ${key}`,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation',
-});
+const { sbHeaders, tableUrl } = require('./lib/supabase');
 
 exports.handler = async (event) => {
   const { SUPABASE_SERVICE_KEY, ADMIN_PASSWORD } = process.env;
@@ -24,7 +17,7 @@ exports.handler = async (event) => {
     if (!type || !id) return { statusCode: 400, body: 'Missing type or id' };
 
     const table = type === 'contact' ? 'contacts' : type === 'session' ? 'session_offers' : 'submissions';
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    const res = await fetch(tableUrl(table, `id=eq.${id}`), {
       method: 'PATCH', headers,
       body: JSON.stringify({ ...body, updated_at: new Date().toISOString() }),
     });
@@ -34,11 +27,11 @@ exports.handler = async (event) => {
 
   // ── GET — fetch all dashboard data ──
   const [subRes, contactRes, waitRes, analyticsRes, sessionRes] = await Promise.all([
-    fetch(`${SUPABASE_URL}/rest/v1/submissions?select=*&order=created_at.desc&limit=500`, { headers }),
-    fetch(`${SUPABASE_URL}/rest/v1/contacts?select=*&order=last_seen.desc.nullsfirst&limit=500`, { headers }),
-    fetch(`${SUPABASE_URL}/rest/v1/waitlist?select=*&order=created_at.desc&limit=500`, { headers }),
-    fetch(`${SUPABASE_URL}/rest/v1/analytics?select=event_type,utm_source:data->>utm_source,city,country,created_at&order=created_at.desc&limit=2000`, { headers }),
-    fetch(`${SUPABASE_URL}/rest/v1/session_offers?select=*&order=created_at.desc&limit=500`, { headers }),
+    fetch(tableUrl('submissions', 'select=*&order=created_at.desc&limit=500'), { headers }),
+    fetch(tableUrl('contacts', 'select=*&order=last_seen.desc.nullsfirst&limit=500'), { headers }),
+    fetch(tableUrl('waitlist', 'select=*&order=created_at.desc&limit=500'), { headers }),
+    fetch(tableUrl('analytics', 'select=event_type,utm_source:data->>utm_source,city,country,created_at&order=created_at.desc&limit=2000'), { headers }),
+    fetch(tableUrl('session_offers', 'select=*&order=created_at.desc&limit=500'), { headers }),
   ]);
 
   const [submissions, contacts, waitlist, analytics, sessions] = await Promise.all([

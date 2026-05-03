@@ -1,9 +1,4 @@
-const SUPABASE_URL = 'https://mwpscytkzjtkqjjqytqu.supabase.co';
-
-const sbHeaders = (key) => ({
-  'apikey': key, 'Authorization': `Bearer ${key}`,
-  'Content-Type': 'application/json', 'Prefer': 'return=representation',
-});
+const { sbHeaders, tableUrl } = require('./lib/supabase');
 
 exports.handler = async (event) => {
   const { SUPABASE_SERVICE_KEY, ADMIN_PASSWORD } = process.env;
@@ -16,7 +11,7 @@ exports.handler = async (event) => {
 
   // POST — create
   if (event.httpMethod === 'POST') {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/session_offers`, {
+    const res = await fetch(tableUrl('session_offers'), {
       method: 'POST', headers,
       body: JSON.stringify({ ...body, created_at: new Date().toISOString() }),
     });
@@ -26,7 +21,7 @@ exports.handler = async (event) => {
 
   // PATCH — update by id
   if (event.httpMethod === 'PATCH' && params.id) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/session_offers?id=eq.${params.id}`, {
+    const res = await fetch(tableUrl('session_offers', `id=eq.${params.id}`), {
       method: 'PATCH', headers,
       body: JSON.stringify({ ...body, updated_at: new Date().toISOString() }),
     });

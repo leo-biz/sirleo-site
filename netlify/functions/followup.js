@@ -1,7 +1,7 @@
 // Runs daily — sends multi-step follow-up sequences based on panel_type
 // Step 0 = not started, 1 = Day 2 sent, 2 = Day 5 sent, 3 = Day 10 sent, 4 = Day 21 sent
 
-const SUPABASE_URL = 'https://mwpscytkzjtkqjjqytqu.supabase.co';
+const { sbHeaders, tableUrl } = require('./lib/supabase');
 const FROM = 'Sir Leo <onboarding@resend.dev>';
 
 // ── Audience helper ──────────────────────────────────────────────────────────
@@ -208,11 +208,7 @@ exports.handler = async () => {
     return { statusCode: 500, body: 'Missing env vars' };
   }
 
-  const headers = {
-    'apikey': SUPABASE_SERVICE_KEY,
-    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-    'Content-Type': 'application/json',
-  };
+  const headers = sbHeaders(SUPABASE_SERVICE_KEY, { prefer: null });
 
   let totalSent = 0;
   let totalErrors = 0;
@@ -222,7 +218,7 @@ exports.handler = async () => {
     const cutoffEnd   = new Date(Date.now() - minH * 60 * 60 * 1000).toISOString();
 
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/submissions?select=id,name,email,panel_type,data&email=not.is.null&sequence_step=eq.${step - 1}&created_at=gte.${cutoffStart}&created_at=lte.${cutoffEnd}`,
+      tableUrl('submissions', `select=id,name,email,panel_type,data&email=not.is.null&sequence_step=eq.${step - 1}&created_at=gte.${cutoffStart}&created_at=lte.${cutoffEnd}`),
       { headers }
     );
     const leads = await res.json();
@@ -231,7 +227,7 @@ exports.handler = async () => {
     const results = await Promise.allSettled(leads.map(async (lead) => {
       const { subject, html } = fn(lead);
       await sendEmail(RESEND_API_KEY, lead.email, subject, html);
-      await fetch(`${SUPABASE_URL}/rest/v1/submissions?id=eq.${lead.id}`, {
+      await fetch(tableUrl('submissions', `id=eq.${lead.id}`), {
         method: 'PATCH',
         headers,
         body: JSON.stringify({ sequence_step: step }),

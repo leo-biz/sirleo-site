@@ -1,18 +1,15 @@
-const SUPABASE_URL = 'https://mwpscytkzjtkqjjqytqu.supabase.co';
+const { sbHeaders, tableUrl } = require('./lib/supabase');
 
 exports.handler = async (event) => {
   const { SUPABASE_SERVICE_KEY } = process.env;
   const { id } = event.queryStringParameters || {};
   if (!id) return { statusCode: 400, body: 'Missing id' };
 
-  const headers = {
-    'apikey': SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-    'Content-Type': 'application/json',
-  };
+  const headers = sbHeaders(SUPABASE_SERVICE_KEY, { prefer: null });
 
   // Fetch — exclude private_notes
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/session_offers?id=eq.${id}&select=id,client_name,duration_value,duration_name,base_price,addon_ids,addon_names,total_price,deposit_amount,notes,status,view_count,viewed_at,paid_at`,
+    tableUrl('session_offers', `id=eq.${id}&select=id,client_name,duration_value,duration_name,base_price,addon_ids,addon_names,total_price,deposit_amount,notes,status,view_count,viewed_at,paid_at`),
     { headers }
   );
   const rows = await res.json();
@@ -33,9 +30,9 @@ exports.handler = async (event) => {
     updates.viewed_at = new Date().toISOString();
     if (offer.status === 'sent') updates.status = 'viewed';
   }
-  await fetch(`${SUPABASE_URL}/rest/v1/session_offers?id=eq.${id}`, {
+  await fetch(tableUrl('session_offers', `id=eq.${id}`), {
     method: 'PATCH',
-    headers: { ...headers, 'Prefer': 'return=minimal' },
+    headers: sbHeaders(SUPABASE_SERVICE_KEY, { prefer: 'return=minimal' }),
     body: JSON.stringify(updates),
   });
 

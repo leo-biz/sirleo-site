@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.17 — 2026-05-02
+**Extract shared Supabase helpers for Netlify functions**
+- `netlify/functions/lib/supabase.js` — added shared Supabase URL, REST URL builder, and service-role header helper
+- `admin-leads.js`, `create-session.js`, `get-session.js`, `confirm-payment.js`, `followup.js`, `notify.js` — replaced duplicated Supabase URL/header setup with the shared helper
+
 ## v2.16 — 2026-05-02
 **Add shared browser config and submission helpers**
 - `src/js/config.js` — added shared production-host and source-page helpers for browser code
@@ -18,6 +23,13 @@ All updates, features, and fixes tracked here in reverse order.
 - `notify.js` — fixed Resend sync to use `RESEND_TEST_AUDIENCE_ID` for test submissions instead of always posting to production audience
 - `TESTING.md` — updated stale landing-page, follow-up, pricing, and session-builder checks to match the current `/sessions`, `/events`, `/training`, `/pricing`, and `/build` flows
 - `EMPIRE.md` — updated training overview and site version from the old two-track model to the current three-level training structure
+
+## v2.15 — 2026-05-02
+**Unified nav and footer across all pages**
+- Nav updated on all pages: Sessions · Events · Education · Contact (logo = home, no anchor-only links)
+- `style.css` — replaced old footer block with `.site-footer` component: 3-column grid (brand / navigate / connect), bottom bar with copyright + version badge, full responsive handling
+- `index.html`, `sessions.html`, `events.html`, `training.html`, `pricing.html` — all use new nav + `.site-footer`
+- `pricing.html` — added missing footer and wired `version.js` + `main.js` so version badge populates
 
 ## v2.14 — 2026-05-02
 **Revamp events, sessions, training, pricing, build pages**
