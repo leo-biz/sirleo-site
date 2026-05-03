@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.50 — 2026-05-03
+**Split admin bookings by experience type**
+- `admin.html` — adds Private Sessions and Group Experiences tabs inside Bookings
+- `admin.html` — surfaces group organizer inquiries as group booking rows using existing submission data, with type, date/city, group size, status, and source
+- `admin.html` — hides private session offer controls for group booking leads and shows a group booking summary instead
+
 ## v2.49 — 2026-05-03
 **Rename admin Sessions area to Bookings**
 - `admin.html` — changes visible admin navigation, page title, empty state, and booking offer labels from session-focused wording to broader booking language

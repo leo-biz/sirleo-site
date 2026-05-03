@@ -238,8 +238,17 @@ const tagClass = (type) => {
   if (type === 'collab') return 'tag-collab';
   if (type === 'waitlist') return 'tag-waitlist';
   if (type === 'contact') return 'tag-contact';
-  if (type.startsWith('serve')) return 'tag-serve';
+  if (type.startsWith('serve') || type.startsWith('audience')) return 'tag-serve';
   return 'tag-contact';
+};
+
+const isGroupBookingLead = (lead) => ['audience-organizers','serve-organizers'].includes(lead?.panel_type);
+const answerValue = (lead, labels) => {
+  const entries = Object.entries(lead?.data || {});
+  const found = entries.find(([key]) => labels.some(label => key.toLowerCase().includes(label)));
+  if (!found) return '';
+  const value = found[1];
+  return Array.isArray(value) ? value.join(', ') : String(value || '');
 };
 
 const statusDot = (s) => {
@@ -482,6 +491,7 @@ function LeadDrawer({ lead, contacts, sessions, onClose, onSave, onSessionUpdate
   const [status, setStatus] = useState(contact?.status || 'new');
   const [notes, setNotes] = useState(contact?.notes || '');
   const [saved, setSaved] = useState(false);
+  const groupBooking = isGroupBookingLead(lead);
 
   const save = async () => {
     if (contact) {
@@ -556,8 +566,27 @@ function LeadDrawer({ lead, contacts, sessions, onClose, onSave, onSessionUpdate
             </div>
           </div>
 
-          {/* Booking Offer */}
-          <SessionOfferEditor lead={lead} sessions={sessions || []} onSessionUpdate={onSessionUpdate || (() => {})} />
+          {groupBooking ? (
+            <div className="drawer-section">
+              <div className="drawer-section-label">Group Booking</div>
+              <div className="answers">
+                <div className="answer-item">
+                  <span className="answer-key">Type</span>
+                  <span className="answer-val">{answerValue(lead, ['planning', 'brings']) || 'Group experience inquiry'}</span>
+                </div>
+                <div className="answer-item">
+                  <span className="answer-key">Date / city</span>
+                  <span className="answer-val">{answerValue(lead, ['date', 'city']) || 'Not provided yet'}</span>
+                </div>
+                <div className="answer-item">
+                  <span className="answer-key">Group size</span>
+                  <span className="answer-val">{answerValue(lead, ['size']) || 'Not provided yet'}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <SessionOfferEditor lead={lead} sessions={sessions || []} onSessionUpdate={onSessionUpdate || (() => {})} />
+          )}
 
           {/* Form answers */}
           {answers.length > 0 && (
@@ -956,60 +985,104 @@ function Analytics({ data }) {
 function Sessions({ data, onContactUpdate, onSessionUpdate }) {
   const { sessions = [], submissions = [], contacts = [] } = data;
   const [filter, setFilter] = useState('all');
+  const [bookingType, setBookingType] = useState('private');
   const [selected, setSelected] = useState(null);
 
   const statuses = ['all','draft','sent','viewed','paid','completed','cancelled'];
   const filtered = sessions.filter(s => filter === 'all' || s.status === filter);
   const revenue = sessions.filter(s => s.amount_paid).reduce((sum, s) => sum + (s.amount_paid || 0), 0);
   const counts = statuses.slice(1).reduce((acc, s) => { acc[s] = sessions.filter(o => o.status === s).length; return acc; }, {});
+  const groupBookings = submissions.filter(isGroupBookingLead);
+  const groupContacts = groupBookings.map(g => contacts.find(c => c.phone === g.phone || c.email === g.email));
+  const activeGroupCount = groupContacts.filter(c => ['new','contacted','responded'].includes(c?.status || 'new')).length;
+  const bookedGroupCount = groupContacts.filter(c => c?.status === 'converted').length;
 
   return (
     <div>
       <div className="page-header">
         <div><div className="page-sub">Pipeline</div><div className="page-title">Bookings</div></div>
-        <div style={{fontSize:11,color:'var(--text3)'}}>{filtered.length} showing</div>
+        <div style={{fontSize:11,color:'var(--text3)'}}>{bookingType === 'private' ? filtered.length : groupBookings.length} showing</div>
       </div>
       <div className="page-body">
-        <div className="stats-grid" style={{marginBottom:24}}>
-          <div className="stat-card"><div className="stat-num">{sessions.length}</div><div className="stat-label">Total Offers</div></div>
-          <div className="stat-card"><div className="stat-num">{counts.draft||0}</div><div className="stat-label">Draft</div></div>
-          <div className="stat-card"><div className="stat-num">{(counts.sent||0)+(counts.viewed||0)}</div><div className="stat-label">Sent / Viewed</div></div>
-          <div className="stat-card"><div className="stat-num gold">{counts.paid||0}</div><div className="stat-label">Paid</div></div>
-          <div className="stat-card"><div className="stat-num gold">{counts.completed||0}</div><div className="stat-label">Completed</div></div>
-          <div className="stat-card"><div className="stat-num gold">${revenue.toLocaleString()}</div><div className="stat-label">Revenue</div></div>
-        </div>
         <div className="toolbar">
-          {statuses.map(s => (
-            <button key={s} className={`filter-btn ${filter===s?'active':''}`} onClick={() => setFilter(s)}>{s}</button>
-          ))}
+          <button className={`filter-btn ${bookingType==='private'?'active':''}`} onClick={() => setBookingType('private')}>Private Sessions</button>
+          <button className={`filter-btn ${bookingType==='groups'?'active':''}`} onClick={() => setBookingType('groups')}>Group Experiences</button>
         </div>
-        <div className="table-wrap">
-          <table>
-            <thead><tr><th>Created</th><th>Client</th><th>Duration</th><th>Add-ons</th><th>Total</th><th>Status</th><th>Views</th><th>Scheduled</th></tr></thead>
-            <tbody>
-              {filtered.length === 0 ? (
-                <tr><td colSpan="8" className="empty">No bookings yet.</td></tr>
-              ) : filtered.map(s => {
-                const sub = submissions.find(sub => sub.id === s.submission_id || sub.email === s.client_email || sub.phone === s.client_phone);
-                return (
-                  <tr key={s.id} onClick={() => sub && setSelected(sub)} style={{cursor:sub?'pointer':'default'}}>
-                    <td style={{color:'var(--text3)',fontSize:12,whiteSpace:'nowrap'}}>{timeAgo(s.created_at)}</td>
-                    <td style={{color:'var(--text)',fontWeight:500}}>{s.client_name||'—'}</td>
-                    <td style={{color:'var(--text2)',fontSize:12}}>{s.duration_name||<span style={{color:'var(--text3)'}}>—</span>}</td>
-                    <td style={{color:'var(--text2)',fontSize:11,maxWidth:140}}>{s.addon_names?.length ? s.addon_names.join(', ') : <span style={{color:'var(--text3)'}}>none</span>}</td>
-                    <td style={{color:s.amount_paid?'var(--green)':'var(--text2)',fontSize:13}}>
-                      {s.total_price?`$${s.total_price}`:'—'}
-                      {s.amount_paid?<span style={{fontSize:10,opacity:0.7}}> (${s.amount_paid} paid)</span>:''}
-                    </td>
-                    <td><span className={`tag ${SESSION_STATUS_COLORS[s.status]||'tag-ga'}`}>{s.status||'draft'}</span></td>
-                    <td style={{color:'var(--text2)',fontSize:12}}>{s.view_count||0}</td>
-                    <td style={{color:'var(--text3)',fontSize:12}}>{s.scheduled_at?fmt(s.scheduled_at):'—'}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        {bookingType === 'private' ? (
+          <>
+            <div className="stats-grid" style={{marginBottom:24}}>
+              <div className="stat-card"><div className="stat-num">{sessions.length}</div><div className="stat-label">Session Offers</div></div>
+              <div className="stat-card"><div className="stat-num">{counts.draft||0}</div><div className="stat-label">Draft</div></div>
+              <div className="stat-card"><div className="stat-num">{(counts.sent||0)+(counts.viewed||0)}</div><div className="stat-label">Sent / Viewed</div></div>
+              <div className="stat-card"><div className="stat-num gold">{counts.paid||0}</div><div className="stat-label">Paid</div></div>
+              <div className="stat-card"><div className="stat-num gold">{counts.completed||0}</div><div className="stat-label">Completed</div></div>
+              <div className="stat-card"><div className="stat-num gold">${revenue.toLocaleString()}</div><div className="stat-label">Revenue</div></div>
+            </div>
+            <div className="toolbar">
+              {statuses.map(s => (
+                <button key={s} className={`filter-btn ${filter===s?'active':''}`} onClick={() => setFilter(s)}>{s}</button>
+              ))}
+            </div>
+            <div className="table-wrap">
+              <table>
+                <thead><tr><th>Created</th><th>Client</th><th>Duration</th><th>Add-ons</th><th>Total</th><th>Status</th><th>Views</th><th>Scheduled</th></tr></thead>
+                <tbody>
+                  {filtered.length === 0 ? (
+                    <tr><td colSpan="8" className="empty">No private session bookings yet.</td></tr>
+                  ) : filtered.map(s => {
+                    const sub = submissions.find(sub => sub.id === s.submission_id || sub.email === s.client_email || sub.phone === s.client_phone);
+                    return (
+                      <tr key={s.id} onClick={() => sub && setSelected(sub)} style={{cursor:sub?'pointer':'default'}}>
+                        <td style={{color:'var(--text3)',fontSize:12,whiteSpace:'nowrap'}}>{timeAgo(s.created_at)}</td>
+                        <td style={{color:'var(--text)',fontWeight:500}}>{s.client_name||'—'}</td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{s.duration_name||<span style={{color:'var(--text3)'}}>—</span>}</td>
+                        <td style={{color:'var(--text2)',fontSize:11,maxWidth:140}}>{s.addon_names?.length ? s.addon_names.join(', ') : <span style={{color:'var(--text3)'}}>none</span>}</td>
+                        <td style={{color:s.amount_paid?'var(--green)':'var(--text2)',fontSize:13}}>
+                          {s.total_price?`$${s.total_price}`:'—'}
+                          {s.amount_paid?<span style={{fontSize:10,opacity:0.7}}> (${s.amount_paid} paid)</span>:''}
+                        </td>
+                        <td><span className={`tag ${SESSION_STATUS_COLORS[s.status]||'tag-ga'}`}>{s.status||'draft'}</span></td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{s.view_count||0}</td>
+                        <td style={{color:'var(--text3)',fontSize:12}}>{s.scheduled_at?fmt(s.scheduled_at):'—'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="stats-grid" style={{marginBottom:24}}>
+              <div className="stat-card"><div className="stat-num">{groupBookings.length}</div><div className="stat-label">Group Inquiries</div></div>
+              <div className="stat-card"><div className="stat-num">{activeGroupCount}</div><div className="stat-label">Active</div></div>
+              <div className="stat-card"><div className="stat-num gold">{bookedGroupCount}</div><div className="stat-label">Booked</div></div>
+            </div>
+            <div className="table-wrap">
+              <table>
+                <thead><tr><th>Created</th><th>Client</th><th>Type</th><th>Date / City</th><th>Group Size</th><th>Status</th><th>Source</th></tr></thead>
+                <tbody>
+                  {groupBookings.length === 0 ? (
+                    <tr><td colSpan="7" className="empty">No group experience bookings yet.</td></tr>
+                  ) : groupBookings.map(g => {
+                    const contact = contacts.find(c => c.phone === g.phone || c.email === g.email);
+                    return (
+                      <tr key={g.id} onClick={() => setSelected(g)}>
+                        <td style={{color:'var(--text3)',fontSize:12,whiteSpace:'nowrap'}}>{timeAgo(g.created_at)}</td>
+                        <td style={{color:'var(--text)',fontWeight:500}}>{g.name || <span style={{color:'var(--text3)'}}>—</span>}</td>
+                        <td><span className={`tag ${tagClass(g.panel_type)}`}>{answerValue(g, ['planning', 'brings']) || g.panel_type}</span></td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{answerValue(g, ['date', 'city']) || <span style={{color:'var(--text3)'}}>—</span>}</td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{answerValue(g, ['size']) || <span style={{color:'var(--text3)'}}>—</span>}</td>
+                        <td><span><span className={`dot ${statusDot(contact?.status || 'new')}`}/><span style={{fontSize:12,color:'var(--text2)'}}>{contact?.status || 'new'}</span></span></td>
+                        <td style={{color:'var(--text2)',fontSize:12}}>{g.utm_source || 'direct'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
       {selected && <LeadDrawer lead={selected} contacts={contacts} sessions={sessions} onClose={() => setSelected(null)} onSave={onContactUpdate} onSessionUpdate={onSessionUpdate} />}
     </div>
