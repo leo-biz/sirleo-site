@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.33 — 2026-05-02
+**Auto-select Single/Couple in education modal based on which block is clicked**
+- `hub.js` — ServePanel accepts who prop; edu-person select defaults to it; panelContext.who forwarded from routing
+- `education.html` — Individual block passes "Just me", Couple block passes "Me and my partner" to openEduHub
+
 ## v2.32 — 2026-05-02
 **Flesh out edu-group modal with group-specific questions**
 - `hub.js` — edu-group form now asks: group type (select), group size (select), topics to cover (checkboxes), format preference (checkboxes), notes

@@ -68,7 +68,7 @@
     <div class="offerings-grid">
 
       <!-- Individual -->
-      <div class="offering reveal" style="cursor:pointer" onclick="openEduHub('edu-person')">
+      <div class="offering reveal" style="cursor:pointer" onclick="openEduHub('edu-person', 'Just me')">
         <div class="offering-num">01</div>
         <div class="offering-sub">Individual</div>
         <div class="offering-title">Just You</div>
@@ -82,7 +82,7 @@
       </div>
 
       <!-- Couple -->
-      <div class="offering reveal" style="cursor:pointer;transition-delay:.1s" onclick="openEduHub('edu-person')">
+      <div class="offering reveal" style="cursor:pointer;transition-delay:.1s" onclick="openEduHub('edu-person', 'Me and my partner')">
         <div class="offering-num">02</div>
         <div class="offering-sub">Couple</div>
         <div class="offering-title">You & Your Partner</div>
@@ -161,12 +161,13 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel" src="hub.js" data-type="module"></script>
 <script>
-function openEduHub(panel) {
+function openEduHub(panel, who) {
+  const ctx = who ? { who } : {};
   if (window.SLHub) {
-    window.SLHub.open(panel);
+    window.SLHub.open(panel, ctx);
   } else {
     const t = setInterval(() => {
-      if (window.SLHub) { clearInterval(t); window.SLHub.open(panel); }
+      if (window.SLHub) { clearInterval(t); window.SLHub.open(panel, ctx); }
     }, 50);
   }
 }

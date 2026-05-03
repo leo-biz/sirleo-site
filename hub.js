@@ -454,7 +454,7 @@ function ContactModal({ onClose }) {
 }
 
 // ── Serve Panel (custom per audience) ──
-function ServePanel({ onClose, type }) {
+function ServePanel({ onClose, type, who }) {
   const [step, setStep] = useState('questions');
   const nameRef = useRef(); const phoneRef = useRef(); const emailRef = useRef();
   const panelRef = useRef();
@@ -589,7 +589,7 @@ function ServePanel({ onClose, type }) {
       fields: (
         <>
           <div className="hub-field"><label className="hub-label">Who is this for?</label>
-            <select className="hub-select" defaultValue="">
+            <select className="hub-select" defaultValue={who || ''}>
               <option value="" disabled>Select</option>
               {['Just me','Me and my partner'].map(o => <option key={o}>{o}</option>)}
             </select>
@@ -864,7 +864,7 @@ function Hub() {
             {activePanel === 'book'    && <BookPanel    onClose={closePanel} initialStep={panelContext.step || 'type'} initialSels={panelContext.sels || []} />}
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
-            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-person','edu-group'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} />}
+            {['serve-individuals','serve-organizers','serve-artists','serve-learners','edu-person','edu-group'].includes(activePanel) && <ServePanel onClose={closePanel} type={activePanel} who={panelContext.who} />}
             {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>
