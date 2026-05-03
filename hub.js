@@ -448,88 +448,6 @@ function ContactModal({ onClose }) {
   );
 }
 
-// ── FAQ ──
-function FAQ() {
-  const [open, setOpen] = useState(null);
-  const faqs = [
-    {
-      q: 'Is this confidential?',
-      a: 'Discretion is foundational. Your name, contact information, and everything discussed or experienced in a session is never shared — with anyone, ever. Many clients are professionals, public figures, or simply private people. That is fully respected.'
-    },
-    {
-      q: "I've never done anything like this. Is it for me?",
-      a: "First-timers are welcome. Sessions are built around where you are right now — not where you think you should be. There's no expectation of prior experience, only an openness to explore. Sir Leo will guide you through every step."
-    },
-    {
-      q: 'What actually happens in a session?',
-      a: 'Every session begins with a thorough consultation — your desires, limits, curiosities, and anything you want Sir Leo to know. Nothing physical begins until both parties are fully aligned. Sessions can include impact, restraint, fire artistry, sensory elements, or simply commanding presence. It is built around you.'
-    },
-    {
-      q: 'How long is a session?',
-      a: 'Most private sessions run between 90 minutes and 3 hours. The right length depends on your goals and experience level. This is discussed during the consultation call before anything is confirmed.'
-    },
-    {
-      q: 'Where do sessions take place?',
-      a: 'Sessions take place at a private, discreet location in Chicago. The exact address is shared only after a consultation is confirmed. Out-of-town clients are welcome — Sir Leo can advise on nearby accommodations.'
-    },
-    {
-      q: 'How much does a session cost?',
-      a: "Rates are discussed during the consultation and vary based on session type, length, and what's involved. Sir Leo does not publish rates publicly out of respect for the privacy of the experience. Serious inquiries only."
-    },
-    {
-      q: 'Is this safe?',
-      a: "Safety is non-negotiable — physically, emotionally, and psychologically. Sir Leo maintains strict protocols before, during, and after every interaction. You will always have the ability to slow down or stop. Aftercare is included in every private session."
-    },
-    {
-      q: 'What is aftercare?',
-      a: 'Aftercare is the time after a session dedicated to helping you return to a comfortable, grounded state. It may include conversation, water, warmth, or simply quiet presence. It is not optional — it is part of every experience with Sir Leo.'
-    },
-    {
-      q: 'Do I need to prepare anything?',
-      a: 'Arrive showered and sober. Beyond that, bring an open mind and honest communication. You will receive a preparation guide after your consultation is confirmed that covers everything specific to your session type.'
-    },
-    {
-      q: 'How do I get started?',
-      a: "Use the Stay Connected or Book card above to leave your details. Sir Leo reviews every inquiry personally and responds within 48 hours. Not every inquiry results in a session — the fit matters on both sides."
-    },
-  ];
-
-  return (
-    <section id="faq" style={{ background: 'var(--bg-deep)', padding: '0 0 140px' }}>
-      <div className="section-inner" style={{ maxWidth: '680px', margin: '0 auto' }}>
-
-        {/* Section header */}
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center', marginBottom: '28px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(107,26,26,0.2)' }} />
-            <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(139,32,32,0.75)', whiteSpace: 'nowrap' }}>Common Questions</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(107,26,26,0.2)' }} />
-          </div>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.3, marginBottom: '16px' }}>
-            Everything you need to know<br />before reaching out.
-          </p>
-          <p style={{ fontSize: '15px', fontWeight: 400, color: 'var(--text-body)', lineHeight: 1.9, maxWidth: '480px', margin: '0 auto' }}>
-            These are the questions Sir Leo hears most. If yours isn't here, ask directly.
-          </p>
-        </div>
-        {faqs.map((f, i) => (
-          <div key={i} onClick={() => setOpen(open === i ? null : i)}
-            style={{ borderTop: '1px solid rgba(107,26,26,0.12)', padding: '20px 0', cursor: 'pointer', minHeight: '64px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 400, color: 'var(--text)', lineHeight: 1.4 }}>{f.q}</span>
-              <span style={{ color: 'var(--gold)', fontSize: '24px', fontWeight: 300, lineHeight: 1, transition: 'transform 0.25s', transform: open === i ? 'rotate(45deg)' : 'none', flexShrink: 0 }}>+</span>
-            </div>
-            <div style={{ maxHeight: open === i ? '220px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease, padding-top 0.25s ease', paddingTop: open === i ? '14px' : 0 }}>
-              <p style={{ fontSize: '15px', fontWeight: 400, lineHeight: '2.0', color: 'var(--text-faint)' }}>{f.a}</p>
-            </div>
-          </div>
-        ))}
-        <div style={{ borderTop: '1px solid rgba(107,26,26,0.12)' }} />
-      </div>
-    </section>
-  );
-}
-
 // ── Serve Panel (custom per audience) ──
 function ServePanel({ onClose, type }) {
   const [step, setStep] = useState('questions');
@@ -839,8 +757,6 @@ function Hub() {
 
   return (
     <>
-      <FAQ />
-
       {/* Overlay panel */}
       {activePanel && (
         <div

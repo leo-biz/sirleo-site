@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.21 — 2026-05-02
+**Remove duplicate React FAQ render**
+- `hub.js` — removed the old React FAQ section now that the homepage has a static FAQ
+- `index.html` — keeps the single canonical FAQ before Contact/Footer
+
 ## v2.20 — 2026-05-02
 **Restore homepage FAQ before Contact**
 - `index.html` — added a real static FAQ section before Contact/Footer and restored Questions links in homepage nav/footer
