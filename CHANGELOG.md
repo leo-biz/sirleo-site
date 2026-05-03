@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.45 — 2026-05-03
+**Make scroll popup reliable**
+- `main.js` — uses a per-tab popup guard instead of old submission localStorage, calculates actual scroll progress, and checks immediately plus on scroll
+
 ## v2.44 — 2026-05-03
 **Open popup on scroll only**
 - `main.js` — removes the 8-second delay; first-visit popup now opens after 20% scroll once the hub is ready

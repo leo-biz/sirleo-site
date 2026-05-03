@@ -87,8 +87,14 @@ document.querySelectorAll('[data-hub-panel]').forEach(item => {
 
 // ── Auto-popup: first visit, after 20% scroll ──
 document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('sl_submitted')) return;
+  if (sessionStorage.getItem('sl_popup_seen')) return;
   let scrolled = false, fired = false;
+  function checkScroll() {
+    if (scrolled) return;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const pct = window.scrollY / maxScroll * 100;
+    if (pct >= 20) { scrolled = true; tryOpen(); }
+  }
   function tryOpen() {
     if (fired || !scrolled) return;
     if (!window.SLHub) {
@@ -96,13 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     fired = true;
+    sessionStorage.setItem('sl_popup_seen', '1');
     window.SLHub.open('contact');
   }
-  window.addEventListener('scroll', () => {
-    if (scrolled) return;
-    const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
-    if (pct >= 20) { scrolled = true; tryOpen(); }
-  }, { passive: true });
+  checkScroll();
+  window.addEventListener('scroll', checkScroll, { passive: true });
 });
 
 // ── Custom cursor ──
