@@ -87,7 +87,7 @@ document.querySelectorAll('[data-hub-panel]').forEach(item => {
 
 // ── Auto-popup: first visit, after 20% scroll ──
 document.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('sl_popup_seen')) return;
+  if (localStorage.getItem('sl_submitted') || sessionStorage.getItem('sl_popup_seen')) return;
   let scrolled = false, fired = false;
   function checkScroll() {
     if (scrolled) return;

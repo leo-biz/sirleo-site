@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.46 — 2026-05-03
+**Keep popup hidden after successful submission**
+- `main.js` — restores the `sl_submitted` guard while keeping the per-tab popup guard and 20% scroll trigger
+
 ## v2.45 — 2026-05-03
 **Make scroll popup reliable**
 - `main.js` — uses a per-tab popup guard instead of old submission localStorage, calculates actual scroll progress, and checks immediately plus on scroll
