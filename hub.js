@@ -500,10 +500,11 @@ function ServePanel({ onClose, type, who }) {
             }
           </div>
           <div className="hub-field"><label className="hub-label">What are you hoping to explore?</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['Session','Education','Just curious','Learning'].map(o => <option key={o}>{o}</option>)}
-            </select>
+            <div className="hub-checks">
+              {['Session','Education','Just curious','Learning'].map(o => (
+                <label key={o} className="hub-check-item"><input type="checkbox" value={o} /><span>{o}</span></label>
+              ))}
+            </div>
           </div>
           <div className="hub-field"><label className="hub-label">Best availability</label>
             <input className="hub-input" type="text" placeholder="e.g. Weekday evenings, Saturday mornings" /></div>

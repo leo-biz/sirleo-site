@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.42 — 2026-05-02
+**Allow multiple exploration interests**
+- `hub.js` — changes Individuals & Couples "What are you hoping to explore?" from a dropdown to checkboxes
+
 ## v2.41 — 2026-05-02
 **Clarify group audience final prompt**
 - `hub.js` — changes the Organizers & Groups free-text prompt to "Tell me more about the event/group."
