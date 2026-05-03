@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.36 — 2026-05-02
+**Clean stale training references after education consolidation**
+- `main.js` — routes homepage learner cards to `/education?open` instead of deleted `/training?open`
+- `sitemap.xml`, `sitemap-visual.html` — replace stale training page references with the canonical education page
+- `pricing.html` — renames the pricing note from Training to Education
+- `docs/EMPIRE.md`, `docs/TESTING.md` — update operational references to education routing
+
 ## v2.35 — 2026-05-02
 **Fix education page modals being overridden by global offering handler**
 - `main.js` — scoped offering click handler to only fire on cards with data-step attribute; education page offerings have no data-step so they're no longer intercepted

@@ -59,7 +59,7 @@ Bachelorette parties, birthday celebrations, girls' nights, anniversaries, priva
 
 **How it works:** Inquire → Customize → Show up.
 
-### 3. Training — `/training`
+### 3. Education — `/education`
 
 Three levels of depth. Gender-neutral framing; no gender requirements.
 
@@ -112,7 +112,7 @@ Credits apply to any tier; pay the difference to upgrade.
 | Curious Individuals & Couples | `serve-individuals` | `/sessions` | Private sessions, power/sensation/surrender |
 | Event Organizers & Producers | `serve-organizers` | `/events` | Bachelorette, birthday, private group events |
 | Artists, Collaborators & Visionaries | `serve-artists` | `/events` | Creative collaboration, fire art, performance |
-| Learners & Practitioners | `serve-learners` | `/training` | Education, practice, professional training |
+| Learners & Practitioners | `serve-learners` | `/education` | Education, practice, professional training |
 
 ---
 
@@ -131,7 +131,7 @@ Credits apply to any tier; pay the difference to upgrade.
 - `/` — Homepage (hero, philosophy, who I serve, offerings, KINK AfterDark, contact)
 - `/sessions` — Private sessions landing page
 - `/events` — Group events landing page
-- `/training` — Three-level training landing page
+- `/education` — Education landing page for individuals, couples, and groups
 - `/pricing` — Session packages + membership tiers
 - `/build` — Session builder (Sir Leo sends post-call as `/build?client=Name`)
 - `/pay-success` — Stripe payment confirmation

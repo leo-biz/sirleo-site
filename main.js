@@ -70,7 +70,7 @@ const servePageMap = {
   'serve-individuals': '/sessions?open',
   'serve-organizers':  '/events?open',
   'serve-artists':     '/events?open',
-  'serve-learners':    '/training?open',
+  'serve-learners':    '/education?open',
 };
 document.querySelectorAll('.serve-item[data-book]').forEach(item => {
   item.style.cursor = 'pointer';

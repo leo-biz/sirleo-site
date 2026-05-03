@@ -15,14 +15,14 @@ Visit each on dev and verify form submits and analytics fire:
 |---|---|---|---|
 | Group Events | /events | serve-organizers | events |
 | Private Sessions | /sessions | serve-individuals | sessions |
-| Training | /training | serve-learners | training |
+| Education | /education | serve-learners | education |
 
 **Verify for each:**
 - Form submits → row in Supabase `submissions` with correct `panel_type` and `data.source_page`
 - Thank-you state appears after submit (form hides, thanks message shows)
 - Nav links render correctly
 - Page is mobile-responsive
-- Visiting `/men`, `/for-women`, or `/certify` 301 redirects to `/training`
+- Visiting `/training` 301 redirects to `/education`
 
 ### Email Sequences (followup.js)
 The sequence is now 4-step per audience. To manually test a step:
@@ -56,7 +56,7 @@ The sequence is now 4-step per audience. To manually test a step:
 1. Click each card in the "Who I Serve" section: Individuals, Organizers, Artists, Learners
 2. Submit each with a test email
 3. **Verify:** `panel_type = serve-individuals` (etc.), `serve_type` set correctly in Resend
-4. **Verify homepage routing:** Individuals → `/sessions?open`; Organizers/Artists → `/events?open`; Learners → `/training?open`
+4. **Verify homepage routing:** Individuals → `/sessions?open`; Organizers/Artists → `/events?open`; Learners → `/education?open`
 
 ### Waitlist (AfterDark)
 1. Click **Join the Waitlist** on the AfterDark section or via nav
