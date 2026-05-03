@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.34 — 2026-05-02
+**Fix education modal routing; remove training.html**
+- `hub.js` — adds key={activePanel} to ServePanel so each panel type gets a fresh mount; edu-person "Who is this for?" shows as pre-filled read-only field when who is known, dropdown only when unknown
+- `training.html` — deleted; education.html is the canonical page
+
 ## v2.33 — 2026-05-02
 **Auto-select Single/Couple in education modal based on which block is clicked**
 - `hub.js` — ServePanel accepts who prop; edu-person select defaults to it; panelContext.who forwarded from routing
