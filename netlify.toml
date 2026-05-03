@@ -45,23 +45,28 @@
   status = 200
 
 [[redirects]]
-  from = "/training"
-  to   = "/training.html"
+  from = "/education"
+  to   = "/education.html"
   status = 200
 
 [[redirects]]
+  from = "/training"
+  to   = "/education.html"
+  status = 301
+
+[[redirects]]
   from = "/men"
-  to   = "/training.html"
+  to   = "/education.html"
   status = 301
 
 [[redirects]]
   from = "/for-women"
-  to   = "/training.html"
+  to   = "/education.html"
   status = 301
 
 [[redirects]]
   from = "/certify"
-  to   = "/training.html"
+  to   = "/education.html"
   status = 301
 
 [functions."followup"]

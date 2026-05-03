@@ -458,6 +458,12 @@ nav.scrolled { background: var(--nav-scrolled); border-bottom-color: rgba(107,26
 }
 .hub-expand-opt:last-child { border-bottom: none; }
 .hub-expand-opt:hover { color: rgba(220,200,180,0.95); }
+.hub-checks { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.hub-check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.hub-check-item input[type="checkbox"] { appearance: none; width: 14px; height: 14px; border: 1px solid rgba(107,26,26,0.5); background: transparent; flex-shrink: 0; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+.hub-check-item input[type="checkbox"]:checked { background: var(--blood, #6B1A1A); border-color: var(--blood-mid, #C84040); }
+.hub-check-item span { font-size: 13px; color: rgba(210,195,170,0.65); letter-spacing: 0.05em; transition: color 0.2s; }
+.hub-check-item:hover span { color: rgba(210,195,170,0.9); }
 
 /* ══════════════════════════════════════════════
    FAQ

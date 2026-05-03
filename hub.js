@@ -9,9 +9,14 @@ function collectFields(el) {
   const out = {};
   el.querySelectorAll('.hub-field').forEach(f => {
     const label = f.querySelector('.hub-label')?.textContent?.trim();
-    const inp = f.querySelector('input, select, textarea');
-    if (label && inp?.value?.trim() && !['Name','Phone','Email'].includes(label))
-      out[label] = inp.value.trim();
+    const checked = f.querySelectorAll('input[type="checkbox"]:checked');
+    if (checked.length) {
+      out[label] = Array.from(checked).map(cb => cb.value).join(', ');
+    } else {
+      const inp = f.querySelector('input:not([type="checkbox"]), select, textarea');
+      if (label && inp?.value?.trim() && !['Name','Phone','Email'].includes(label))
+        out[label] = inp.value.trim();
+    }
   });
   return out;
 }
@@ -505,26 +510,26 @@ function ServePanel({ onClose, type }) {
       )
     },
     'serve-organizers': {
-      eyebrow: 'Performance Booking',
+      eyebrow: 'Events',
       title: <>Tell Sir Leo<br />about your event.</>,
       fields: (
         <>
-          <div className="hub-field"><label className="hub-label">Event type</label>
+          <div className="hub-field"><label className="hub-label">What brings you here?</label>
             <select className="hub-select" defaultValue="">
               <option value="" disabled>Select</option>
-              {['Club / Nightlife','Private party','Art gallery','Corporate / Brand event','Other'].map(o => <option key={o}>{o}</option>)}
+              {['Private group celebration (bachelorette, birthday, etc.)','Venue or partner program','Other'].map(o => <option key={o}>{o}</option>)}
             </select>
           </div>
-          <div className="hub-field"><label className="hub-label">Event date & city</label>
+          <div className="hub-field"><label className="hub-label">Date & city</label>
             <input className="hub-input" type="text" placeholder="e.g. June 14, Chicago" /></div>
-          <div className="hub-field"><label className="hub-label">Expected audience size</label>
+          <div className="hub-field"><label className="hub-label">Group size</label>
             <select className="hub-select" defaultValue="">
               <option value="" disabled>Select</option>
-              {['Under 50','50–150','150–500','500+'].map(o => <option key={o}>{o}</option>)}
+              {['Under 10','10–30','30–100','100+'].map(o => <option key={o}>{o}</option>)}
             </select>
           </div>
-          <div className="hub-field"><label className="hub-label">Vision & vibe</label>
-            <textarea className="hub-textarea" placeholder="What do you want your audience to feel?" /></div>
+          <div className="hub-field"><label className="hub-label">What are you envisioning?</label>
+            <textarea className="hub-textarea" placeholder="Tell me what you have in mind." /></div>
         </>
       )
     },
@@ -554,17 +559,27 @@ function ServePanel({ onClose, type }) {
           <div className="hub-field"><label className="hub-label">Who is this for?</label>
             <select className="hub-select" defaultValue="">
               <option value="" disabled>Select</option>
-              {['Just me','Me and my partner','A small group'].map(o => <option key={o}>{o}</option>)}
+              {['Just me','Me and my partner','A small group / group event'].map(o => <option key={o}>{o}</option>)}
             </select>
           </div>
-          <div className="hub-field"><label className="hub-label">Format preference</label>
-            <select className="hub-select" defaultValue="">
-              <option value="" disabled>Select</option>
-              {['In-person (Chicago)','Virtual','Either works'].map(o => <option key={o}>{o}</option>)}
-            </select>
+          <div className="hub-field">
+            <label className="hub-label">Topics I'm interested in</label>
+            <div className="hub-checks">
+              {['General Kink','Alternative Lifestyle','How to Dominate','How to Submit','How to Be a Professional','Bedroom Kink & Dynamics'].map(t => (
+                <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
+              ))}
+            </div>
           </div>
-          <div className="hub-field"><label className="hub-label">Topics or goals you're bringing</label>
-            <textarea className="hub-textarea" placeholder="What do you want to learn, explore, or develop?" /></div>
+          <div className="hub-field">
+            <label className="hub-label">Teaching style</label>
+            <div className="hub-checks">
+              {['Online Course','In-Person Training','Multi-Week Cohort','Private Workshop','Keynote'].map(s => (
+                <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
+              ))}
+            </div>
+          </div>
+          <div className="hub-field"><label className="hub-label">Anything else?</label>
+            <textarea className="hub-textarea" placeholder="Where are you starting from? What are you trying to build?" /></div>
         </>
       )
     },

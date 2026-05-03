@@ -4,6 +4,15 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.27 — 2026-05-02
+**Introduce education.html; redesign to three paths; checkbox form fields; events single button**
+- `education.html` — new page with three offering blocks (Individual, Couple, Group); each shows format badges (Online Course, In-Person, Cohort / Workshop, Keynote, Custom); replaces training.html
+- `hub.js` — collectFields updated to handle checkboxes; serve-learners form now has topic checkboxes (General Kink, Alt Lifestyle, How to Dominate, How to Submit, How to Be a Professional, Bedroom Kink) and teaching style checkboxes; serve-organizers form updated with "What brings you here?" selector covering both event types
+- `events.html` — both sections now use a single "Inquire" button opening the same form
+- `netlify.toml` — /education → education.html (200); /training and legacy slugs → education.html (301)
+- `index.html`, `sessions.html`, `events.html`, `pricing.html` — all /training links updated to /education
+- `style.css` — adds .hub-checks and .hub-check-item styles for checkbox groups
+
 ## v2.26 — 2026-05-02
 **Fill empty event cards with targeted copy**
 - `events.html` — adds "Sensual Dominance" card to group experiences grid (erotic/seductive angle); adds "Drive Revenue" card to venue/partner grid (business ROI angle)
