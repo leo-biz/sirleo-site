@@ -4,11 +4,6 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
-## v2.49 — 2026-05-03
-**Add dynamic build page modes**
-- `build.html` — supports `/build?e=session` for the existing session checkout builder and `/build?e=group` for a group experience quote builder
-- `build.html` — adds a mode switch, group-specific event format cards, experience elements, notes prompt, and inquiry CTA that routes to the group event form
-
 ## v2.48 — 2026-05-03
 **Add next-session handoff doc**
 - `docs/HANDOFF.md` — adds concise repo state, recent funnel decisions, key files, workflow expectations, validation commands, and next cleanup notes
