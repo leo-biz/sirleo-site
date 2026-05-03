@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.37 — 2026-05-02
+**Move collaboration out of homepage audience list**
+- `index.html` — removes Collaborators from Who I Serve and adds a dedicated Collaboration callout section
+- `style.css` — adds responsive styling for the new collaboration section
+- `main.js` — opens the existing collab hub panel from data-hub-panel triggers
+
 ## v2.36 — 2026-05-02
 **Clean stale training references after education consolidation**
 - `main.js` — routes homepage learner cards to `/education?open` instead of deleted `/training?open`

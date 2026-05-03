@@ -334,6 +334,29 @@ nav.scrolled { background: var(--nav-scrolled); border-bottom-color: rgba(107,26
 .serve-item:hover .serve-cta { color: #e06060; }
 
 /* ══════════════════════════════════════════════
+   COLLABORATION
+   ══════════════════════════════════════════════ */
+#collaboration { padding: 120px 0; background: var(--black); }
+.collab-callout {
+  width: 100%; text-align: left; cursor: pointer;
+  border: 1px solid rgba(107,26,26,0.22); border-left: 2px solid rgba(200,80,80,0.55);
+  background: linear-gradient(90deg, rgba(107,26,26,0.12), rgba(255,255,255,0.018));
+  color: inherit; padding: 56px 64px; font-family: inherit;
+  display: grid; grid-template-columns: minmax(160px,0.6fr) minmax(260px,1fr) minmax(280px,1fr) auto; gap: 28px;
+  align-items: center; transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.collab-callout:hover { border-color: rgba(200,80,80,0.48); background: linear-gradient(90deg, rgba(107,26,26,0.18), rgba(255,255,255,0.03)); transform: translateY(-2px); }
+.collab-label { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(200,80,80,0.95); }
+.collab-title { font-family: var(--serif); font-size: clamp(34px,4vw,56px); line-height: 1.02; color: var(--cream); }
+.collab-title em { color: var(--blood-mid); }
+.collab-copy { font-size: 14px; line-height: 1.9; color: var(--text-body); max-width: 420px; }
+.collab-cta {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(200,80,80,0.95); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.collab-callout:hover .collab-cta { color: var(--gold); gap: 14px; }
+
+/* ══════════════════════════════════════════════
    OFFERINGS
    ══════════════════════════════════════════════ */
 #offerings { padding: 200px 0; background: var(--black); }
@@ -739,6 +762,7 @@ nav.scrolled { background: var(--nav-scrolled); border-bottom-color: rgba(107,26
   .hero-title { font-size: clamp(60px,14vw,100px); }
   .serve-grid { grid-template-columns: 1fr; gap: 48px; }
   .serve-left { position: static; }
+  .collab-callout { grid-template-columns: 1fr; padding: 44px 36px; }
   .offerings-grid { grid-template-columns: 1fr; }
   .afterdark-grid { grid-template-columns: 1fr; gap: 56px; }
   .afterdark-bg-text { font-size: 60px; }
@@ -767,6 +791,8 @@ nav.scrolled { background: var(--nav-scrolled); border-bottom-color: rgba(107,26
   .section-title { font-size: clamp(36px,10vw,56px); }
 
   .serve-item { padding: 24px 20px 20px; }
+  #collaboration { padding: 80px 0; }
+  .collab-callout { padding: 32px 24px; gap: 20px; }
 
   .afterdark-title { font-size: clamp(36px,10vw,56px); }
   .afterdark-bg-text { display: none; }

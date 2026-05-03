@@ -69,7 +69,6 @@ document.querySelectorAll('.offering[data-step]').forEach(card => {
 const servePageMap = {
   'serve-individuals': '/sessions?open',
   'serve-organizers':  '/events?open',
-  'serve-artists':     '/events?open',
   'serve-learners':    '/education?open',
 };
 document.querySelectorAll('.serve-item[data-book]').forEach(item => {
@@ -77,6 +76,12 @@ document.querySelectorAll('.serve-item[data-book]').forEach(item => {
   item.addEventListener('click', () => {
     const dest = servePageMap[item.dataset.book];
     if (dest) window.location.href = dest;
+  });
+});
+
+document.querySelectorAll('[data-hub-panel]').forEach(item => {
+  item.addEventListener('click', () => {
+    window.SLHub?.open(item.dataset.hubPanel);
   });
 });
 
