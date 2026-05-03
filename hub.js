@@ -626,24 +626,36 @@ function ServePanel({ onClose, type }) {
       title: <>Let's build<br />your group experience.</>,
       fields: (
         <>
+          <div className="hub-field"><label className="hub-label">What's the group?</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Private friend group','Organization / Company','Salon or spa','Wellness / lifestyle space','Club or membership group','Other'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Rough group size</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Under 10','10–25','25–50','50+'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
           <div className="hub-field">
-            <label className="hub-label">Topics we're interested in</label>
+            <label className="hub-label">Topics to cover</label>
             <div className="hub-checks">
-              {['General Kink','Alternative Lifestyle','Bedroom Kink & Dynamics','Consent & Communication'].map(t => (
+              {['General Kink','Alternative Lifestyle','Bedroom Kink & Dynamics','Consent & Communication','Power Dynamics','Understanding Kink Spaces'].map(t => (
                 <label key={t} className="hub-check-item"><input type="checkbox" value={t} /><span>{t}</span></label>
               ))}
             </div>
           </div>
           <div className="hub-field">
-            <label className="hub-label">Format</label>
+            <label className="hub-label">Format preference</label>
             <div className="hub-checks">
               {['Private Workshop','Keynote','Custom Event'].map(s => (
                 <label key={s} className="hub-check-item"><input type="checkbox" value={s} /><span>{s}</span></label>
               ))}
             </div>
           </div>
-          <div className="hub-field"><label className="hub-label">Group size & context</label>
-            <textarea className="hub-textarea" placeholder="Who's in the group, rough size, and what you're hoping they walk away with." /></div>
+          <div className="hub-field"><label className="hub-label">Notes</label>
+            <textarea className="hub-textarea" placeholder="What you want them to walk away with, any context that helps." /></div>
         </>
       )
     },

@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.32 — 2026-05-02
+**Flesh out edu-group modal with group-specific questions**
+- `hub.js` — edu-group form now asks: group type (select), group size (select), topics to cover (checkboxes), format preference (checkboxes), notes
+
 ## v2.31 — 2026-05-02
 **Consolidate education modals to two forms**
 - `hub.js` — replaces edu-individual and edu-couple with single edu-person form: Single/Couple selector, role checkboxes (Dominate/Submit/Both), intention selector (Recreational/Professional/Both), topic checkboxes, notes field; updates routing
