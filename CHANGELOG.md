@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.47 — 2026-05-03
+**Centralize nav rendering**
+- `src/js/site-nav.js` — adds a shared navigation renderer with consistent links, logo, theme toggle, and configurable CTA
+- `index.html`, `sessions.html`, `events.html`, `education.html`, `pricing.html`, `build.html`, `pay-success.html` — replace duplicated nav markup with the shared renderer
+- `main.js` — keeps theme preload while nav renderer owns the theme toggle behavior
+
 ## v2.46 — 2026-05-03
 **Keep popup hidden after successful submission**
 - `main.js` — restores the `sl_submitted` guard while keeping the per-tab popup guard and 20% scroll trigger

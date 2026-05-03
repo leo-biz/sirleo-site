@@ -4,21 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (el && window.SL_VERSION) el.textContent = window.SL_VERSION;
 });
 
-// ── Theme toggle ──
+// ── Theme preload ──
 (function() {
   const saved = localStorage.getItem('sl-theme') || 'dark';
   if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.textContent = document.documentElement.getAttribute('data-theme') === 'light' ? '◑' : '◐';
-    btn.addEventListener('click', () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-      localStorage.setItem('sl-theme', isLight ? 'dark' : 'light');
-      btn.textContent = isLight ? '◐' : '◑';
-    });
-  });
 })();
 
 // ── Nav scroll state ──
