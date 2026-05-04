@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.59 — 2026-05-03
+**Group builder copy, guest section redesign, textarea fix**
+- `group-catalog.js` — updated tier descriptions to punchy single-line copy; renamed The Dark → The Release; removed ~15 min from shortDescription
+- `build.html` — additional guest section: added intro paragraph, removed max-4 cap, simplified stepper layout
+- `build.html` — section labels use `rgba(200,80,80,0.9)` (visible red) instead of dark `#6B1A1A`
+- `build.html` — event details textarea uses blood-tint background, CSS variable colors, visible placeholder text
+- `group.html` — tier cards updated to match new copy and names
+
 ## v2.58 — 2026-05-03
 **Fix group page typography — replace opacity hacks with CSS variables**
 - `build.html` — group type cards, tier cards, guest calculator all use `var(--cream)`, `var(--text-body)`, `var(--text-muted)` instead of raw opacity; borders use blood-red tint instead of white-opacity

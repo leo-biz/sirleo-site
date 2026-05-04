@@ -23,8 +23,8 @@
 
     /* ── Sections ── */
     .build-section { margin-bottom: 48px; }
-    .build-section-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); }
-    [data-theme="light"] .build-section-label { border-bottom-color: rgba(26,14,6,0.1); }
+    .build-section-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(107,26,26,0.2); }
+    [data-theme="light"] .build-section-label { border-bottom-color: rgba(107,26,26,0.15); }
 
     /* ── Duration (radio cards) ── */
     .duration-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -95,12 +95,14 @@
     [data-theme="light"] .guest-calc-result { border-top-color: rgba(107,26,26,0.1); }
     .guest-calc-breakdown { font-size: 12px; color: var(--text-muted, #A89878); margin-top: 4px; }
     .guest-calc-total { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream, #F0E6CE); }
+    .guest-calc-intro { font-size: 14px; color: var(--text-body, #B0A080); line-height: 1.8; margin-bottom: 24px; }
 
     /* ── Notes ── */
-    .build-textarea { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: inherit; padding: 16px; font-size: 14px; width: 100%; min-height: 100px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.7; }
-    .build-textarea:focus { border-color: rgba(107,26,26,0.5); }
-    .build-textarea::placeholder { opacity: 0.3; }
-    [data-theme="light"] .build-textarea { border-color: rgba(26,14,6,0.1); }
+    .build-textarea { background: rgba(107,26,26,0.04); border: 1px solid rgba(107,26,26,0.2); color: var(--cream, #F0E6CE); padding: 18px 20px; font-size: 14px; width: 100%; min-height: 120px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.8; }
+    .build-textarea:focus { border-color: rgba(107,26,26,0.55); background: rgba(107,26,26,0.06); }
+    .build-textarea::placeholder { color: var(--text-muted, #A89878); opacity: 1; }
+    [data-theme="light"] .build-textarea { border-color: rgba(107,26,26,0.18); background: rgba(107,26,26,0.03); }
+    [data-theme="light"] .build-textarea::placeholder { color: var(--text-muted, #7A5830); }
 
     /* ── Summary bar ── */
     .summary-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0e0e0e; border-top: 1px solid rgba(107,26,26,0.3); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; z-index: 50; }
@@ -277,20 +279,19 @@ if (buildType === 'session') {
   // Inject guest calculator after addon-list section
   addonList.closest('.build-section').insertAdjacentHTML('afterend', `
     <div class="build-section" id="guest-calc-section" style="display:none;">
+      <div class="build-section-label">Additional Guests</div>
+      <p class="guest-calc-intro">The base includes one featured guest and four observers. Add as many additional guests as you need — they join as observers. Any guest can choose to be featured themselves, and upgrade pricing applies per person. All of this gets confirmed on the call.</p>
       <div class="guest-calc">
-        <div class="guest-calc-label">Additional Guests</div>
         <div class="guest-calc-row">
-          <span class="guest-calc-input-label">Extra observers</span>
           <div class="calc-stepper">
             <button class="calc-step-btn" id="guest-minus">−</button>
             <div class="calc-step-val" id="guest-count-val">0</div>
             <button class="calc-step-btn" id="guest-plus">+</button>
           </div>
-          <span class="guest-calc-note">4 included · max 4 additional</span>
+          <span class="guest-calc-input-label">additional guests</span>
         </div>
         <div class="guest-calc-result">
           <div>
-            <div style="font-size:12px;opacity:0.5;">Estimated total</div>
             <div class="guest-calc-breakdown" id="guest-calc-breakdown"></div>
           </div>
           <div class="guest-calc-total" id="guest-calc-total"></div>
@@ -303,7 +304,7 @@ if (buildType === 'session') {
     if (extraGuests > 0) { extraGuests--; updateGroupCalc(); }
   });
   document.getElementById('guest-plus').addEventListener('click', () => {
-    if (extraGuests < 4) { extraGuests++; updateGroupCalc(); }
+    extraGuests++; updateGroupCalc();
   });
 
   function updateGroupCalc() {
