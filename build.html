@@ -23,8 +23,8 @@
 
     /* ── Sections ── */
     .build-section { margin-bottom: 48px; }
-    .build-section-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(107,26,26,0.2); }
-    [data-theme="light"] .build-section-label { border-bottom-color: rgba(107,26,26,0.15); }
+    .build-section-label { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream, #F0E6CE); margin-bottom: 8px; }
+    .build-section-sub { font-size: 13px; color: var(--text-muted, #A89878); line-height: 1.7; margin-bottom: 24px; }
 
     /* ── Duration (radio cards) ── */
     .duration-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -115,6 +115,13 @@
     .guest-tier-row.active .guest-tier-row-prices { color: var(--text-sub, #D2BEA5); }
     .guest-tier-sep { opacity: 0.3; }
     .guest-section-heading { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 14px; margin-top: 36px; }
+    .guest-link-block { margin-top: 28px; padding: 20px; border: 1px solid rgba(107,26,26,0.2); background: rgba(107,26,26,0.04); }
+    .guest-link-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,80,80,0.8); margin-bottom: 12px; }
+    .guest-link-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+    .guest-link-url { font-size: 13px; color: var(--text-sub, #D2BEA5); font-family: monospace; opacity: 0.8; }
+    .guest-link-copy { background: transparent; border: 1px solid rgba(107,26,26,0.4); color: var(--cream, #F0E6CE); font-size: 11px; letter-spacing: 0.1em; padding: 6px 16px; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background 0.1s; }
+    .guest-link-copy:hover { background: rgba(107,26,26,0.2); }
+    .guest-link-note { font-size: 12px; color: var(--text-muted, #A89878); line-height: 1.6; }
 
     /* ── Notes ── */
     .build-textarea { background: rgba(107,26,26,0.04); border: 1px solid rgba(107,26,26,0.2); color: var(--cream, #F0E6CE); padding: 18px 20px; font-size: 14px; width: 100%; min-height: 120px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.8; }
@@ -164,12 +171,14 @@
     <!-- Duration -->
     <div class="build-section">
       <div class="build-section-label" id="duration-label">Duration</div>
+      <div class="build-section-sub" id="duration-sub"></div>
       <div class="duration-grid" id="duration-grid"></div>
     </div>
 
     <!-- Add-ons -->
     <div class="build-section">
       <div class="build-section-label" id="addon-label">Add-ons</div>
+      <div class="build-section-sub" id="addon-sub"></div>
       <div class="addon-list" id="addon-list">
         <!-- Populated by JS -->
       </div>
@@ -177,7 +186,8 @@
 
     <!-- Notes -->
     <div class="build-section">
-      <div class="build-section-label" id="notes-label">Anything to note</div>
+      <div class="build-section-label" id="notes-label">Notes</div>
+      <div class="build-section-sub" id="notes-sub"></div>
       <textarea class="build-textarea" id="session-notes" placeholder="Hard limits, intentions, questions — anything Sir Leo should know before your session."></textarea>
     </div>
 
@@ -220,10 +230,17 @@ const requestedType = [
   ...Array.from(params.keys()),
   ...Array.from(params.values()),
 ].filter(Boolean).join(' ').toLowerCase();
-const buildType = /\b(group|groups|event|events|bachelorette|performance)\b/.test(requestedType) ? 'group' : 'session';
+const buildType = params.get('type') === 'guest' ? 'guest'
+  : /\b(group|groups|event|events|bachelorette|performance)\b/.test(requestedType) ? 'group'
+  : 'session';
 document.documentElement.dataset.buildType = buildType;
 // ── State ──
-let baseCost = buildType === 'session' ? PACKAGES[0].price : 0;
+const GC_GUEST_UPGRADES = [
+  { id: 'bronze', name: 'Bronze', desc: 'Light — sensual, hands, sensation.', price: 25 },
+  { id: 'silver', name: 'Silver', desc: 'Medium — wax, impact, erotic tension.', price: 75 },
+  { id: 'gold',   name: 'Gold',   desc: 'Unhinged — no limits, full intensity.', price: 150 },
+];
+let baseCost = buildType === 'session' ? PACKAGES[0].price : buildType === 'guest' ? GC_GUEST_UPGRADES[0].price : 0;
 let selectedAddons = new Set();
 let payFull = true;
 
@@ -272,8 +289,53 @@ if (buildType === 'session') {
       updateSummary();
     });
   });
+} else if (buildType === 'guest') {
+  // ── Guest mode ──
+  document.getElementById('build-eyebrow').textContent = 'Guest Session';
+  document.getElementById('build-title').innerHTML = 'Your<br><em>session.</em>';
+  document.getElementById('build-sub').textContent = 'Choose your intensity. Sir Leo handles the rest.';
+  document.getElementById('duration-label').textContent = 'Session Level';
+  document.getElementById('addon-label').textContent = 'Notes';
+  document.getElementById('addon-sub').textContent = 'Hard limits, intentions, anything Sir Leo should know.';
+  document.getElementById('notes-label').parentElement.style.display = 'none';
+
+  const durationGrid = document.getElementById('duration-grid');
+  durationGrid.className = 'tier-grid';
+  GC_GUEST_UPGRADES.forEach((level, i) => {
+    const card = document.createElement('div');
+    card.className = `tier-card${i === 0 ? ' selected' : ''}`;
+    card.innerHTML = `
+      <div>
+        <div class="tier-card-name">${level.name}</div>
+        <div class="tier-card-desc">${level.desc}</div>
+      </div>
+      <div class="tier-card-price">$${level.price}</div>
+    `;
+    card.addEventListener('click', () => {
+      durationGrid.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      baseCost = level.price;
+      updateSummary();
+    });
+    durationGrid.appendChild(card);
+  });
+
+  // Move notes into addon slot
+  const addonList = document.getElementById('addon-list');
+  addonList.innerHTML = '';
+  const ta = document.createElement('textarea');
+  ta.className = 'build-textarea';
+  ta.id = 'session-notes';
+  ta.placeholder = 'Hard limits, intentions, questions — anything Sir Leo should know.';
+  addonList.appendChild(ta);
+
+  document.getElementById('pay-btn').textContent = 'Book Guest Session →';
+  updateSummary();
+
 } else {
   // ── Group mode render ──
+  document.getElementById('duration-label').textContent = 'Type';
+  document.getElementById('addon-label').textContent = 'Choose your tier';
   const GC = window.SL_GROUP_CATALOG;
   let groupViewType = 'experience'; // 'experience' | 'performance'
   let selectedTier = GC.tiers[0];
@@ -295,24 +357,10 @@ if (buildType === 'session') {
     </div>
   `;
 
-  // Inject guest calculator after addon-list section
-  const tierRows = GC.tiers.map((tier, i) => `
-    <div class="guest-tier-row${i === 0 ? ' active' : ''}" data-tier-id="${tier.id}">
-      <span class="guest-tier-row-name">${tier.name}</span>
-      <span class="guest-tier-row-prices">
-        <span class="guest-tier-obs">+$${tier.observerFee} observer</span>
-        <span class="guest-tier-sep">·</span>
-        <span class="guest-tier-ses">+$${GC.guestUpgrades[i].price} session</span>
-      </span>
-    </div>
-  `).join('');
-
   addonList.closest('.build-section').insertAdjacentHTML('afterend', `
     <div class="build-section" id="guest-calc-section" style="display:none;">
-      <div class="guest-section-title">Additional Guests</div>
-      <p class="guest-section-intro">Each guest outside the 4 included carries an observer fee. They can also opt in to their own session.</p>
-
-      <div class="guest-tier-rows">${tierRows}</div>
+      <div class="build-section-label">Additional Guests</div>
+      <div class="build-section-sub">Each guest outside the 4 included pays an observer fee — based on your selected tier. Guests can also book their own session independently.</div>
 
       <div class="guest-calc">
         <div class="guest-calc-row">
@@ -331,6 +379,15 @@ if (buildType === 'session') {
           <div class="guest-calc-total" id="guest-calc-total"></div>
         </div>
       </div>
+
+      <div class="guest-link-block">
+        <div class="guest-link-label">Guest Session Link</div>
+        <div class="guest-link-row">
+          <span class="guest-link-url" id="guest-link-url">${window.location.origin}/build?type=guest</span>
+          <button class="guest-link-copy" id="guest-link-copy">Copy</button>
+        </div>
+        <div class="guest-link-note">Share with guests who want to opt in to their own session — they pay Sir Leo directly.</div>
+      </div>
     </div>
   `);
 
@@ -340,10 +397,16 @@ if (buildType === 'session') {
   document.getElementById('guest-plus').addEventListener('click', () => {
     extraGuests++; updateGroupCalc();
   });
+  document.getElementById('guest-link-copy').addEventListener('click', () => {
+    navigator.clipboard.writeText(document.getElementById('guest-link-url').textContent).then(() => {
+      const btn = document.getElementById('guest-link-copy');
+      btn.textContent = 'Copied';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  });
 
   function updateGroupCalc() {
     document.getElementById('guest-count-val').textContent = extraGuests;
-    document.querySelectorAll('.guest-tier-row').forEach(r => r.classList.toggle('active', r.dataset.tierId === selectedTier.id));
     const guestCost = extraGuests * selectedTier.observerFee;
     const total = selectedTier.price + guestCost;
     baseCost = total;
@@ -434,6 +497,14 @@ document.getElementById('full-payment').addEventListener('change', e => {
 
 // ── Summary ──
 function updateSummary() {
+  if (buildType === 'guest') {
+    const selected = document.querySelector('.tier-card.selected');
+    const levelName = selected?.querySelector('.tier-card-name')?.textContent || 'Bronze';
+    document.getElementById('summary-items').textContent = `Guest Session · ${levelName}`;
+    document.getElementById('summary-total').textContent = `$${baseCost}`;
+    document.getElementById('summary-note').textContent = 'Full payment due today';
+    return;
+  }
   if (buildType === 'group') {
     const typeCard = document.querySelector('.group-type-card.active');
     const tierCard = document.querySelector('.tier-card.selected');
@@ -464,6 +535,28 @@ function updateSummary() {
 const stripe = window.SL_STRIPE_PK ? Stripe(window.SL_STRIPE_PK) : null;
 
 document.getElementById('pay-btn').addEventListener('click', async () => {
+  if (buildType === 'guest') {
+    if (!stripe) { alert('Payment not configured. Contact Sir Leo directly.'); return; }
+    const btn = document.getElementById('pay-btn');
+    btn.disabled = true; btn.textContent = 'Redirecting…';
+    const selected = document.querySelector('.tier-card.selected');
+    const levelName = selected?.querySelector('.tier-card-name')?.textContent || 'Bronze';
+    const notes = document.getElementById('session-notes')?.value || '';
+    try {
+      const res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ durationId: levelName.toLowerCase(), durationName: `Guest Session · ${levelName}`, durationMinutes: 60, basePrice: baseCost, addons: [], total: baseCost, due: baseCost, payFull: true, notes, clientName: '', offerId: null }),
+      });
+      const data = await res.json();
+      if (data.url) { window.location.href = data.url; }
+      else throw new Error(data.error || 'No checkout URL');
+    } catch (err) {
+      alert('Something went wrong: ' + err.message);
+      btn.disabled = false; btn.textContent = 'Book Guest Session →';
+    }
+    return;
+  }
   if (buildType === 'group') {
     const typeCard  = document.querySelector('.group-type-card.active');
     const tierCard  = document.querySelector('.tier-card.selected');

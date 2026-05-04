@@ -4,6 +4,15 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.69 — 2026-05-03
+**Add build?type=guest flow; big section headers; group guest link**
+- `build.html` — new guest build type: Bronze/Silver/Gold session picker, notes, Stripe payment
+- `build.html` — group Additional Guests: removed tier rows, added observer stepper + copyable guest link
+- `build.html` — all section headers now large serif (matching Additional Guests style)
+- `build.html` — group mode labels: Type / Choose your tier
+
+---
+
 ## v2.68 — 2026-05-03
 **Stacked tier rows replace two-column pricing layout on build page**
 - `build.html` — guest pricing now stacked rows (The Caress / The Edge / The Release) with observer fee + session price per row
