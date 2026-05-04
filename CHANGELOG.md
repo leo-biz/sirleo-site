@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.65 — 2026-05-03
+**Reword guest session copy on group page**
+- `group.html` — "featured guest" → tier name (The Caress/Edge/Release · 4 observers)
+- `group.html` — panel sub and type-card sub updated to opt-in language
+
+---
+
 ## v2.64 — 2026-05-03
 **Redesign guest section — big fee display, larger add-ons, no cap**
 - `build.html` — single large observer fee display (+$20/25/30) that updates live when tier changes
