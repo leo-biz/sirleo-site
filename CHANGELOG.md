@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.56 — 2026-05-03
+**Redesign group.html — two-card toggle, guest calculator**
+- `group.html` — two selector cards (Group Intimate Experience / Performance) toggle content panels below
+- `group.html` — Group panel: selectable tier cards + stepper-based guest calculator that auto-calculates total from base price + (extra guests × observer fee)
+- `group.html` — Performance panel: show set cards, travel note
+- `group.html` — removed bachelorette section
+
 ## v2.55 — 2026-05-03
 **Add group.html, group-catalog.js, group-inquiry modal**
 - `src/data/group-catalog.js` — new catalog with group tiers (The Caress/Edge/Dark), bachelorette packages, show sets, guest upgrades
