@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.66 — 2026-05-03
+**Side-by-side observer and guest session pricing on build page**
+- `build.html` — observer fee and guest session pricing shown in two-column layout under Additional Guests
+- `build.html` — guest session names match tier names (The Caress / The Edge / The Release)
+- `build.html` — removed "Any Guest Can Also Be Featured" heading; replaced with "Guest Session" label + opt-in sub copy
+
+---
+
 ## v2.65 — 2026-05-03
 **Reword guest session copy on group page**
 - `group.html` — "featured guest" → tier name (The Caress/Edge/Release · 4 observers)
