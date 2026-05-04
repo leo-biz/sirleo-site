@@ -50,6 +50,11 @@
   status = 200
 
 [[redirects]]
+  from = "/group"
+  to   = "/group.html"
+  status = 200
+
+[[redirects]]
   from = "/training"
   to   = "/education.html"
   status = 301

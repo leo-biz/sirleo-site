@@ -139,6 +139,7 @@
 </div>
 
 <script src="src/data/session-catalog.js"></script>
+<script src="src/data/group-catalog.js"></script>
 <script>
 const SESSION_CATALOG = window.SL_SESSION_CATALOG;
 const PACKAGES = SESSION_CATALOG.packages;
@@ -324,7 +325,8 @@ async function loadOffer(id) {
 
     // Personalize heading
     if (offer.client_name) {
-      document.getElementById('build-title').innerHTML = `${offer.client_name}'s<br><em>session.</em>`;
+      const label = buildType === 'group' ? 'experience' : 'session';
+      document.getElementById('build-title').innerHTML = `${offer.client_name}'s<br><em>${label}.</em>`;
     }
 
     // Block if already paid
@@ -373,10 +375,11 @@ async function loadOffer(id) {
   }
 }
 
-if (buildType === 'session' && offerId) {
+if (offerId) {
   loadOffer(offerId);
 } else if (clientParam) {
-  document.getElementById('build-title').innerHTML = `${clientParam}'s<br><em>session.</em>`;
+  const label = buildType === 'group' ? 'experience' : 'session';
+  document.getElementById('build-title').innerHTML = `${clientParam}'s<br><em>${label}.</em>`;
 }
 
 if (buildType === 'group') {

@@ -653,6 +653,36 @@ function ServePanel({ onClose, type, who }) {
         </>
       )
     },
+    'group-inquiry': {
+      eyebrow: 'Group Experience',
+      title: <>Tell Sir Leo<br />about your group.</>,
+      fields: (
+        <>
+          <div className="hub-field"><label className="hub-label">What are you planning?</label>
+            <select className="hub-select" defaultValue={who || ''}>
+              <option value="" disabled>Select</option>
+              {['Group intimate experience','Bachelorette / birthday celebration','Show or performance booking','Not sure yet'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Estimated guest count</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Under 10','10–20','20–50','50+'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Date & city</label>
+            <input className="hub-input" type="text" placeholder="e.g. July 12, Chicago" /></div>
+          <div className="hub-field"><label className="hub-label">Tone & intensity</label>
+            <select className="hub-select" defaultValue="">
+              <option value="" disabled>Select</option>
+              {['Light & sensual','Medium — some edge','Full expression','Not sure yet'].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="hub-field"><label className="hub-label">Tell me about the occasion</label>
+            <textarea className="hub-textarea" placeholder="What's happening, who it's for, what you want them to walk away feeling." /></div>
+        </>
+      )
+    },
     'edu-group': {
       eyebrow: 'Group · Education',
       title: <>Let's build<br />your group experience.</>,
@@ -896,7 +926,7 @@ function Hub() {
             {activePanel === 'book'    && <BookPanel    onClose={closePanel} initialStep={panelContext.step || 'type'} initialSels={panelContext.sels || []} />}
             {activePanel === 'collab'  && <CollabPanel  onClose={closePanel} />}
             {activePanel === 'contact' && <ContactModal onClose={closePanel} />}
-            {['audience-individuals','audience-organizers','serve-individuals','serve-organizers','edu-person','edu-group'].includes(activePanel) && <ServePanel key={activePanel} onClose={closePanel} type={activePanel} who={panelContext.who} />}
+            {['audience-individuals','audience-organizers','serve-individuals','serve-organizers','group-inquiry','edu-person','edu-group'].includes(activePanel) && <ServePanel key={activePanel} onClose={closePanel} type={activePanel} who={panelContext.who} />}
             {activePanel === 'waitlist' && <WaitlistPanel onClose={closePanel} />}
           </div>
         </div>

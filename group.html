@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group Experiences & Performances — Sir Leo | Chicago</title>
+  <meta name="description" content="Sir Leo performs at private group events, bachelorette parties, and venues across Chicago. Fire artistry, impact, and immersive kink performance — tailored to your group.">
+  <link rel="canonical" href="https://sirblackleo.com/group">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://sirblackleo.com/group">
+  <meta property="og:title"       content="Group Experiences & Performances — Sir Leo">
+  <meta property="og:description" content="Fire artistry, impact play, and immersive kink performance for private groups, bachelorette parties, and venue events.">
+  <meta property="og:image"       content="https://sirblackleo.com/assets/photo-hero.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Group Experiences — Sir Leo">
+  <meta name="twitter:description" content="Private group experiences and performances in Chicago.">
+  <meta name="twitter:image"      content="https://sirblackleo.com/assets/photo-hero.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lp-hero { min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; }
+    .lp-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .lp-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(40px, 7vw, 80px); font-weight: 300; font-style: italic; line-height: 1.1; margin-bottom: 24px; }
+    .lp-sub { font-size: 16px; line-height: 1.9; max-width: 520px; margin: 0 auto 40px; opacity: 0.7; }
+    .lp-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .lp-btn { padding: 14px 32px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; border: none; text-decoration: none; display: inline-block; transition: all 0.2s; }
+    .lp-btn-primary { background: var(--accent, #6B1A1A); color: #f0e6d0; }
+    .lp-btn-primary:hover { background: #8B2020; }
+    .lp-btn-ghost { background: transparent; border: 1px solid rgba(240,230,208,0.3); color: var(--text-primary, #f0e6d0); }
+    .lp-btn-ghost:hover { border-color: rgba(240,230,208,0.6); }
+
+    .lp-section { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+    .lp-section-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .lp-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 44px); font-weight: 300; font-style: italic; margin-bottom: 12px; }
+    .lp-section-sub { font-size: 15px; opacity: 0.65; line-height: 1.9; max-width: 580px; margin-bottom: 40px; }
+
+    /* ── Tier / package cards ── */
+    .pkg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px; margin-bottom: 32px; }
+    .pkg-card { padding: 32px 28px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); position: relative; }
+    .pkg-card.featured { border-color: rgba(107,26,26,0.5); background: rgba(107,26,26,0.05); }
+    .pkg-badge { position: absolute; top: -1px; right: 20px; background: var(--accent, #6B1A1A); color: #f0e6d0; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+    .pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; font-weight: 400; margin-bottom: 6px; }
+    .pkg-level { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .pkg-price { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; line-height: 1; margin-bottom: 4px; }
+    .pkg-price-note { font-size: 11px; opacity: 0.4; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .pkg-desc { font-size: 13px; line-height: 1.8; opacity: 0.6; }
+    [data-theme="light"] .pkg-card { border-color: rgba(26,14,6,0.1); }
+    [data-theme="light"] .pkg-card.featured { border-color: rgba(107,26,26,0.4); }
+
+    /* ── Add-on note row ── */
+    .addon-note { display: flex; flex-direction: column; gap: 6px; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 8px; }
+    .addon-note-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; opacity: 0.6; }
+    .addon-note-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; opacity: 0.8; }
+    [data-theme="light"] .addon-note { border-top-color: rgba(26,14,6,0.08); }
+
+    /* ── Divider section ── */
+    .lp-divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); max-width: 900px; margin: 0 auto; }
+    [data-theme="light"] .lp-divider { border-top-color: rgba(26,14,6,0.08); }
+
+    /* ── Travel note ── */
+    .travel-note { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; display: flex; gap: 24px; align-items: flex-start; }
+    .travel-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); white-space: nowrap; margin-top: 4px; }
+    .travel-text { font-size: 13px; opacity: 0.5; line-height: 1.8; }
+
+    /* ── CTA section ── */
+    .lp-cta-section { padding: 80px 24px; text-align: center; background: rgba(107,26,26,0.05); }
+    .lp-cta-section .lp-section-title { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+<div id="sl-cursor"></div>
+<div id="sl-cursor-ring"></div>
+
+<div data-site-nav data-nav-cta-id="nav-inquire-btn" data-nav-cta-label="Inquire"></div>
+<script src="src/js/site-nav.js"></script>
+
+<!-- Hero -->
+<section class="lp-hero">
+  <div>
+    <p class="lp-eyebrow">Group Experiences · Chicago</p>
+    <h1 class="lp-title">Built for<br>Your People</h1>
+    <p class="lp-sub">Private group experiences, bachelorette celebrations, and live performances. Sir Leo comes to you — and the room doesn't forget it.</p>
+    <div class="lp-cta-group">
+      <button class="lp-btn lp-btn-primary" id="hero-inquire-btn">Inquire</button>
+      <a href="#experiences" class="lp-btn lp-btn-ghost" onclick="event.preventDefault();document.getElementById('experiences').scrollIntoView({behavior:'smooth'})">See What's Possible</a>
+    </div>
+  </div>
+</section>
+
+<!-- Group Intimate Experience -->
+<section class="lp-section" id="experiences">
+  <p class="lp-section-eyebrow">Group Intimate Experience</p>
+  <h2 class="lp-section-title">One featured guest.<br>The whole room watches.</h2>
+  <p class="lp-section-sub">Sir Leo travels to your location. One person is featured — up to 4 additional observers included in the base price. The tier sets the intensity.</p>
+  <div class="pkg-grid">
+    <div class="pkg-card">
+      <div class="pkg-name">The Caress</div>
+      <div class="pkg-level">Light</div>
+      <div class="pkg-price">$250</div>
+      <div class="pkg-price-note">featured guest + 4 observers · ~15 min</div>
+      <div class="pkg-desc">Sensual caress, erotic oil massage, and soft sensation. An intimate opening — electric without being overwhelming.</div>
+    </div>
+    <div class="pkg-card featured">
+      <div class="pkg-name">The Edge</div>
+      <div class="pkg-level">Medium</div>
+      <div class="pkg-price">$350</div>
+      <div class="pkg-price-note">featured guest + 4 observers · ~15 min</div>
+      <div class="pkg-desc">Wax, flogging, and fire. The room shifts. This is where things get dark and beautiful.</div>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-name">The Dark</div>
+      <div class="pkg-level">Unhinged</div>
+      <div class="pkg-price">$500</div>
+      <div class="pkg-price-note">featured guest + 4 observers · ~15 min</div>
+      <div class="pkg-desc">Full expression. Forced orgasm. For groups that know exactly what they want and are ready for all of it.</div>
+    </div>
+  </div>
+  <div class="addon-note">
+    <div style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.4;margin-bottom:8px;">Guest Add-ons</div>
+    <div class="addon-note-row"><span class="addon-note-label">Additional observers</span><span>+$20–$30 / guest · up to 4 more</span></div>
+    <div class="addon-note-row"><span class="addon-note-label">Guest experience upgrades</span><span>Light +$25 · Medium +$75 · Unhinged +$150</span></div>
+  </div>
+  <div style="margin-top:32px;">
+    <button class="lp-btn lp-btn-primary group-inquire-btn" data-type="Group intimate experience">Inquire</button>
+  </div>
+</section>
+
+<hr class="lp-divider">
+
+<!-- Bachelorette -->
+<section class="lp-section">
+  <p class="lp-section-eyebrow">Bachelorette Packages</p>
+  <h2 class="lp-section-title">The last night<br>she'll remember.</h2>
+  <p class="lp-section-sub">Sir Leo travels to the hotel, Airbnb, or private space. Bride is always featured first. Travel included in the base price.</p>
+  <div class="pkg-grid">
+    <div class="pkg-card">
+      <div class="pkg-name">The Send-Off</div>
+      <div class="pkg-price">$350</div>
+      <div class="pkg-price-note">1 song · sensual · bride featured · up to 6 guests</div>
+      <div class="pkg-desc">A sensual opening set — teasing, electric, unforgettable. Bride gets the light treatment. The room gets the show.</div>
+    </div>
+    <div class="pkg-card featured">
+      <div class="pkg-badge">Most Chosen</div>
+      <div class="pkg-name">Last Night Out</div>
+      <div class="pkg-price">$600</div>
+      <div class="pkg-price-note">2–3 songs · sensual → impact · bride featured · up to 8 guests</div>
+      <div class="pkg-desc">The full arc. Sensual into impact. Bride gets the medium treatment. This is the one they'll talk about.</div>
+    </div>
+  </div>
+  <div class="addon-note">
+    <div class="addon-note-row"><span class="addon-note-label">Guest experience upgrades</span><span>Same rates as group add-ons</span></div>
+    <div class="addon-note-row"><span class="addon-note-label">Fire play</span><span>+$150 · Last Night Out only</span></div>
+  </div>
+  <div style="margin-top:32px;">
+    <button class="lp-btn lp-btn-primary group-inquire-btn" data-type="Bachelorette / birthday celebration">Inquire</button>
+  </div>
+</section>
+
+<hr class="lp-divider">
+
+<!-- Shows & Performances -->
+<section class="lp-section">
+  <p class="lp-section-eyebrow">Shows & Performances</p>
+  <h2 class="lp-section-title">Sir Leo takes<br>the room.</h2>
+  <p class="lp-section-sub">Per set pricing. Sir Leo travels to the venue or event. Published rates are floor minimums for private party bookings — producer bookings are negotiated based on audience size and context.</p>
+  <div class="pkg-grid">
+    <div class="pkg-card">
+      <div class="pkg-name">The Tease</div>
+      <div class="pkg-price">$150</div>
+      <div class="pkg-price-note">1 song · sensual · crossover-friendly</div>
+      <div class="pkg-desc">One song. Pure sensual energy. Works for vanilla crowds, collab performers, and mixed audiences.</div>
+    </div>
+    <div class="pkg-card featured">
+      <div class="pkg-name">The Build</div>
+      <div class="pkg-price">$250</div>
+      <div class="pkg-price-note">2–3 songs · sensual → impact</div>
+      <div class="pkg-desc">The arc begins. Sensual into impact. The room warms up and then catches fire.</div>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-name">The Burn</div>
+      <div class="pkg-price">$400</div>
+      <div class="pkg-price-note">3–4 songs · sensual → impact → fire</div>
+      <div class="pkg-desc">The full set. Sensual, impact, then fire. The room doesn't forget this one.</div>
+    </div>
+  </div>
+  <div style="margin-top:32px;">
+    <button class="lp-btn lp-btn-primary group-inquire-btn" data-type="Show or performance booking">Inquire</button>
+  </div>
+</section>
+
+<!-- Travel note -->
+<div class="travel-note">
+  <div class="travel-label">Travel</div>
+  <div class="travel-text">Within 15 miles of Chicago — included. Beyond 15 miles — $1.50/mile one way. Out of state or destination bookings are quoted individually and include travel, lodging, per diem, and a minimum booking fee.</div>
+</div>
+
+<!-- CTA -->
+<section class="lp-cta-section">
+  <p class="lp-section-eyebrow">Get Started</p>
+  <h2 class="lp-section-title">Tell Sir Leo about your group.</h2>
+  <p style="font-size:15px;opacity:0.65;max-width:480px;margin:0 auto 36px;line-height:1.8;">No commitment yet. Submit the details — Sir Leo will reach out to confirm fit, travel, and pricing before anything is locked in.</p>
+  <button class="lp-btn lp-btn-primary" id="cta-inquire-btn">Inquire</button>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-brand-logo"><img src="assets/logo.png" alt="Sir Leo" class="footer-logo-img"></a>
+      <span class="footer-tagline">Chicago · sirblackleo.com</span>
+    </div>
+    <div class="footer-nav">
+      <span class="footer-nav-label">Navigate</span>
+      <a href="/">Home</a>
+      <a href="/sessions">Sessions</a>
+      <a href="/events">Events</a>
+      <a href="/education">Education</a>
+      <a href="/#connect">Contact</a>
+    </div>
+    <div class="footer-connect">
+      <span class="footer-connect-label">Connect</span>
+      <a href="https://instagram.com/sir_black_leo" target="_blank" rel="noopener">@sir_black_leo</a>
+      <a href="sms:+17732348238">(773) 234-8238</a>
+      <a href="mailto:sir.black.leo@gmail.com">sir.black.leo@gmail.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Sir Leo · Chicago</span>
+    <span class="footer-version"></span>
+  </div>
+</footer>
+
+<div id="hub-root"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="version.js"></script>
+<script src="db.js"></script>
+<script src="analytics.js"></script>
+<script src="src/data/group-catalog.js"></script>
+<script src="src/js/config.js"></script>
+<script src="src/js/submissions.js"></script>
+<script src="main.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" src="hub.js" data-type="module"></script>
+<script>
+  function openGroupInquiry(type) {
+    const ctx = type ? { who: type } : {};
+    if (window.SLHub) {
+      window.SLHub.open('group-inquiry', ctx);
+    } else {
+      const t = setInterval(() => {
+        if (window.SLHub) { clearInterval(t); window.SLHub.open('group-inquiry', ctx); }
+      }, 50);
+    }
+  }
+
+  document.getElementById('hero-inquire-btn').addEventListener('click', () => openGroupInquiry());
+  document.getElementById('cta-inquire-btn').addEventListener('click', () => openGroupInquiry());
+  document.getElementById('nav-inquire-btn').addEventListener('click', () => openGroupInquiry());
+
+  document.querySelectorAll('.group-inquire-btn').forEach(btn => {
+    btn.addEventListener('click', () => openGroupInquiry(btn.dataset.type));
+  });
+
+  // Theme
+  (function() {
+    const saved = localStorage.getItem('sl-theme') || 'dark';
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  })();
+
+  // Cursor
+  (function() {
+    const dot = document.getElementById('sl-cursor');
+    const ring = document.getElementById('sl-cursor-ring');
+    if (!dot || !ring) return;
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+    (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+    document.addEventListener('mouseover', e => {
+      const over = e.target.closest('a, button');
+      ring.style.width = over ? '48px' : '32px';
+      ring.style.height = over ? '48px' : '32px';
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.55 — 2026-05-03
+**Add group.html, group-catalog.js, group-inquiry modal**
+- `src/data/group-catalog.js` — new catalog with group tiers (The Caress/Edge/Dark), bachelorette packages, show sets, guest upgrades
+- `group.html` — public-facing group experiences page; each section CTA opens group-inquiry modal with pre-filled type context
+- `hub.js` — new `group-inquiry` ServePanel config; registered in routing
+- `build.html` — loads group-catalog.js; `loadOffer()` now runs for group IDs; heading personalization handles both session and group labels
+- `netlify.toml` — `/group` → `group.html`
+
 ## v2.54 — 2026-05-03
 **Make group build detection URL-wide**
 - `build.html` — detects group/event language across the full path, query string, query keys, query values, and hash before rendering the builder
