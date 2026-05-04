@@ -96,13 +96,15 @@
     .guest-calc-breakdown { font-size: 12px; color: var(--text-muted, #A89878); margin-top: 4px; }
     .guest-calc-total { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream, #F0E6CE); }
     .guest-calc-intro { font-size: 14px; color: var(--text-body, #B0A080); line-height: 1.8; margin-bottom: 24px; }
-    .guest-price-table { display: flex; flex-direction: column; gap: 2px; margin: 16px 0 8px; }
-    .guest-price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 16px; border: 1px solid rgba(107,26,26,0.15); font-size: 13px; }
-    .guest-price-row-label { color: var(--text-sub, #D2BEA5); }
-    .guest-price-row-val { color: var(--cream, #F0E6CE); font-family: 'Cormorant Garamond', serif; font-size: 16px; }
-    .guest-price-cap { font-size: 11px; color: var(--text-muted, #A89878); margin-top: 8px; margin-bottom: 24px; }
-    .guest-upgrade-intro { font-size: 14px; color: var(--text-body, #B0A080); line-height: 1.8; margin-bottom: 16px; }
-    .guest-section-heading { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 10px; margin-top: 32px; }
+    .guest-fee-display { display: flex; align-items: baseline; gap: 16px; padding: 24px 20px; border: 1px solid rgba(107,26,26,0.2); background: rgba(107,26,26,0.05); margin-bottom: 24px; }
+    .guest-fee-price { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--cream, #F0E6CE); line-height: 1; }
+    .guest-fee-label { font-size: 13px; color: var(--text-muted, #A89878); line-height: 1.6; }
+    .guest-fee-label strong { display: block; font-size: 15px; font-weight: 400; color: var(--text-sub, #D2BEA5); margin-bottom: 2px; }
+    .guest-upgrade-grid { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+    .guest-upgrade-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border: 1px solid rgba(107,26,26,0.15); }
+    .guest-upgrade-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--cream, #F0E6CE); }
+    .guest-upgrade-price { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--cream, #F0E6CE); }
+    .guest-section-heading { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 14px; margin-top: 36px; }
 
     /* ── Notes ── */
     .build-textarea { background: rgba(107,26,26,0.04); border: 1px solid rgba(107,26,26,0.2); color: var(--cream, #F0E6CE); padding: 18px 20px; font-size: 14px; width: 100%; min-height: 120px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.8; }
@@ -288,21 +290,11 @@ if (buildType === 'session') {
     <div class="build-section" id="guest-calc-section" style="display:none;">
       <div class="build-section-label">Additional Guests</div>
 
-      <p class="guest-calc-intro">Additional observers are priced per your booked tier — up to 4 more guests, 8 total in the room. Any guest can also choose to be featured themselves. Experience level is their call, independent of what was booked. Observer fee applies first, then the experience add-on.</p>
-
-      <div class="guest-section-heading">Observer Fee — per additional guest</div>
-      <div class="guest-price-table">
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Observer · Tier 1 (The Caress)</span>
-          <span class="guest-price-row-val">+$20 / guest</span>
-        </div>
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Observer · Tier 2 (The Edge)</span>
-          <span class="guest-price-row-val">+$25 / guest</span>
-        </div>
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Observer · Tier 3 (The Release)</span>
-          <span class="guest-price-row-val">+$30 / guest</span>
+      <div class="guest-fee-display">
+        <div class="guest-fee-price" id="observer-fee-display">+$20</div>
+        <div class="guest-fee-label">
+          <strong>per additional observer</strong>
+          Fee is based on your selected tier — updates as you choose above.
         </div>
       </div>
 
@@ -318,27 +310,28 @@ if (buildType === 'session') {
         <div class="guest-calc-result">
           <div>
             <div class="guest-calc-breakdown" id="guest-calc-breakdown"></div>
-            <div style="font-size:11px;color:var(--text-muted,#A89878);margin-top:6px;letter-spacing:0.04em;">Travel not included — confirmed on the call.</div>
+            <div style="font-size:12px;color:var(--text-muted,#A89878);margin-top:6px;">Travel not included — confirmed on the call.</div>
           </div>
           <div class="guest-calc-total" id="guest-calc-total"></div>
         </div>
       </div>
 
-      <div class="guest-section-heading">Guest Experience Add-ons</div>
-      <div class="guest-price-table">
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Light experience</span>
-          <span class="guest-price-row-val">+$25</span>
+      <div class="guest-section-heading">Any Guest Can Also Be Featured</div>
+      <div class="guest-upgrade-grid">
+        <div class="guest-upgrade-item">
+          <span class="guest-upgrade-name">Light experience</span>
+          <span class="guest-upgrade-price">+$25</span>
         </div>
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Medium experience</span>
-          <span class="guest-price-row-val">+$75</span>
+        <div class="guest-upgrade-item">
+          <span class="guest-upgrade-name">Medium experience</span>
+          <span class="guest-upgrade-price">+$75</span>
         </div>
-        <div class="guest-price-row">
-          <span class="guest-price-row-label">Unhinged experience</span>
-          <span class="guest-price-row-val">+$150</span>
+        <div class="guest-upgrade-item">
+          <span class="guest-upgrade-name">Unhinged experience</span>
+          <span class="guest-upgrade-price">+$150</span>
         </div>
       </div>
+      <p style="font-size:13px;color:var(--text-muted,#A89878);margin-top:12px;line-height:1.7;">Observer fee applies first. Experience level is their choice — independent of the booked tier.</p>
     </div>
   `);
 
@@ -346,11 +339,13 @@ if (buildType === 'session') {
     if (extraGuests > 0) { extraGuests--; updateGroupCalc(); }
   });
   document.getElementById('guest-plus').addEventListener('click', () => {
-    if (extraGuests < 4) { extraGuests++; updateGroupCalc(); }
+    extraGuests++; updateGroupCalc();
   });
 
   function updateGroupCalc() {
     document.getElementById('guest-count-val').textContent = extraGuests;
+    const feeDisplay = document.getElementById('observer-fee-display');
+    if (feeDisplay) feeDisplay.textContent = '+$' + selectedTier.observerFee;
     const guestCost = extraGuests * selectedTier.observerFee;
     const total = selectedTier.price + guestCost;
     baseCost = total;

@@ -4,6 +4,17 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.64 — 2026-05-03
+**Redesign guest section — big fee display, larger add-ons, no cap**
+- `build.html` — single large observer fee display (+$20/25/30) that updates live when tier changes
+- `build.html` — guest experience add-ons shown as large readable rows, not small table
+- `build.html` — removed observer tier breakdown table; removed max cap on stepper
+- `build.html` — section feels cohesive with rest of page design
+
+## v2.63 — 2026-05-03
+**Remove guest count cap**
+- `build.html` — stepper no longer has a max limit; cap language removed from intro copy
+
 ## v2.62 — 2026-05-03
 **Clarify guest pricing copy and structure**
 - `build.html` — intro paragraph covers both observer fees and experience add-ons in one clear statement
