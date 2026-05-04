@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.70 — 2026-05-03
+**Add Platinum guest session tier; expand all descriptions**
+- `build.html` — Platinum guest level added at $250: extended, fully designed, ceremonial-level experience
+- `build.html` — Bronze/Silver/Gold descriptions rewritten with more depth and voice
+
+---
+
 ## v2.69 — 2026-05-03
 **Add build?type=guest flow; big section headers; group guest link**
 - `build.html` — new guest build type: Bronze/Silver/Gold session picker, notes, Stripe payment

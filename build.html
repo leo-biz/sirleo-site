@@ -236,9 +236,10 @@ const buildType = params.get('type') === 'guest' ? 'guest'
 document.documentElement.dataset.buildType = buildType;
 // ── State ──
 const GC_GUEST_UPGRADES = [
-  { id: 'bronze', name: 'Bronze', desc: 'Light — sensual, hands, sensation.', price: 25 },
-  { id: 'silver', name: 'Silver', desc: 'Medium — wax, impact, erotic tension.', price: 75 },
-  { id: 'gold',   name: 'Gold',   desc: 'Unhinged — no limits, full intensity.', price: 150 },
+  { id: 'bronze', name: 'Bronze', desc: 'A slow, sensual introduction. Sir Leo works with touch, warmth, and deliberate presence — hands, oil, and body awareness. Built for guests who are curious but want to ease in. You stay in control of how far it goes.', price: 25 },
+  { id: 'silver', name: 'Silver', desc: 'The experience deepens. Expect wax, light impact, and layered sensation — Sir Leo reads your energy and builds accordingly. There is edge here, and intention behind every moment. For guests ready to feel more than they expected.', price: 75 },
+  { id: 'gold',   name: 'Gold',   desc: 'Full intensity. Erotic dominance, impact, restraint, sensation play — the arc goes where it needs to go. This is for guests who want to be challenged, held, and fully present in something they will not forget. Come ready.', price: 150 },
+  { id: 'platinum', name: 'Platinum', desc: 'No ceiling. Sir Leo designs the experience specifically around you — combining multiple modalities, extended time under his control, and a level of presence that goes beyond a session into something closer to ceremony. Reserved for guests who want everything and are prepared for it.', price: 250 },
 ];
 let baseCost = buildType === 'session' ? PACKAGES[0].price : buildType === 'guest' ? GC_GUEST_UPGRADES[0].price : 0;
 let selectedAddons = new Set();
