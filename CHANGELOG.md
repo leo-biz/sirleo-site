@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.67 — 2026-05-03
+**Reorder and expand Additional Guests section on build page**
+- `build.html` — big serif "Additional Guests" title replaces small label
+- `build.html` — intro copy added: outside the 4 included, observer fee applies; guests can opt in to a session
+- `build.html` — pricing columns moved above the stepper/counter
+
+---
+
 ## v2.66 — 2026-05-03
 **Side-by-side observer and guest session pricing on build page**
 - `build.html` — observer fee and guest session pricing shown in two-column layout under Additional Guests

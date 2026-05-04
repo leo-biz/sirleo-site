@@ -104,7 +104,9 @@
     .guest-upgrade-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border: 1px solid rgba(107,26,26,0.15); }
     .guest-upgrade-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--cream, #F0E6CE); }
     .guest-upgrade-price { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--cream, #F0E6CE); }
-    .guest-pricing-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 24px; }
+    .guest-section-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream, #F0E6CE); margin-bottom: 8px; }
+    .guest-section-intro { font-size: 14px; color: var(--text-muted, #A89878); line-height: 1.7; margin-bottom: 24px; }
+    .guest-pricing-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 24px; }
     .guest-pricing-col { padding: 20px; border: 1px solid rgba(107,26,26,0.15); }
     [data-theme="light"] .guest-pricing-col { border-color: rgba(107,26,26,0.12); }
     .guest-pricing-col-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 12px; }
@@ -293,25 +295,8 @@ if (buildType === 'session') {
   // Inject guest calculator after addon-list section
   addonList.closest('.build-section').insertAdjacentHTML('afterend', `
     <div class="build-section" id="guest-calc-section" style="display:none;">
-      <div class="build-section-label">Additional Guests</div>
-
-      <div class="guest-calc">
-        <div class="guest-calc-row">
-          <div class="calc-stepper">
-            <button class="calc-step-btn" id="guest-minus">−</button>
-            <div class="calc-step-val" id="guest-count-val">0</div>
-            <button class="calc-step-btn" id="guest-plus">+</button>
-          </div>
-          <span class="guest-calc-input-label">additional observers</span>
-        </div>
-        <div class="guest-calc-result">
-          <div>
-            <div class="guest-calc-breakdown" id="guest-calc-breakdown"></div>
-            <div style="font-size:12px;color:var(--text-muted,#A89878);margin-top:6px;">Travel not included — confirmed on the call.</div>
-          </div>
-          <div class="guest-calc-total" id="guest-calc-total"></div>
-        </div>
-      </div>
+      <div class="guest-section-title">Additional Guests</div>
+      <p class="guest-section-intro">Each guest outside the 4 included carries an observer fee. They can also opt in to their own session.</p>
 
       <div class="guest-pricing-cols">
         <div class="guest-pricing-col">
@@ -335,7 +320,24 @@ if (buildType === 'session') {
               <span class="guest-upgrade-price">+$150</span>
             </div>
           </div>
-          <div class="guest-pricing-col-sub">Guest can opt in to their own session.</div>
+        </div>
+      </div>
+
+      <div class="guest-calc">
+        <div class="guest-calc-row">
+          <div class="calc-stepper">
+            <button class="calc-step-btn" id="guest-minus">−</button>
+            <div class="calc-step-val" id="guest-count-val">0</div>
+            <button class="calc-step-btn" id="guest-plus">+</button>
+          </div>
+          <span class="guest-calc-input-label">additional observers</span>
+        </div>
+        <div class="guest-calc-result">
+          <div>
+            <div class="guest-calc-breakdown" id="guest-calc-breakdown"></div>
+            <div style="font-size:12px;color:var(--text-muted,#A89878);margin-top:6px;">Travel not included — confirmed on the call.</div>
+          </div>
+          <div class="guest-calc-total" id="guest-calc-total"></div>
         </div>
       </div>
     </div>
