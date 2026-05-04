@@ -52,6 +52,50 @@
     .addon-price { font-size: 15px; font-weight: 300; white-space: nowrap; opacity: 0.8; }
     [data-theme="light"] .addon-item { border-color: rgba(26,14,6,0.08); }
 
+    /* ── Group type selector ── */
+    .group-type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 500px) { .group-type-selector { grid-template-columns: 1fr; } }
+    .group-type-card { padding: 24px 20px; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: all 0.15s; }
+    .group-type-card:hover { border-color: rgba(107,26,26,0.35); }
+    .group-type-card.active { border-color: rgba(107,26,26,0.7); background: rgba(107,26,26,0.1); }
+    .group-type-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; font-weight: 300; margin-bottom: 4px; }
+    .group-type-sub { font-size: 11px; opacity: 0.45; letter-spacing: 0.05em; line-height: 1.6; }
+    [data-theme="light"] .group-type-card { border-color: rgba(26,14,6,0.1); }
+    [data-theme="light"] .group-type-card.active { border-color: rgba(107,26,26,0.6); }
+
+    /* ── Group tier / show cards ── */
+    .tier-grid { display: flex; flex-direction: column; gap: 2px; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .tier-card { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 12px 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.07); cursor: pointer; transition: all 0.12s; }
+    .tier-card:hover { border-color: rgba(107,26,26,0.35); background: rgba(255,255,255,0.01); }
+    .tier-card.selected { border-color: rgba(107,26,26,0.7); background: rgba(107,26,26,0.09); }
+    .tier-card-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 2px; }
+    .tier-card-level { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 6px; }
+    .tier-card-desc { font-size: 12px; opacity: 0.5; line-height: 1.6; grid-column: 1 / -1; }
+    .tier-card-note { font-size: 11px; opacity: 0.35; letter-spacing: 0.04em; }
+    .tier-card-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; white-space: nowrap; text-align: right; }
+    [data-theme="light"] .tier-card { border-color: rgba(26,14,6,0.09); }
+    [data-theme="light"] .tier-card.selected { border-color: rgba(107,26,26,0.5); }
+
+    /* ── Guest calculator ── */
+    .guest-calc { margin-top: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.07); }
+    [data-theme="light"] .guest-calc { border-color: rgba(26,14,6,0.09); }
+    .guest-calc-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    [data-theme="light"] .guest-calc-label { border-bottom-color: rgba(26,14,6,0.07); }
+    .guest-calc-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+    .guest-calc-input-label { font-size: 13px; opacity: 0.6; }
+    .guest-calc-note { font-size: 11px; opacity: 0.35; }
+    .calc-stepper { display: flex; align-items: center; }
+    .calc-step-btn { width: 34px; height: 34px; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: inherit; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.1s; line-height: 1; }
+    .calc-step-btn:hover { background: rgba(107,26,26,0.18); }
+    .calc-step-val { width: 40px; height: 34px; border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12); border-left: none; border-right: none; background: rgba(255,255,255,0.025); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 18px; }
+    [data-theme="light"] .calc-step-btn { border-color: rgba(26,14,6,0.15); }
+    [data-theme="light"] .calc-step-val { border-color: rgba(26,14,6,0.15); background: rgba(26,14,6,0.02); }
+    .guest-calc-result { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+    [data-theme="light"] .guest-calc-result { border-top-color: rgba(26,14,6,0.07); }
+    .guest-calc-breakdown { font-size: 11px; opacity: 0.38; margin-top: 3px; }
+    .guest-calc-total { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; }
+
     /* ── Notes ── */
     .build-textarea { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: inherit; padding: 16px; font-size: 14px; width: 100%; min-height: 100px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.7; }
     .build-textarea:focus { border-color: rgba(107,26,26,0.5); }
@@ -157,71 +201,194 @@ const requestedType = [
 ].filter(Boolean).join(' ').toLowerCase();
 const buildType = /\b(group|groups|event|events|bachelorette|performance)\b/.test(requestedType) ? 'group' : 'session';
 document.documentElement.dataset.buildType = buildType;
-const GROUP_PACKAGES = [
-  { id: 'group-intimate', name: 'Group Intimate Experience', shortDescription: 'featured guest + observers · private location' },
-  { id: 'bachelorette', name: 'Bachelorette Package', shortDescription: 'bride featured first · hotel, Airbnb, or private space' },
-  { id: 'performance', name: 'Show & Performance', shortDescription: 'stage, venue, producer, or private party set' },
-];
-const GROUP_ADDONS = [
-  { id: 'light', name: 'Light Direction', desc: 'Sensual, soft, approachable, teasing' },
-  { id: 'medium', name: 'Medium Direction', desc: 'Wax, flogging, fire, impact, stronger room energy' },
-  { id: 'dark', name: 'Dark Direction', desc: 'Heavier, more intense, only after direct confirmation' },
-  { id: 'guest-upgrades', name: 'Guest Experience Upgrades', desc: 'Additional guests may want their own featured moment' },
-  { id: 'fire-play', name: 'Fire Play', desc: 'Available for select packages and contexts' },
-  { id: 'travel', name: 'Travel Needed', desc: 'Sir Leo travels to the hotel, Airbnb, venue, or destination' },
-];
-
 // ── State ──
 let baseCost = buildType === 'session' ? PACKAGES[0].price : 0;
 let selectedAddons = new Set();
 let payFull = true;
-let activePackages = buildType === 'session' ? PACKAGES : GROUP_PACKAGES;
-let activeAddons = buildType === 'session' ? ADDONS : GROUP_ADDONS;
 
-// ── Render durations ──
-const durationGrid = document.getElementById('duration-grid');
-activePackages.forEach((pkg, index) => {
-  const item = document.createElement('label');
-  item.className = `duration-card${index === 0 ? ' selected' : ''}`;
-  item.innerHTML = `
-    <input type="radio" name="duration" value="${pkg.minutes || pkg.id}" data-id="${pkg.id}" data-price="${pkg.price || 0}" ${index === 0 ? 'checked' : ''}>
-    <div class="duration-name">${pkg.name}</div>
-    <div class="duration-time">${pkg.shortDescription}</div>
-    <div class="duration-price">${buildType === 'session' ? `$<span>${pkg.price}</span>` : '<span>Build</span>'}</div>
-  `;
-  durationGrid.appendChild(item);
-});
+if (buildType === 'session') {
+  // ── Session: render duration cards ──
+  const durationGrid = document.getElementById('duration-grid');
+  PACKAGES.forEach((pkg, index) => {
+    const item = document.createElement('label');
+    item.className = `duration-card${index === 0 ? ' selected' : ''}`;
+    item.innerHTML = `
+      <input type="radio" name="duration" value="${pkg.minutes}" data-id="${pkg.id}" data-price="${pkg.price}" ${index === 0 ? 'checked' : ''}>
+      <div class="duration-name">${pkg.name}</div>
+      <div class="duration-time">${pkg.shortDescription}</div>
+      <div class="duration-price">$<span>${pkg.price}</span></div>
+    `;
+    durationGrid.appendChild(item);
+  });
 
-// ── Render add-ons ──
-const addonList = document.getElementById('addon-list');
-activeAddons.forEach(addon => {
-  const item = document.createElement('label');
-  item.className = 'addon-item';
-  item.innerHTML = `
-    <input type="checkbox" id="addon-${addon.id}" value="${addon.id}" data-price="${addon.price || 0}">
-    <div class="addon-info">
-      <div class="addon-name">${addon.name}</div>
-      <div class="addon-desc">${addon.desc}</div>
+  // ── Session: render add-ons ──
+  const addonList = document.getElementById('addon-list');
+  ADDONS.forEach(addon => {
+    const item = document.createElement('label');
+    item.className = 'addon-item';
+    item.innerHTML = `
+      <input type="checkbox" id="addon-${addon.id}" value="${addon.id}" data-price="${addon.price || 0}">
+      <div class="addon-info">
+        <div class="addon-name">${addon.name}</div>
+        <div class="addon-desc">${addon.desc}</div>
+      </div>
+      <div class="addon-price">+$${addon.price}</div>
+    `;
+    item.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) { selectedAddons.add(addon.id); item.classList.add('checked'); }
+      else { selectedAddons.delete(addon.id); item.classList.remove('checked'); }
+      updateSummary();
+    });
+    addonList.appendChild(item);
+  });
+
+  // ── Session: duration selection ──
+  document.querySelectorAll('[name="duration"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+      radio.closest('.duration-card').classList.add('selected');
+      baseCost = parseInt(radio.dataset.price || '0');
+      updateSummary();
+    });
+  });
+} else {
+  // ── Group mode render ──
+  const GC = window.SL_GROUP_CATALOG;
+  let groupViewType = 'experience'; // 'experience' | 'performance'
+  let selectedTier = GC.tiers[0];
+  let extraGuests = 0;
+
+  const durationGrid = document.getElementById('duration-grid');
+  const addonList    = document.getElementById('addon-list');
+
+  // Two type-selector cards
+  durationGrid.className = 'group-type-selector';
+  durationGrid.innerHTML = `
+    <div class="group-type-card active" data-gtype="experience">
+      <div class="group-type-name">Group Intimate Experience</div>
+      <div class="group-type-sub">One featured guest · the room watches · Sir Leo travels to you</div>
     </div>
-    <div class="addon-price">${buildType === 'session' ? `+$${addon.price}` : 'Add'}</div>
+    <div class="group-type-card" data-gtype="performance">
+      <div class="group-type-name">Performance</div>
+      <div class="group-type-sub">Live show set · venue, club, or private event</div>
+    </div>
   `;
-  item.querySelector('input').addEventListener('change', e => {
-    if (e.target.checked) { selectedAddons.add(addon.id); item.classList.add('checked'); }
-    else { selectedAddons.delete(addon.id); item.classList.remove('checked'); }
-    updateSummary();
-  });
-  addonList.appendChild(item);
-});
 
-// ── Duration selection ──
-document.querySelectorAll('[name="duration"]').forEach(radio => {
-  radio.addEventListener('change', e => {
-    document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
-    radio.closest('.duration-card').classList.add('selected');
-    baseCost = parseInt(radio.dataset.price || '0');
-    updateSummary();
+  // Inject guest calculator after addon-list section
+  addonList.closest('.build-section').insertAdjacentHTML('afterend', `
+    <div class="build-section" id="guest-calc-section" style="display:none;">
+      <div class="guest-calc">
+        <div class="guest-calc-label">Additional Guests</div>
+        <div class="guest-calc-row">
+          <span class="guest-calc-input-label">Extra observers</span>
+          <div class="calc-stepper">
+            <button class="calc-step-btn" id="guest-minus">−</button>
+            <div class="calc-step-val" id="guest-count-val">0</div>
+            <button class="calc-step-btn" id="guest-plus">+</button>
+          </div>
+          <span class="guest-calc-note">4 included · max 4 additional</span>
+        </div>
+        <div class="guest-calc-result">
+          <div>
+            <div style="font-size:12px;opacity:0.5;">Estimated total</div>
+            <div class="guest-calc-breakdown" id="guest-calc-breakdown"></div>
+          </div>
+          <div class="guest-calc-total" id="guest-calc-total"></div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  document.getElementById('guest-minus').addEventListener('click', () => {
+    if (extraGuests > 0) { extraGuests--; updateGroupCalc(); }
   });
-});
+  document.getElementById('guest-plus').addEventListener('click', () => {
+    if (extraGuests < 4) { extraGuests++; updateGroupCalc(); }
+  });
+
+  function updateGroupCalc() {
+    document.getElementById('guest-count-val').textContent = extraGuests;
+    const guestCost = extraGuests * selectedTier.observerFee;
+    const total = selectedTier.price + guestCost;
+    baseCost = total;
+    document.getElementById('guest-calc-total').textContent = '$' + total;
+    document.getElementById('guest-calc-breakdown').textContent = extraGuests > 0
+      ? `$${selectedTier.price} base · ${extraGuests} guest${extraGuests > 1 ? 's' : ''} × $${selectedTier.observerFee} = $${guestCost}`
+      : `$${selectedTier.price} base · no additional guests`;
+    updateSummary();
+  }
+
+  function renderGroupCards() {
+    addonList.innerHTML = '';
+    addonList.className = 'tier-grid';
+    const calcSection = document.getElementById('guest-calc-section');
+
+    if (groupViewType === 'experience') {
+      calcSection.style.display = '';
+      GC.tiers.forEach((tier, i) => {
+        const card = document.createElement('div');
+        card.className = `tier-card${i === 0 ? ' selected' : ''}`;
+        card.innerHTML = `
+          <div>
+            <div class="tier-card-name">${tier.name}</div>
+            <div class="tier-card-level">${tier.level}</div>
+            <div class="tier-card-note">${tier.shortDescription}</div>
+          </div>
+          <div class="tier-card-price">$${tier.price}</div>
+          <div class="tier-card-desc">${tier.desc}</div>
+        `;
+        card.addEventListener('click', () => {
+          addonList.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedTier = tier;
+          extraGuests = 0;
+          document.getElementById('guest-count-val').textContent = 0;
+          updateGroupCalc();
+        });
+        addonList.appendChild(card);
+      });
+      selectedTier = GC.tiers[0];
+      extraGuests = 0;
+      document.getElementById('guest-count-val').textContent = 0;
+      updateGroupCalc();
+    } else {
+      calcSection.style.display = 'none';
+      baseCost = 0;
+      GC.shows.forEach(show => {
+        const card = document.createElement('div');
+        card.className = 'tier-card';
+        card.innerHTML = `
+          <div>
+            <div class="tier-card-name">${show.name}</div>
+            <div class="tier-card-note">${show.shortDescription}</div>
+          </div>
+          <div class="tier-card-price">$${show.price}</div>
+          <div class="tier-card-desc">${show.desc}</div>
+        `;
+        card.addEventListener('click', () => {
+          addonList.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          baseCost = show.price;
+          updateSummary();
+        });
+        addonList.appendChild(card);
+      });
+      updateSummary();
+    }
+  }
+
+  // Type-card toggle
+  durationGrid.querySelectorAll('.group-type-card').forEach(card => {
+    card.addEventListener('click', () => {
+      durationGrid.querySelectorAll('.group-type-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      groupViewType = card.dataset.gtype;
+      renderGroupCards();
+    });
+  });
+
+  renderGroupCards();
+}
 
 // ── Full payment toggle ──
 document.getElementById('full-payment').addEventListener('change', e => {
@@ -232,11 +399,13 @@ document.getElementById('full-payment').addEventListener('change', e => {
 // ── Summary ──
 function updateSummary() {
   if (buildType === 'group') {
-    const formatLabel = document.querySelector('[name="duration"]:checked')?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
-    const addonNames = GROUP_ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
-    document.getElementById('summary-items').textContent = [formatLabel, ...addonNames].filter(Boolean).join(' · ');
-    document.getElementById('summary-total').textContent = 'Inquiry build';
-    document.getElementById('summary-note').textContent = 'Next step: submit details so Sir Leo can call and confirm fit, travel, and quote.';
+    const typeCard = document.querySelector('.group-type-card.active');
+    const tierCard = document.querySelector('.tier-card.selected');
+    const typeLabel = typeCard?.querySelector('.group-type-name')?.textContent || 'Group Experience';
+    const tierLabel = tierCard?.querySelector('.tier-card-name')?.textContent || '';
+    document.getElementById('summary-items').textContent = [typeLabel, tierLabel].filter(Boolean).join(' · ');
+    document.getElementById('summary-total').textContent = baseCost > 0 ? `$${baseCost}` : 'Inquiry';
+    document.getElementById('summary-note').textContent = 'Estimated — Sir Leo will confirm travel, guests, and final price.';
     return;
   }
 
@@ -260,14 +429,19 @@ const stripe = window.SL_STRIPE_PK ? Stripe(window.SL_STRIPE_PK) : null;
 
 document.getElementById('pay-btn').addEventListener('click', async () => {
   if (buildType === 'group') {
-    const selectedPackage = document.querySelector('[name="duration"]:checked')?.closest('.duration-card')?.querySelector('.duration-name')?.textContent || '';
-    const selectedDirections = GROUP_ADDONS.filter(a => selectedAddons.has(a.id)).map(a => a.name);
-    const notes = document.getElementById('session-notes').value.trim();
+    const typeCard  = document.querySelector('.group-type-card.active');
+    const tierCard  = document.querySelector('.tier-card.selected');
+    const typeLabel = typeCard?.querySelector('.group-type-name')?.textContent || '';
+    const tierLabel = tierCard?.querySelector('.tier-card-name')?.textContent || '';
+    const notes     = document.getElementById('session-notes').value.trim();
+    const guestVal  = document.getElementById('guest-count-val')?.textContent || '0';
     try {
       sessionStorage.setItem('sl_group_build', JSON.stringify({
         id: offerId || '',
-        package: selectedPackage,
-        directions: selectedDirections,
+        type: typeLabel,
+        tier: tierLabel,
+        estimatedTotal: baseCost,
+        extraGuests: parseInt(guestVal),
         notes,
         createdAt: new Date().toISOString(),
       }));
@@ -392,10 +566,17 @@ if (buildType === 'group') {
   note.hidden = false;
   note.textContent = 'No payment is collected here. Exact pricing is confirmed after fit, location, guest count, travel, and intensity are reviewed.';
   document.getElementById('duration-label').textContent = 'Experience Type';
-  document.getElementById('addon-label').textContent = 'Direction & Logistics';
+  document.getElementById('addon-label').textContent = 'Select a Tier';
   document.getElementById('notes-label').textContent = 'Event details';
-  document.getElementById('session-notes').placeholder = 'Date, city or zip, venue type, guest count, who is featured, occasion, desired tone, and anything Sir Leo should know before calling.';
+  document.getElementById('session-notes').placeholder = 'Date, city, venue type, occasion, desired tone, and anything Sir Leo should know before calling.';
   document.getElementById('pay-btn').textContent = 'Continue to Inquiry →';
+
+  // Pre-select type from ?gtype param (set by group.html links)
+  const gtypeParam = params.get('gtype');
+  if (gtypeParam) {
+    const target = document.querySelector(`.group-type-card[data-gtype="${gtypeParam}"]`);
+    if (target) target.click();
+  }
 }
 
 // Init

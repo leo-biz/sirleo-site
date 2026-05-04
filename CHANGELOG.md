@@ -4,6 +4,15 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.57 — 2026-05-03
+**Move interactive group builder into build.html**
+- `build.html` — group mode now renders two type-selector cards (Group Intimate Experience / Performance) instead of old package radios
+- `build.html` — Group view: selectable tier cards (The Caress/Edge/Dark) pulled from group-catalog.js + stepper guest calculator with live price breakdown
+- `build.html` — Performance view: show set cards (The Tease/Build/Burn) with selectable highlight
+- `build.html` — summary bar shows real estimated price in group mode; pay button collects tier, type, guest count
+- `build.html` — `?gtype=experience|performance` param pre-selects the type card on load
+- `group.html` — CTAs now link to `/build?type=group&gtype=...` instead of opening modal directly
+
 ## v2.56 — 2026-05-03
 **Redesign group.html — two-card toggle, guest calculator**
 - `group.html` — two selector cards (Group Intimate Experience / Performance) toggle content panels below

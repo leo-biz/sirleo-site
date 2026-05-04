@@ -343,10 +343,14 @@
     }
   }
 
-  document.getElementById('group-inquire-btn').addEventListener('click', () => openGroupInquiry('Group intimate experience'));
-  document.getElementById('perf-inquire-btn').addEventListener('click', () => openGroupInquiry('Show or performance booking'));
-  document.getElementById('cta-inquire-btn').addEventListener('click', () => openGroupInquiry());
-  document.getElementById('nav-inquire-btn').addEventListener('click', () => openGroupInquiry());
+  function goToBuild(type) {
+    window.location.href = '/build?type=group' + (type ? '&gtype=' + encodeURIComponent(type) : '');
+  }
+
+  document.getElementById('group-inquire-btn').addEventListener('click', () => goToBuild('experience'));
+  document.getElementById('perf-inquire-btn').addEventListener('click', () => goToBuild('performance'));
+  document.getElementById('cta-inquire-btn').addEventListener('click', () => goToBuild());
+  document.getElementById('nav-inquire-btn').addEventListener('click', () => goToBuild());
 
   // ── Theme ──
   (function() {
