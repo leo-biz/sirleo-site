@@ -55,46 +55,46 @@
     /* ── Group type selector ── */
     .group-type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 500px) { .group-type-selector { grid-template-columns: 1fr; } }
-    .group-type-card { padding: 24px 20px; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: all 0.15s; }
-    .group-type-card:hover { border-color: rgba(107,26,26,0.35); }
+    .group-type-card { padding: 24px 20px; border: 1px solid rgba(107,26,26,0.2); cursor: pointer; transition: all 0.15s; }
+    .group-type-card:hover { border-color: rgba(107,26,26,0.45); background: rgba(107,26,26,0.04); }
     .group-type-card.active { border-color: rgba(107,26,26,0.7); background: rgba(107,26,26,0.1); }
-    .group-type-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; font-weight: 300; margin-bottom: 4px; }
-    .group-type-sub { font-size: 11px; opacity: 0.45; letter-spacing: 0.05em; line-height: 1.6; }
-    [data-theme="light"] .group-type-card { border-color: rgba(26,14,6,0.1); }
-    [data-theme="light"] .group-type-card.active { border-color: rgba(107,26,26,0.6); }
+    .group-type-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--cream, #F0E6CE); margin-bottom: 6px; }
+    .group-type-sub { font-size: 12px; color: var(--text-muted, #A89878); letter-spacing: 0.05em; line-height: 1.6; }
+    [data-theme="light"] .group-type-card { border-color: rgba(107,26,26,0.15); }
+    [data-theme="light"] .group-type-card.active { border-color: rgba(107,26,26,0.5); }
 
     /* ── Group tier / show cards ── */
     .tier-grid { display: flex; flex-direction: column; gap: 2px; animation: fadeIn 0.25s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    .tier-card { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 12px 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.07); cursor: pointer; transition: all 0.12s; }
-    .tier-card:hover { border-color: rgba(107,26,26,0.35); background: rgba(255,255,255,0.01); }
+    .tier-card { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 8px 20px; padding: 22px 20px; border: 1px solid rgba(107,26,26,0.15); cursor: pointer; transition: all 0.12s; }
+    .tier-card:hover { border-color: rgba(107,26,26,0.4); background: rgba(107,26,26,0.04); }
     .tier-card.selected { border-color: rgba(107,26,26,0.7); background: rgba(107,26,26,0.09); }
-    .tier-card-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 2px; }
-    .tier-card-level { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 6px; }
-    .tier-card-desc { font-size: 12px; opacity: 0.5; line-height: 1.6; grid-column: 1 / -1; }
-    .tier-card-note { font-size: 11px; opacity: 0.35; letter-spacing: 0.04em; }
-    .tier-card-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; white-space: nowrap; text-align: right; }
-    [data-theme="light"] .tier-card { border-color: rgba(26,14,6,0.09); }
-    [data-theme="light"] .tier-card.selected { border-color: rgba(107,26,26,0.5); }
+    .tier-card-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--cream, #F0E6CE); margin-bottom: 2px; }
+    .tier-card-level { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 4px; }
+    .tier-card-desc { font-size: 13px; color: var(--text-body, #B0A080); line-height: 1.7; grid-column: 1 / -1; margin-top: 4px; }
+    .tier-card-note { font-size: 11px; color: var(--text-muted, #A89878); letter-spacing: 0.04em; }
+    .tier-card-price { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--cream, #F0E6CE); white-space: nowrap; text-align: right; }
+    [data-theme="light"] .tier-card { border-color: rgba(107,26,26,0.12); }
+    [data-theme="light"] .tier-card.selected { border-color: rgba(107,26,26,0.45); }
 
     /* ── Guest calculator ── */
-    .guest-calc { margin-top: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.07); }
-    [data-theme="light"] .guest-calc { border-color: rgba(26,14,6,0.09); }
-    .guest-calc-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: #6B1A1A; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    [data-theme="light"] .guest-calc-label { border-bottom-color: rgba(26,14,6,0.07); }
+    .guest-calc { margin-top: 16px; padding: 22px 20px; border: 1px solid rgba(107,26,26,0.15); }
+    [data-theme="light"] .guest-calc { border-color: rgba(107,26,26,0.12); }
+    .guest-calc-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(200,80,80,0.9); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(107,26,26,0.15); }
+    [data-theme="light"] .guest-calc-label { border-bottom-color: rgba(107,26,26,0.1); }
     .guest-calc-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
-    .guest-calc-input-label { font-size: 13px; opacity: 0.6; }
-    .guest-calc-note { font-size: 11px; opacity: 0.35; }
+    .guest-calc-input-label { font-size: 13px; color: var(--text-sub, #D2BEA5); }
+    .guest-calc-note { font-size: 11px; color: var(--text-muted, #A89878); }
     .calc-stepper { display: flex; align-items: center; }
-    .calc-step-btn { width: 34px; height: 34px; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: inherit; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.1s; line-height: 1; }
-    .calc-step-btn:hover { background: rgba(107,26,26,0.18); }
-    .calc-step-val { width: 40px; height: 34px; border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12); border-left: none; border-right: none; background: rgba(255,255,255,0.025); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 18px; }
-    [data-theme="light"] .calc-step-btn { border-color: rgba(26,14,6,0.15); }
-    [data-theme="light"] .calc-step-val { border-color: rgba(26,14,6,0.15); background: rgba(26,14,6,0.02); }
-    .guest-calc-result { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-    [data-theme="light"] .guest-calc-result { border-top-color: rgba(26,14,6,0.07); }
-    .guest-calc-breakdown { font-size: 11px; opacity: 0.38; margin-top: 3px; }
-    .guest-calc-total { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; }
+    .calc-step-btn { width: 36px; height: 36px; background: transparent; border: 1px solid rgba(107,26,26,0.3); color: var(--cream, #F0E6CE); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.1s; line-height: 1; }
+    .calc-step-btn:hover { background: rgba(107,26,26,0.2); border-color: rgba(107,26,26,0.5); }
+    .calc-step-val { width: 44px; height: 36px; border-top: 1px solid rgba(107,26,26,0.25); border-bottom: 1px solid rgba(107,26,26,0.25); border-left: none; border-right: none; background: rgba(107,26,26,0.06); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--cream, #F0E6CE); }
+    [data-theme="light"] .calc-step-btn { border-color: rgba(107,26,26,0.2); }
+    [data-theme="light"] .calc-step-val { border-color: rgba(107,26,26,0.18); }
+    .guest-calc-result { border-top: 1px solid rgba(107,26,26,0.15); padding-top: 18px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+    [data-theme="light"] .guest-calc-result { border-top-color: rgba(107,26,26,0.1); }
+    .guest-calc-breakdown { font-size: 12px; color: var(--text-muted, #A89878); margin-top: 4px; }
+    .guest-calc-total { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream, #F0E6CE); }
 
     /* ── Notes ── */
     .build-textarea { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: inherit; padding: 16px; font-size: 14px; width: 100%; min-height: 100px; resize: vertical; outline: none; font-family: 'Montserrat', sans-serif; line-height: 1.7; }

@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.58 — 2026-05-03
+**Fix group page typography — replace opacity hacks with CSS variables**
+- `build.html` — group type cards, tier cards, guest calculator all use `var(--cream)`, `var(--text-body)`, `var(--text-muted)` instead of raw opacity; borders use blood-red tint instead of white-opacity
+- `group.html` — same fix across type cards, pkg cards, panel sub, travel text
+
 ## v2.57 — 2026-05-03
 **Move interactive group builder into build.html**
 - `build.html` — group mode now renders two type-selector cards (Group Intimate Experience / Performance) instead of old package radios
