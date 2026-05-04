@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.60 — 2026-05-03
+**Add travel disclaimer to group builder total**
+- `build.html` — "Travel not included — confirmed on the call." appears below the price breakdown in the guest calculator
+
 ## v2.59 — 2026-05-03
 **Group builder copy, guest section redesign, textarea fix**
 - `group-catalog.js` — updated tier descriptions to punchy single-line copy; renamed The Dark → The Release; removed ~15 min from shortDescription
