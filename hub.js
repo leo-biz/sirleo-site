@@ -458,6 +458,15 @@ function ServePanel({ onClose, type, who }) {
   const [step, setStep] = useState('questions');
   const nameRef = useRef(); const phoneRef = useRef(); const emailRef = useRef();
   const panelRef = useRef();
+  const [groupBuild] = useState(() => {
+    if (type !== 'serve-organizers') return null;
+    try {
+      const saved = JSON.parse(sessionStorage.getItem('sl_group_build') || 'null');
+      return saved && typeof saved === 'object' ? saved : null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     if (step === 'contact') {
@@ -483,6 +492,18 @@ function ServePanel({ onClose, type, who }) {
   }
 
   const S = id => stepStyle(id, step);
+  const groupBuildType = groupBuild?.package === 'Bachelorette Package'
+    ? 'Private group celebration (bachelorette, birthday, etc.)'
+    : groupBuild?.package === 'Show & Performance'
+      ? 'Other'
+      : '';
+  const groupBuildVision = groupBuild
+    ? [
+        groupBuild.package ? `Build type: ${groupBuild.package}` : '',
+        groupBuild.directions?.length ? `Direction/logistics: ${groupBuild.directions.join(', ')}` : '',
+        groupBuild.notes ? `Notes: ${groupBuild.notes}` : '',
+      ].filter(Boolean).join('\n')
+    : '';
 
   const configs = {
     'audience-individuals': {
@@ -573,7 +594,7 @@ function ServePanel({ onClose, type, who }) {
       fields: (
         <>
           <div className="hub-field"><label className="hub-label">What brings you here?</label>
-            <select className="hub-select" defaultValue="">
+            <select className="hub-select" defaultValue={groupBuildType}>
               <option value="" disabled>Select</option>
               {['Private group celebration (bachelorette, birthday, etc.)','Venue or partner program','Other'].map(o => <option key={o}>{o}</option>)}
             </select>
@@ -587,7 +608,7 @@ function ServePanel({ onClose, type, who }) {
             </select>
           </div>
           <div className="hub-field"><label className="hub-label">What are you envisioning?</label>
-            <textarea className="hub-textarea" placeholder="Tell me what you have in mind." /></div>
+            <textarea className="hub-textarea" defaultValue={groupBuildVision} placeholder="Tell me what you have in mind." /></div>
         </>
       )
     },

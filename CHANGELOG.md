@@ -4,6 +4,12 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.51 — 2026-05-03
+**Add no-ID group build intake flow**
+- `build.html` — supports `/build?type=group` as a pre-inquiry group experience builder with no payment or public quote
+- `build.html` — carries selected event type, direction/logistics, and notes into the existing group inquiry flow
+- `hub.js` — preloads group build context into the organizer inquiry form when available
+
 ## v2.50 — 2026-05-03
 **Split admin bookings by experience type**
 - `admin.html` — adds Private Sessions and Group Experiences tabs inside Bookings
