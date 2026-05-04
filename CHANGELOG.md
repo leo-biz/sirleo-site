@@ -4,6 +4,11 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.54 — 2026-05-03
+**Make group build detection URL-wide**
+- `build.html` — detects group/event language across the full path, query string, query keys, query values, and hash before rendering the builder
+- `build.html` — stamps the document with `data-build-type` for easier verification
+
 ## v2.53 — 2026-05-03
 **Recognize more group build URLs**
 - `build.html` — treats `?group`, `?g=group`, `?mode=group`, `?booking=group`, and group/event-like query values as the group builder

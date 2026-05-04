@@ -148,14 +148,14 @@ const params = new URLSearchParams(window.location.search);
 const offerId = params.get('id');
 const clientParam = params.get('client');
 const requestedType = [
-  params.get('type'),
-  params.get('e'),
-  params.get('g'),
-  params.get('mode'),
-  params.get('booking'),
-  params.has('group') ? 'group' : '',
+  window.location.pathname,
+  window.location.search,
+  window.location.hash,
+  ...Array.from(params.keys()),
+  ...Array.from(params.values()),
 ].filter(Boolean).join(' ').toLowerCase();
 const buildType = /\b(group|groups|event|events|bachelorette|performance)\b/.test(requestedType) ? 'group' : 'session';
+document.documentElement.dataset.buildType = buildType;
 const GROUP_PACKAGES = [
   { id: 'group-intimate', name: 'Group Intimate Experience', shortDescription: 'featured guest + observers · private location' },
   { id: 'bachelorette', name: 'Bachelorette Package', shortDescription: 'bride featured first · hotel, Airbnb, or private space' },
