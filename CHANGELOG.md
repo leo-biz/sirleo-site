@@ -4,6 +4,10 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.53 — 2026-05-03
+**Recognize more group build URLs**
+- `build.html` — treats `?group`, `?g=group`, `?mode=group`, `?booking=group`, and group/event-like query values as the group builder
+
 ## v2.52 — 2026-05-03
 **Allow editable group builds with IDs**
 - `build.html` — lets `/build?type=group&id=...` stay in the editable group intake flow instead of falling back to the session offer loader

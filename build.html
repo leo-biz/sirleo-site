@@ -147,8 +147,15 @@ const DEPOSIT_PCT = SESSION_CATALOG.depositPct;
 const params = new URLSearchParams(window.location.search);
 const offerId = params.get('id');
 const clientParam = params.get('client');
-const requestedType = (params.get('type') || params.get('e') || '').toLowerCase();
-const buildType = ['group','groups','event','events'].includes(requestedType) ? 'group' : 'session';
+const requestedType = [
+  params.get('type'),
+  params.get('e'),
+  params.get('g'),
+  params.get('mode'),
+  params.get('booking'),
+  params.has('group') ? 'group' : '',
+].filter(Boolean).join(' ').toLowerCase();
+const buildType = /\b(group|groups|event|events|bachelorette|performance)\b/.test(requestedType) ? 'group' : 'session';
 const GROUP_PACKAGES = [
   { id: 'group-intimate', name: 'Group Intimate Experience', shortDescription: 'featured guest + observers · private location' },
   { id: 'bachelorette', name: 'Bachelorette Package', shortDescription: 'bride featured first · hotel, Airbnb, or private space' },
