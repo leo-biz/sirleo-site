@@ -4,6 +4,14 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.68 — 2026-05-03
+**Stacked tier rows replace two-column pricing layout on build page**
+- `build.html` — guest pricing now stacked rows (The Caress / The Edge / The Release) with observer fee + session price per row
+- `build.html` — active row highlights when corresponding tier is selected above
+- `build.html` — removed separate observer fee display and two-column columns
+
+---
+
 ## v2.67 — 2026-05-03
 **Reorder and expand Additional Guests section on build page**
 - `build.html` — big serif "Additional Guests" title replaces small label
