@@ -148,7 +148,7 @@ const params = new URLSearchParams(window.location.search);
 const offerId = params.get('id');
 const clientParam = params.get('client');
 const requestedType = (params.get('type') || params.get('e') || '').toLowerCase();
-const buildType = !offerId && ['group','groups','event','events'].includes(requestedType) ? 'group' : 'session';
+const buildType = ['group','groups','event','events'].includes(requestedType) ? 'group' : 'session';
 const GROUP_PACKAGES = [
   { id: 'group-intimate', name: 'Group Intimate Experience', shortDescription: 'featured guest + observers · private location' },
   { id: 'bachelorette', name: 'Bachelorette Package', shortDescription: 'bride featured first · hotel, Airbnb, or private space' },
@@ -257,6 +257,7 @@ document.getElementById('pay-btn').addEventListener('click', async () => {
     const notes = document.getElementById('session-notes').value.trim();
     try {
       sessionStorage.setItem('sl_group_build', JSON.stringify({
+        id: offerId || '',
         package: selectedPackage,
         directions: selectedDirections,
         notes,
@@ -365,7 +366,7 @@ async function loadOffer(id) {
   }
 }
 
-if (offerId) {
+if (buildType === 'session' && offerId) {
   loadOffer(offerId);
 } else if (clientParam) {
   document.getElementById('build-title').innerHTML = `${clientParam}'s<br><em>session.</em>`;
