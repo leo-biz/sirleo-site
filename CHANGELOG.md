@@ -4,6 +4,18 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.62 — 2026-05-03
+**Clarify guest pricing copy and structure**
+- `build.html` — intro paragraph covers both observer fees and experience add-ons in one clear statement
+- `build.html` — observer fee table labeled "per additional guest" with all three tiers as distinct rows
+- `build.html` — experience add-ons table labeled separately below the stepper
+
+## v2.61 — 2026-05-03
+**Expand guest section with structured pricing tables**
+- `build.html` — Additional Observers: three distinct line items (Tier 1/2/3 fees), max 4 cap note, stepper for count
+- `build.html` — Experience Upgrades: three line items (Light/Medium/Unhinged) with explanatory copy
+- `build.html` — stepper max re-applied at 4 to match the stated room cap
+
 ## v2.60 — 2026-05-03
 **Add travel disclaimer to group builder total**
 - `build.html` — "Travel not included — confirmed on the call." appears below the price breakdown in the guest calculator
