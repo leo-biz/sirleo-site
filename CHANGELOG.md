@@ -4,6 +4,13 @@ All updates, features, and fixes tracked here in reverse order.
 
 ---
 
+## v2.8 — 2026-05-06
+**Baseline Supabase schema**
+- `supabase/migrations/20260506000000_baseline_public_schema.sql` — captures current public tables, policies, functions, and trigger from the linked Supabase project
+- `supabase/README.md` — documents the migration workflow, branch strategy, and current follow-up column compatibility
+
+---
+
 ## v2.7 — 2026-05-01
 **Real session packages + Stripe wired**
 - `build.html` — updated packages: Sensual Surrender ($200), Mr. Naughty & Nasty ($300), The Sadistic Devil ($400), all 1 hour
